@@ -15,6 +15,7 @@ function EnemyBug(x,y) {
 	this.walkSpeed = 0.1;
 	this.width = 32;
 	this.height = 32;
+	this.time = 0;
 	this.changeDirection();
 };
 
@@ -100,8 +101,20 @@ EnemyBug.prototype.update = function update(elapsed) {
 			}
 		break;
 	}
+
+	this.time += elapsed / 200;
 };
 
 EnemyBug.prototype.draw = function draw(ctx) {
-	Game.drawImage(ctx, 'enemy.png', Math.round(this.x), Math.round(this.y));
+	var frame = Math.floor(this.time) % 4;
+	var filename;
+	if(frame == 0  ||  frame == 2)
+		filename = 'enemy.png';
+	else if(frame == 1)
+		filename = 'enemy_1.png';
+	else if(frame == 3)
+		filename = 'enemy_2.png';
+	else
+		throw 0;
+	Game.drawImage(ctx, filename, Math.round(this.x), Math.round(this.y));
 };
