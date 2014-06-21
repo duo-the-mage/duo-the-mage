@@ -1,7 +1,7 @@
 // Load main library
 var Game = window.Game || {};
 
-var ctx, lastFrameTime, fps, keys, imageList, images, lastKey;
+var ctx, lastFrameTime, fps;
 
 
 
@@ -23,24 +23,9 @@ window.onload = function() {
 	}, 3000);
 */
 
-	keys = {};
-
 	// Initialize game
 	Game.player = {x: 0, y: 0};
 
-	var keymap = {
-			65: 'a',
-			68: 'd',
-			83: 's',
-			87: 'w'
-		};
-	document.addEventListener("keydown",function(e) {
-		lastKey = e.keyCode;
-		keys[keymap[e.keyCode]] = true;
-	},false);
-	document.addEventListener("keyup",function(e) {
-		keys[keymap[e.keyCode]] = false;
-	},false);
 
 	Game.loadImages(start);
 };
@@ -53,6 +38,8 @@ function start() {
 		w.y = 0;
 	}
 
+	Game.Input.init();
+	
 	gameLoop();
 }
 
@@ -72,7 +59,8 @@ function gameLoop(_timestamp) {
 Game.movePlayer = function(elapsed) {
 	// Move player
 	var SPEED = 0.1;
-	var dir = {x: 0, y: 0};
+		dir = {x: 0, y: 0};
+		keys = Game.Input.keys;
 	if(keys['a'])
 		--dir.x
 	if(keys['d'])
@@ -109,7 +97,7 @@ function draw() {
 	}
 	
 	// Draw test circle for input
-	if (keys["w"]) {
+	if (Game.Input.keys["w"]) {
 		ctx.beginPath();
 		ctx.fillStyle = "#0b0";
 		ctx.arc(50,50,20,0,2*Math.PI,false);
@@ -122,7 +110,13 @@ function draw() {
 	// Draw player
 	Game.drawImage(ctx, 'player.png', Math.round(Game.player.x), Math.round(Game.player.y));
 	
+	// Draw mouse test
+	ctx.beginPath();
+	ctx.fillStyle = (Game.Input.mouse.button ? "#00f" : "#f00");
+	ctx.arc(Game.Input.mouse.x,Game.Input.mouse.y,2,0,2*Math.PI,false);
+	ctx.fill();
+	
 	// Draw fps counter
 	ctx.fillStyle = "#000";
-	ctx.fillText(Math.round(fps)+" fps; "+lastKey+' '+Game.player.y,2,10);
+	ctx.fillText(Math.round(fps)+" fps; "+Game.Input.lastKey+' '+Game.player.y,2,10);
 };
