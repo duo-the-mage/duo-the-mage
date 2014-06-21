@@ -59,21 +59,32 @@ function gameLoop(_timestamp) {
 };
 
 function onUpdate(elapsed) {
-//	if(keys["w"
+	// Move player
+	var SPEED = 0.1;
+	if(keys["w"])
+		Game.player.y -= elapsed * SPEED;
+	if(keys["a"])
+		Game.player.x -= elapsed * SPEED;
+	if(keys["s"])
+		Game.player.y += elapsed * SPEED;
+	if(keys["d"])
+		Game.player.x += elapsed * SPEED;
 };
 
 function draw() {
+	// Debugging stuff
 	ctx.fillStyle = "#fff";
 	ctx.fillRect(0,0,200,100);
 	ctx.fillStyle = "#000";
-	ctx.fillText(Math.round(fps)+" fps; "+lastKey,2,10);
-	
+	ctx.fillText(Math.round(fps)+" fps; "+lastKey+' '+Game.player.y,2,10);
 	if (keys["w"]) {
 		ctx.beginPath();
 		ctx.fillStyle = "#0b0";
 		ctx.arc(50,50,20,0,2*Math.PI,false);
 		ctx.fill();
 	}
-	
 	Game.drawImage(ctx, 'hello.png', 16, 32);
+
+	// Draw player
+	Game.drawImage(ctx, 'player.png', Game.player.x, Game.player.y);
 };
