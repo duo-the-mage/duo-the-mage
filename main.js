@@ -56,20 +56,33 @@ function gameLoop(_timestamp) {
 	window.requestAnimationFrame(gameLoop);
 };
 
-function onUpdate(elapsed) {
+Game.movePlayer = function(elapsed) {
 	// Move player
 	var SPEED = 0.1,
+		dir = {x: 0, y: 0},
 		keys = Game.Input.keys;
-	if((keys['w'] || keys['s']) && (keys['a'] || keys['d']))
-		SPEED *= 0.707;
-	if(keys['w'])
-		Game.player.y -= elapsed * SPEED;
 	if(keys['a'])
-		Game.player.x -= elapsed * SPEED;
-	if(keys['s'])
-		Game.player.y += elapsed * SPEED;
+		--dir.x
 	if(keys['d'])
-		Game.player.x += elapsed * SPEED;
+		++dir.x;
+	if(keys['w'])
+		--dir.y;
+	if(keys['s'])
+		++dir.y;
+	if(dir.x != 0  &&  dir.y != 0)
+		SPEED *= 0.707;
+	Game.player.x += dir.x * elapsed * SPEED;
+	Game.player.y += dir.y * elapsed * SPEED;
+
+	var GRID_SIZE
+	var resolveCollisions = function(x, y) {
+		var j = Math.floor(x/GRID_SIZE);
+		var i = Math.floor(y/GRID_SIZE);
+	};
+};
+
+function onUpdate(elapsed) {
+	Game.movePlayer(elapsed);
 };
 
 function draw() {
