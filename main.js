@@ -81,22 +81,35 @@ Game.movePlayer = function(elapsed) {
 	Game.player.x += dir.x * SPEED;
 	Game.player.y += dir.y * SPEED;
 
+	// Resolve collisions.
 	var GRID_SIZE = 32;
 	var resolveCollisions = function(x, y, dir) {
 		var j = Math.floor(x/GRID_SIZE);
 		var i = Math.floor(y/GRID_SIZE);
+		var xoff = x - (j+((dir.x+1)/2))*GRID_SIZE;
+		var yoff = y - (i+((dir.y+1)/2))*GRID_SIZE;
+		var snapx, snapy;
 		if(Game.wallGrid[i][j] == null)
 			return;
 
-		if(dir.y == 0) {
-			if(dir.x == -1)
-				Game.player.x = (i+1)*GRID_SIZE;
-			if(dir.x == 1)
-				Game
-		}
+		if(dir.x*xoff <= dir.y*yoff  &&  Game.wallGrid[i][j-dir.x] == null)
+			snapx = true;
+		else if(dir.x*xoff >= dir.y*yoff  &&  Game.wallGrid[i-dir.y][j] == null)
+			snapy = true;
+		else
+			snapx = snapy = true;
+
+		if(snapx)
+			Game.player.x += GRID_SIZE * dir.x * -1  -  xoff;
+		if(snapy)
+			Game.player.y += GRID_SIZE * dir.y * -1  -  yoff;
 	};
 
-	resolveCollisions(Game.player.x, Game.player.y, dir);
+	resolveCollisions(Game.player.x, Game.player.y, {x: -1, y: -1});
+	resolveCollisions(Game.player.x+GRID_SIZE, Game.player.y, {x: 1, y: -1});
+	resolveCollisions(Game.player.x, Game.player.y+GRID_SIZE, {x: -1, y: 1});
+	resolveCollisions(Game.player.x+GRID_SIZE, Game.player.y+GRID_SIZE,
+	                  {x: 1, y: 1});
 };
 
 function onUpdate(elapsed) {
