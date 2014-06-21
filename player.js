@@ -82,6 +82,7 @@ Game.player = (function() {
 					(a.y < this.y + GRID_SIZE)) {
 					this.invulnerable = HIT_COOLDOWN;
 					this.health -= a.attackPower;
+					Game.playSound("hurt.wav");
 				}
 			}
 		} else {
