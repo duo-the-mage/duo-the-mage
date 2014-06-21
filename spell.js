@@ -15,6 +15,8 @@ Game.castBasicSpell = function castBasicSpell(x,y) {
 			// Update each tick
 			this.countdown -= elapsed;
 			if (this.countdown < 0) {
+				// Play sound
+				if (this.countdown + elapsed >= 0) { Game.playSound("explosion.wav"); }
 				// Check for enemy collision
 				for (i = 0; i < Game.actors.length; ++i) {
 					a = Game.actors[i];
