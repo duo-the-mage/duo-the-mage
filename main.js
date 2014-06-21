@@ -27,8 +27,7 @@ window.onload = function() {
 	document.addEventListener("keyup",function() {
 		anykey = false;
 	},false);
-	
-}
+};
 
 function gameLoop(_timestamp) {
 	if (lastFrameTime) {
