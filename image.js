@@ -10,7 +10,8 @@ Game.drawImage = (function() {
 			'testwall.png',
 			'player.png',
 			'player_cast.png',
-			'explosion.png'
+			'explosion.png',
+			'enemy.png'
 		];
 	
 	// Pre-load all images
