@@ -73,11 +73,21 @@ Game.movePlayer = function(elapsed) {
 	Game.player.y += dir.y * elapsed * SPEED;
 
 	var GRID_SIZE = 32;
-	var resolveCollisions = function(x, y) {
+	var resolveCollisions = function(x, y, dir) {
 		var j = Math.floor(x/GRID_SIZE);
 		var i = Math.floor(y/GRID_SIZE);
-//		if(Game.walls[i][j]
+		if(Game.wallGrid[i][j] == null)
+			return;
+
+		if(dir.y == 0) {
+			if(dir.x == -1)
+				Game.player.x = (i+1)*GRID_SIZE;
+			if(dir.x == 1)
+				Game
+		}
 	};
+
+	resolveCollisions(Game.player.x, Game.player.y, dir);
 };
 
 function onUpdate(elapsed) {
