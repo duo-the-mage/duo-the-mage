@@ -10,10 +10,21 @@ Game.castBasicSpell = function castBasicSpell(x,y) {
 	// Set the currently active spell for the game
 	Game.currentSpell = {
 		update:	function update(elapsed) {
+			var a;
+		
 			// Update each tick
 			this.countdown -= elapsed;
 			if (this.countdown < 0) {
 				// Check for enemy collision
+				for (i = 0; i < Game.actors.length; ++i) {
+					a = Game.actors[i];
+					if ((a.x + a.width > this.x - BASIC_EXPLOSION_SIZE * 0.5) &&
+						(a.x < this.x + BASIC_EXPLOSION_SIZE * 0.5) &&
+						(a.y + a.height > this.y - BASIC_EXPLOSION_SIZE * 0.5) &&
+						(a.y < this.y + BASIC_EXPLOSION_SIZE * 0.5)) {
+						a.destroy();
+					}
+				}
 			
 				if (this.countdown < -BASIC_EXPLOSION_LINGER) {
 					// Destroy self
