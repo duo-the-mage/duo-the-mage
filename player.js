@@ -101,8 +101,8 @@ Game.player = (function() {
 			if (Game.Input.mouse.button && this.casting === 0) {
 			Game.player.casting = CAST_COOLDOWN;
 			
-			spellX = Game.Input.mouse.x - this.x - GRID_SIZE * 0.5;
-			spellY = Game.Input.mouse.y - this.y - GRID_SIZE * 0.5;
+			spellX = Game.camera.x + Game.Input.mouse.x - this.x - GRID_SIZE * 0.5;
+			spellY = Game.camera.y + Game.Input.mouse.y - this.y - GRID_SIZE * 0.5;
 			spellRange = SPELL_RANGE / Math.sqrt(spellX*spellX+spellY*spellY);
 			spellX = this.x + GRID_SIZE * 0.5 + spellRange * spellX;
 			spellY = this.y + GRID_SIZE * 0.5 + spellRange * spellY;
