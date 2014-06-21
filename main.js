@@ -89,7 +89,7 @@ function draw() {
 
 	// Clear the screen
 	ctx.fillStyle = "#fff";
-	ctx.fillRect(0,0,200,100);
+	ctx.fillRect(0,0,800,480);
 	
 	// Draw walls
 	for (i = 0; i < Game.walls.length; ++i) {
@@ -108,7 +108,7 @@ function draw() {
 	Game.drawImage(ctx, 'hello.png', 16, 32);
 	
 	// Draw player
-	Game.drawImage(ctx, 'player.png', Game.player.x, Game.player.y);
+	Game.drawImage(ctx, 'player.png', Math.round(Game.player.x), Math.round(Game.player.y));
 	
 	// Draw fps counter
 	ctx.fillStyle = "#000";
