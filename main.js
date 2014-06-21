@@ -1,7 +1,9 @@
 // Load main library
 var Game = window.Game || {};
 
-var ctx, lastFrameTime, fps, anykey, imageList, images;
+var ctx, lastFrameTime, fps, keys, imageList, images, lastKey;
+
+
 
 window.onload = function() {
 	var c = document.getElementById("myCanvas");
@@ -21,40 +23,52 @@ window.onload = function() {
 	}, 3000);
 */
 
-	document.addEventListener("keydown",function() {
-		anykey = true;
+	keys = {};
+
+	// Initialize game
+	Game.player = {x: 0, y: 0};
+
+	var keymap = {
+			65: 'a',
+			68: 'd',
+			83: 's',
+			87: 'w'
+		};
+	document.addEventListener("keydown",function(e) {
+		lastKey = e.keyCode;
+		keys[keymap[e.keyCode]] = true;
 	},false);
-	
-	document.addEventListener("keyup",function() {
-		anykey = false;
+	document.addEventListener("keyup",function(e) {
+		keys[keymap[e.keyCode]] = false;
 	},false);
 
 	Game.loadImages(gameLoop);
 };
 
 function gameLoop(_timestamp) {
+	var elapsed;
 	if (lastFrameTime) {
-		fps = 1000/(_timestamp - lastFrameTime);
+		elapsed = _timestamp - lastFrameTime;
+		fps = 1000/elapsed;
+		onUpdate(elapsed);
+		draw();
 	}
 	lastFrameTime = _timestamp;
 
-	onUpdate();
-	draw();
-	
 	window.requestAnimationFrame(gameLoop);
 };
 
-function onUpdate() {
-	// Nothing here yet...
+function onUpdate(elapsed) {
+//	if(keys["w"
 };
 
 function draw() {
 	ctx.fillStyle = "#fff";
 	ctx.fillRect(0,0,200,100);
 	ctx.fillStyle = "#000";
-	ctx.fillText(Math.round(fps)+" fps",2,10);
+	ctx.fillText(Math.round(fps)+" fps; "+lastKey,2,10);
 	
-	if (anykey) {
+	if (keys["w"]) {
 		ctx.beginPath();
 		ctx.fillStyle = "#0b0";
 		ctx.arc(50,50,20,0,2*Math.PI,false);
