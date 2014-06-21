@@ -2,12 +2,26 @@
 var Game = window.Game || {};
 
 Game.walls = [];
+Game.wallGrid = (function() {
+	var result = [],
+		i, j;
+	for(i = 0;  i < 15;  ++i) {
+		result.push([]);
+		for(j = 0;  j < 25;  ++j)
+			result[i].push(null);
+	}
+	return result;
+}());
 
-Game.Wall = function Wall() {
-	this.x = 0;
-	this.y = 0;
+Game.Wall = function Wall(j, i) {
+	this.x = j*32;
+	this.y = i*32;
+};
 
-	Game.walls.push(this);
+Game.addWall = function addWall(j, i) {
+	var w = new Game.Wall(j, i);
+	Game.walls.push(w);
+	Game.wallGrid[i][j] = w;
 };
 
 Game.Wall.prototype.draw = function draw(ctx) {

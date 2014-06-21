@@ -33,9 +33,7 @@ window.onload = function() {
 function start() {
 	var i, w;
 	for (i = 0; i < 10; ++i) {
-		w = new Game.Wall();
-		w.x = i * 32;
-		w.y = 0;
+		Game.addWall(i, 3);
 	}
 
 	Game.Input.init();
