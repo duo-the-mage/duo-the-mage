@@ -89,7 +89,7 @@ function draw() {
 
 	// Draw background
 	Game.drawImage(ctx, 'background.png', 0, 0);
-	
+
 	// Draw walls
 	for (i = 0; i < Game.walls.length; ++i) {
 		Game.walls[i].draw(ctx);
