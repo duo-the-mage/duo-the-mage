@@ -5,12 +5,13 @@ window.onload = function() {
 		i, img, numLoadedImages;
 	
 	ctx = c.getContext("2d");
-	
+
+/*
+	// Canvas test case.
 	ctx.moveTo(0,0);
 	ctx.lineTo(200,100);
 	ctx.stroke();
 
-/*
 	// Audio test case.
 	playSound("hello.wav");
 	setTimeout(function() {
