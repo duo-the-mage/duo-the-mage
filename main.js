@@ -55,10 +55,15 @@ function gameLoop(_timestamp) {
 };
 
 Game.movePlayer = function(elapsed) {
-	// Move player
-	var SPEED = 0.1,
+	var SPEED = 0.1 * elapsed,
 		dir = {x: 0, y: 0},
 		keys = Game.Input.keys;
+
+	// Cap move speed.
+	if(SPEED > 10)
+		SPEED = 10;
+
+	// Move player.
 	if(keys['a'])
 		--dir.x
 	if(keys['d'])
@@ -69,8 +74,8 @@ Game.movePlayer = function(elapsed) {
 		++dir.y;
 	if(dir.x != 0  &&  dir.y != 0)
 		SPEED *= 0.707;
-	Game.player.x += dir.x * elapsed * SPEED;
-	Game.player.y += dir.y * elapsed * SPEED;
+	Game.player.x += dir.x * SPEED;
+	Game.player.y += dir.y * SPEED;
 
 	var GRID_SIZE = 32;
 	var resolveCollisions = function(x, y, dir) {
