@@ -10,10 +10,13 @@ window.onload = function() {
 	ctx.lineTo(200,100);
 	ctx.stroke();
 
+/*
+	// Audio test case.
 	playSound("hello.wav");
 	setTimeout(function() {
 		playSound("hello.wav");
 	}, 3000);
+*/
 
 	// Pre-load all images, and then start the game.
 	images = {};
