@@ -43,6 +43,8 @@ function start() {
 	Game.addWall(15,5);
 //	Game.addWall(11,4);
 
+	Game.addEnemyBug(320,160);
+
 	Game.Input.init();
 	
 	gameLoop();
@@ -138,9 +140,21 @@ Game.movePlayer = function(elapsed) {
 };
 
 function onUpdate(elapsed) {
+	var i;
+
 	Game.movePlayer(elapsed);
 	
 	if (Game.currentSpell) { Game.currentSpell.update(elapsed); }
+	
+	for (i = 0; i < Game.actors.length; ++i) {
+		Game.actors[i].update(elapsed);
+	}
+	
+	for (i = Game.actors.length-1; i >= 0;--i) {
+		if (Game.actors[i].isDestroyed) {
+			Game.actors.splice(i,1);
+		}
+	}
 };
 
 function draw() {
@@ -165,6 +179,11 @@ function draw() {
 	
 	// Draw test image
 	Game.drawImage(ctx, 'hello.png', 16, 32);
+	
+	// Draw enemies
+	for (i = 0; i < Game.actors.length; ++i) {
+		Game.actors[i].draw(ctx);
+	}
 	
 	// Draw player
 	if (Game.player.casting) {

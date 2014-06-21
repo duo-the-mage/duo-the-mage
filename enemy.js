@@ -1,15 +1,21 @@
 // Load main library
 var Game = window.Game || {};
 
-Game.Actors = Game.Actors || [];
+Game.actors = Game.actors || [];
 
-Game.createEnemyBug = function createEnemyBug(x,y) {
-	Game.Actors.push(new EnemyBug(x,y));
+Game.addEnemyBug = function addEnemyBug(x,y) {
+	Game.actors.push(new EnemyBug(x,y));
 };
 
 function EnemyBug(x,y) {
 	this.x = x;
 	this.y = y;
+	this.width = 32;
+	this.height = 32;
+};
+
+EnemyBug.prototype.destroy = function destroy() {
+	this.isDestroyed = true;
 };
 
 EnemyBug.prototype.update = function update(elapsed) {
