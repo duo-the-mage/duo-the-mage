@@ -23,7 +23,7 @@ Game.camera = (function() {
 
 		var self = this;
 		var move = function(x, y) {
-//			ctx.translate(-x, -y);
+			ctx.translate(-x, -y);
 			self.x += x;
 			self.y += y;
 		};

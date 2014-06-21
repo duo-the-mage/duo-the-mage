@@ -43,6 +43,9 @@ Game.drawImage = (function() {
 	};
 }());
 
-Game.drawImageInWorld = function(ctx, filename, x, y) {
+Game.drawImageInWorld = Game.drawImage;
+/*
+function(ctx, filename, x, y) {
 	return Game.drawImage(ctx, filename, x-Game.camera.x, y-Game.camera.y);
 };
+*/
