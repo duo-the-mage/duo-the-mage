@@ -61,6 +61,8 @@ function gameLoop(_timestamp) {
 function onUpdate(elapsed) {
 	// Move player
 	var SPEED = 0.1;
+	if((keys['w'] || keys['s']) && (keys['a'] || keys['d']))
+		SPEED *= 0.707;
 	if(keys["w"])
 		Game.player.y -= elapsed * SPEED;
 	if(keys["a"])
