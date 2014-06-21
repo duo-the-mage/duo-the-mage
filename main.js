@@ -119,14 +119,16 @@ function draw() {
 	
 	// Draw UI
 	Game.player.drawUI(ctx);
-	
+
+/*
 	// Draw mouse test
-	/*ctx.beginPath();
+	ctx.beginPath();
 	ctx.fillStyle = (Game.Input.mouse.button ? "#00f" : "#f00");
 	ctx.arc(Game.Input.mouse.x,Game.Input.mouse.y,2,0,2*Math.PI,false);
 	ctx.fill();
 	
 	// Draw fps counter
 	ctx.fillStyle = "#000";
-	ctx.fillText(Math.round(fps)+" fps; "+Game.Input.lastKey+' '+Game.player.y,2,10);*/
+	ctx.fillText(Math.round(fps)+" fps; "+Game.Input.lastKey+' '+Game.player.y,2,40);
+*/
 };
