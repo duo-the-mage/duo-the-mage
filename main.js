@@ -74,7 +74,8 @@ function draw() {
 };
 
 // Is there a reason for "function f" vs "var f = function"?
-var playSound = (function(cache) {
+var playSound = (function() {
+	var cache = {};
 	return function(filename) {
 		if(!cache.hasOwnProperty(filename)) {
 			var audio = new Audio(),
@@ -90,7 +91,7 @@ var playSound = (function(cache) {
 				cache[filename].sound.play();
 		}
 	};
-}({}));
+}());
 
 imageList = [
 	'hello.png'
