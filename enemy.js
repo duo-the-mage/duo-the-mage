@@ -8,10 +8,33 @@ Game.addEnemyBug = function addEnemyBug(x,y) {
 };
 
 function EnemyBug(x,y) {
-	this.x = x;
-	this.y = y;
+	this.gridX = x;
+	this.gridY = y;
+	this.x = x * 32;
+	this.y = y * 32;
+	this.walkSpeed = 0.1;
 	this.width = 32;
 	this.height = 32;
+	this.changeDirection();
+};
+
+EnemyBug.prototype.changeDirection = function changeDirection() {
+	this.currentDir = Math.floor(Math.random() * 4);
+	
+	switch (this.currentDir) {
+		case 0:
+			if (this.gridY <= 0 || Game.wallGrid[this.gridY - 1][this.gridX]) { this.changeDirection(); }
+		break;
+		case 1:
+			if (this.gridX >= 24 || Game.wallGrid[this.gridY][this.gridX + 1]) { this.changeDirection(); }
+		break;
+		case 2:
+			if (this.gridY >= 14 || Game.wallGrid[this.gridY + 1][this.gridX]) { this.changeDirection(); }
+		break;
+		case 3:
+			if (this.gridX <= 0 || Game.wallGrid[this.gridY][this.gridX - 1]) { this.changeDirection(); }
+		break;
+	}
 };
 
 EnemyBug.prototype.destroy = function destroy() {
@@ -19,7 +42,64 @@ EnemyBug.prototype.destroy = function destroy() {
 };
 
 EnemyBug.prototype.update = function update(elapsed) {
-
+	switch (this.currentDir) {
+		case 0: 
+			if (this.y - this.walkSpeed * elapsed < (this.gridY - 1) * 32) {
+				// Snap to grid
+				this.y = (this.gridY - 1) * 32;
+				this.gridY -= 1;
+				// Decide whether to change direction
+				if (this.gridY <= 0 || Game.wallGrid[this.gridY - 1][this.gridX] || Math.random() < 0.1) {
+					this.changeDirection();
+				}
+			} else {
+				// Continue walking
+				this.y -= this.walkSpeed * elapsed; 
+			}
+		break;
+		case 1:	
+			if (this.x + this.walkSpeed * elapsed > (this.gridX + 1) * 32) {
+				// Snap to grid
+				this.x = (this.gridX + 1) * 32;
+				this.gridX += 1;
+				// Decide whether to change direction
+				if (this.gridX >= 24 || Game.wallGrid[this.gridY][this.gridX + 1] || Math.random() < 0.1) {
+					this.changeDirection();
+				}
+			} else {
+				// Continue walking
+				this.x += this.walkSpeed * elapsed; 
+			}
+		break;
+		case 2:
+			if (this.y + this.walkSpeed * elapsed > (this.gridY + 1) * 32) {
+				// Snap to grid
+				this.y = (this.gridY + 1) * 32;
+				this.gridY += 1;
+				// Decide whether to change direction
+				if (this.gridY >= 14 || Game.wallGrid[this.gridY + 1][this.gridX] || Math.random() < 0.1) {
+					this.changeDirection();
+				}
+			} else {
+				// Continue walking
+				this.y += this.walkSpeed * elapsed; 
+			}
+		break;
+		case 3:	
+			if (this.x - this.walkSpeed * elapsed < (this.gridX - 1) * 32) {
+				// Snap to grid
+				this.x = (this.gridX - 1) * 32;
+				this.gridX -= 1;
+				// Decide whether to change direction
+				if (this.gridX <= 0 || Game.wallGrid[this.gridY][this.gridX - 1] || Math.random() < 0.1) {
+					this.changeDirection();
+				}
+			} else {
+				// Continue walking
+				this.x -= this.walkSpeed * elapsed; 
+			}
+		break;
+	}
 };
 
 EnemyBug.prototype.draw = function draw(ctx) {

@@ -43,7 +43,11 @@ function start() {
 	Game.addWall(15,5);
 //	Game.addWall(11,4);
 
-	Game.addEnemyBug(320,160);
+	Game.addWall(8,8);
+	Game.addWall(15,9);
+	Game.addWall(14,13);
+	Game.addWall(7,12);
+	Game.addEnemyBug(8,12);
 
 	Game.Input.init();
 	
