@@ -8,90 +8,97 @@ Game.player = (function() {
 		this.health = 10;
 		this.casting = 0;
 		this.invulnerable = 0;
+		this.dead = 0;
 	};
 	
 	Player.prototype.update = function update(elapsed) {
-		var SPEED = 0.1 * elapsed,
-			SPELL_RANGE = 50,
-			CAST_COOLDOWN = 700,			// ms
-			HIT_COOLDOWN = 2000,			// ms
-		
-			dir = {x: 0, y: 0},
-			keys = Game.Input.keys,
+		if (this.dead === 0) {
+			var SPEED = 0.1 * elapsed,
+				SPELL_RANGE = 50,
+				CAST_COOLDOWN = 700,			// ms
+				HIT_COOLDOWN = 2000,			// ms
 			
-			i, a,
-			
-			spellX, spellY, spellRange;
-
-		// Cap move speed.
-		if(SPEED > 10)
-			SPEED = 10;
-
-		// Move player.
-		if(keys['a'])
-			--dir.x
-		if(keys['d'])
-			++dir.x;
-		if(keys['w'])
-			--dir.y;
-		if(keys['s'])
-			++dir.y;
-		if(dir.x != 0  &&  dir.y != 0)
-			SPEED *= 0.707;
-		this.x += dir.x * SPEED;
-		this.y += dir.y * SPEED;
-
-		// Resolve collisions.
-		var GRID_SIZE = 32;
-		var resolveCollisions = function(x, y, dir) {
-			var j = Math.floor(x/GRID_SIZE);
-			var i = Math.floor(y/GRID_SIZE);
-			var xoff = x - (j+((dir.x+1)/2))*GRID_SIZE;
-			var yoff = y - (i+((dir.y+1)/2))*GRID_SIZE;
-			var snapx, snapy;
-			if(Game.wallGrid[i][j] == null)
-				return;
-
-			if(dir.x*xoff <= dir.y*yoff  &&  Game.wallGrid[i][j-dir.x] == null)
-				snapx = true;
-			else if(dir.x*xoff >= dir.y*yoff  &&  Game.wallGrid[i-dir.y][j] == null)
-				snapy = true;
-			else
-				snapx = snapy = true;
-
-			if(snapx)
-				Game.player.x += GRID_SIZE * dir.x * -1  -  xoff;
-			if(snapy)
-				Game.player.y += GRID_SIZE * dir.y * -1  -  yoff;
-		};
-
-		resolveCollisions(this.x, this.y, {x: -1, y: -1});
-		resolveCollisions(this.x+GRID_SIZE,this.y, {x: 1, y: -1});
-		resolveCollisions(this.x, this.y+GRID_SIZE, {x: -1, y: 1});
-		resolveCollisions(this.x+GRID_SIZE, this.y+GRID_SIZE,
-						  {x: 1, y: 1});
-		resolveCollisions(this.x, this.y, {x: -1, y: -1});
+				dir = {x: 0, y: 0},
+				keys = Game.Input.keys,
 				
-		// Check for collisions with enemies
-		if (this.invulnerable === 0) {
-			for (i = 0; i < Game.actors.length; ++i) {
-				a = Game.actors[i];
-				if ((a.x + a.width > this.x) &&
-					(a.x < this.x + GRID_SIZE) &&
-					(a.y + a.height > this.y) &&
-					(a.y < this.y + GRID_SIZE)) {
-					this.invulnerable = HIT_COOLDOWN;
-					this.health -= a.attackPower;
-					Game.playSound("hurt.wav");
+				i, a,
+				
+				spellX, spellY, spellRange;
+
+			// Cap move speed.
+			if(SPEED > 10)
+				SPEED = 10;
+
+			// Move player.
+			if(keys['a'])
+				--dir.x
+			if(keys['d'])
+				++dir.x;
+			if(keys['w'])
+				--dir.y;
+			if(keys['s'])
+				++dir.y;
+			if(dir.x != 0  &&  dir.y != 0)
+				SPEED *= 0.707;
+			this.x += dir.x * SPEED;
+			this.y += dir.y * SPEED;
+
+			// Resolve collisions.
+			var GRID_SIZE = 32;
+			var resolveCollisions = function(x, y, dir) {
+				var j = Math.floor(x/GRID_SIZE);
+				var i = Math.floor(y/GRID_SIZE);
+				var xoff = x - (j+((dir.x+1)/2))*GRID_SIZE;
+				var yoff = y - (i+((dir.y+1)/2))*GRID_SIZE;
+				var snapx, snapy;
+				if(Game.wallGrid[i][j] == null)
+					return;
+
+				if(dir.x*xoff <= dir.y*yoff  &&  Game.wallGrid[i][j-dir.x] == null)
+					snapx = true;
+				else if(dir.x*xoff >= dir.y*yoff  &&  Game.wallGrid[i-dir.y][j] == null)
+					snapy = true;
+				else
+					snapx = snapy = true;
+
+				if(snapx)
+					Game.player.x += GRID_SIZE * dir.x * -1  -  xoff;
+				if(snapy)
+					Game.player.y += GRID_SIZE * dir.y * -1  -  yoff;
+			};
+
+			resolveCollisions(this.x, this.y, {x: -1, y: -1});
+			resolveCollisions(this.x+GRID_SIZE,this.y, {x: 1, y: -1});
+			resolveCollisions(this.x, this.y+GRID_SIZE, {x: -1, y: 1});
+			resolveCollisions(this.x+GRID_SIZE, this.y+GRID_SIZE,
+							  {x: 1, y: 1});
+			resolveCollisions(this.x, this.y, {x: -1, y: -1});
+					
+			// Check for collisions with enemies
+			if (this.invulnerable === 0) {
+				for (i = 0; i < Game.actors.length; ++i) {
+					a = Game.actors[i];
+					if ((a.x + a.width > this.x) &&
+						(a.x < this.x + GRID_SIZE) &&
+						(a.y + a.height > this.y) &&
+						(a.y < this.y + GRID_SIZE)) {
+						this.health -= a.attackPower;
+						if (this.health > 0) {
+							this.invulnerable = HIT_COOLDOWN;
+							Game.playSound("hurt.wav");
+						} else {
+							this.dead = elapsed;
+							Game.playSound("death.wav");
+						}
+					}
 				}
+			} else {
+				this.invulnerable -= elapsed;
+				if (this.invulnerable < 0) { this.invulnerable = 0; }
 			}
-		} else {
-			this.invulnerable -= elapsed;
-			if (this.invulnerable < 0) { this.invulnerable = 0; }
-		}
-				
-		// Check whether player is casting
-		if (Game.Input.mouse.button && this.casting === 0) {
+					
+			// Check whether player is casting
+			if (Game.Input.mouse.button && this.casting === 0) {
 			Game.player.casting = CAST_COOLDOWN;
 			
 			spellX = Game.Input.mouse.x - this.x - GRID_SIZE * 0.5;
@@ -105,14 +112,39 @@ Game.player = (function() {
 			this.casting -= elapsed;
 			if (this.casting < 0) { this.casting = 0; }
 		}
+		} else {
+			this.dead += elapsed;
+		}
 	};
 	
 	Player.prototype.draw = function draw(ctx) {
-		if (Math.floor(this.invulnerable / 100) % 2 === 0) {
-			if (this.casting) {
-				Game.drawImageInWorld(ctx, 'player_cast.png', Math.round(this.x), Math.round(this.y));
-			} else {
-				Game.drawImageInWorld(ctx, 'player.png', Math.round(this.x), Math.round(this.y));
+		var t = 0, i, dx, dy;
+	
+		if (this.dead === 0) {
+			if (Math.floor(this.invulnerable / 100) % 2 === 0) {
+				if (this.casting) {
+					Game.drawImageInWorld(ctx, 'player_cast.png', Math.round(this.x), Math.round(this.y));
+				} else {
+					Game.drawImageInWorld(ctx, 'player.png', Math.round(this.x), Math.round(this.y));
+				}
+			}
+		} else {
+			for (i = 0; i < 8; ++i) {
+				if (i >= 1 && i <= 3) { dx = this.dead * 0.1; }
+				else if (i >= 5 && i <= 7) { dx = this.dead * -0.1; }
+				else { dx = 0; }
+				if (i < 2 || i >= 7) { dy = this.dead * -0.1; }
+				else if (i >= 3 && i <= 5) { dy = this.dead * 0.1; }
+				else { dy = 0; }
+				if (dx && dy) {
+					dx *= 0.707;
+					dy *= 0.707;
+				}
+				
+				ctx.beginPath();
+				ctx.fillStyle = "#fff";
+				ctx.arc(this.x + 16 + dx,this.y + 16 + dy,Math.floor(this.dead / 100) % 2 === 0 ? 8 : 16,0,2*Math.PI,false);
+				ctx.fill();
 			}
 		}
 	};

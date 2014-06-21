@@ -45,6 +45,15 @@ function start() {
 	Game.addWall(14,13);
 	Game.addWall(7,12);
 	Game.addEnemyBug(8,12);
+	Game.addEnemyBug(8,12);
+	Game.addEnemyBug(8,12);
+	Game.addEnemyBug(8,12);
+	Game.addEnemyBug(8,12);
+	Game.addEnemyBug(8,12);
+	Game.addEnemyBug(8,12);
+	Game.addEnemyBug(8,12);
+	Game.addEnemyBug(8,12);
+	Game.addEnemyBug(8,12);
 
 	Game.Input.init();
 	
