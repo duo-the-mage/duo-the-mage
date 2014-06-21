@@ -99,7 +99,15 @@ function draw() {
 	ctx.translate(-Game.camera.x,-Game.camera.y);
 
 	// Draw background
-	Game.drawImage(ctx, 'background.png', 0, 0);
+	(function() {
+		var WIDTH = 800, HEIGHT = 480;
+		var x = Math.floor(Game.camera.x / WIDTH) * WIDTH;
+		var y = Math.floor(Game.camera.y / HEIGHT) * HEIGHT;
+		Game.drawImage(ctx, 'background.png', x, y);
+		Game.drawImage(ctx, 'background.png', x+WIDTH, y);
+		Game.drawImage(ctx, 'background.png', x, y+HEIGHT);
+		Game.drawImage(ctx, 'background.png', x+WIDTH, y+HEIGHT);
+	}());
 
 	// Draw walls
 	for (i = 0; i < Game.walls.length; ++i) {
