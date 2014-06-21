@@ -75,7 +75,8 @@ var playSound = (function(cache) {
 			cache[filename] = cacheLine;
 			audio.src = filename;
 		} else {
-			cache[filename].sound.play();
+			if(cache[filename].ready)
+				cache[filename].sound.play();
 		}
 	};
 }({}));
