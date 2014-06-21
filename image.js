@@ -6,7 +6,8 @@ Game.drawImage = (function() {
 	var images = {};
 	// List of all images in the game
 	var	imageList = [
-			'hello.png'
+			'hello.png',
+			'testwall.png'
 		];
 	
 	// Pre-load all images
