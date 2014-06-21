@@ -1,8 +1,10 @@
+// Load main library
+var Game = window.Game || {};
+
 var ctx, lastFrameTime, fps, anykey, imageList, images;
 
 window.onload = function() {
-	var c = document.getElementById("myCanvas"),
-		i, img, numLoadedImages;
+	var c = document.getElementById("myCanvas");
 	
 	ctx = c.getContext("2d");
 
@@ -19,20 +21,6 @@ window.onload = function() {
 	}, 3000);
 */
 
-	// Pre-load all images, and then start the game.
-	images = {};
-	numLoadedImages = 0;
-	for(i = 0;  i < imageList.length;  ++i) {
-		img = new Image();
-		images[imageList[i]] = img;
-		img.onload = function() {
-			++numLoadedImages;
-			if(numLoadedImages == imageList.length)
-				gameLoop();
-		};
-		img.src = imageList[i];
-	}
-
 	document.addEventListener("keydown",function() {
 		anykey = true;
 	},false);
@@ -40,6 +28,8 @@ window.onload = function() {
 	document.addEventListener("keyup",function() {
 		anykey = false;
 	},false);
+
+	Game.loadImages(gameLoop);
 };
 
 function gameLoop(_timestamp) {
@@ -71,33 +61,5 @@ function draw() {
 		ctx.fill();
 	}
 	
-	drawImage(ctx, 'hello.png', 16, 32);
+	Game.drawImage(ctx, 'hello.png', 16, 32);
 };
-
-// Is there a reason for "function f" vs "var f = function"?
-var playSound = (function() {
-	var cache = {};
-	return function(filename) {
-		if(!cache.hasOwnProperty(filename)) {
-			var audio = new Audio(),
-				cacheLine = {sound: audio, ready: false};
-			audio.addEventListener("canplaythrough", function() {
-				cacheLine.ready = true;
-				audio.play();
-			}, true);
-			cache[filename] = cacheLine;
-			audio.src = filename;
-		} else {
-			if(cache[filename].ready)
-				cache[filename].sound.play();
-		}
-	};
-}());
-
-imageList = [
-	'hello.png'
-];
-
-function drawImage(ctx, filename, x, y) {
-	ctx.drawImage(images[filename], x, y);
-}
