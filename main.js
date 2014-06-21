@@ -42,8 +42,19 @@ window.onload = function() {
 		keys[keymap[e.keyCode]] = false;
 	},false);
 
-	Game.loadImages(gameLoop);
+	Game.loadImages(start);
 };
+
+function start() {
+	var i, w;
+	for (i = 0; i < 10; ++i) {
+		w = new Game.Wall();
+		w.x = i * 32;
+		w.y = 0;
+	}
+
+	gameLoop();
+}
 
 function gameLoop(_timestamp) {
 	var elapsed;
@@ -74,19 +85,32 @@ function onUpdate(elapsed) {
 };
 
 function draw() {
-	// Debugging stuff
+	var i;
+
+	// Clear the screen
 	ctx.fillStyle = "#fff";
 	ctx.fillRect(0,0,200,100);
-	ctx.fillStyle = "#000";
-	ctx.fillText(Math.round(fps)+" fps; "+lastKey+' '+Game.player.y,2,10);
+	
+	// Draw walls
+	for (i = 0; i < Game.walls.length; ++i) {
+		Game.walls[i].draw(ctx);
+	}
+	
+	// Draw test circle for input
 	if (keys["w"]) {
 		ctx.beginPath();
 		ctx.fillStyle = "#0b0";
 		ctx.arc(50,50,20,0,2*Math.PI,false);
 		ctx.fill();
 	}
+	
+	// Draw test image
 	Game.drawImage(ctx, 'hello.png', 16, 32);
-
+	
 	// Draw player
 	Game.drawImage(ctx, 'player.png', Game.player.x, Game.player.y);
+	
+	// Draw fps counter
+	ctx.fillStyle = "#000";
+	ctx.fillText(Math.round(fps)+" fps; "+lastKey+' '+Game.player.y,2,10);
 };
