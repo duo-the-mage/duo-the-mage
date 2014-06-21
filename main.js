@@ -35,6 +35,10 @@ function start() {
 	for (i = 0; i < 10; ++i) {
 		Game.addWall(i, 3);
 	}
+	Game.addWall(12,2);
+	Game.addWall(14,2);
+	Game.addWall(14,4);
+	Game.addWall(12,4);
 
 	Game.Input.init();
 	
