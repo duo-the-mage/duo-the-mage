@@ -9,6 +9,8 @@ window.onload = function() {
 	ctx.lineTo(200,100);
 	ctx.stroke();
 
+	playSound("hello.wav");
+
 	img = new Image();
 	img.src = 'hello.png';
 	img.onload = function() {	
@@ -56,3 +58,12 @@ function draw() {
 	
 	ctx.drawImage(img, 16, 32);
 };
+
+// Is there a reason for "function f" vs "var f = function"?
+var playSound = function(filename) {
+	var audio = new Audio();
+	audio.addEventListener("canplaythrough", function() {
+		audio.play();
+	}, true);
+	audio.src = filename;
+}
