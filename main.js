@@ -12,10 +12,10 @@ window.onload = function() {
 	playSound("hello.wav");
 
 	img = new Image();
-	img.src = 'hello.png';
 	img.onload = function() {	
 		gameLoop();
 	};
+	img.src = 'hello.png';
 		
 	document.addEventListener("keydown",function() {
 		anykey = true;
