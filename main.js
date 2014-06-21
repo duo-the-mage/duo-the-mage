@@ -118,6 +118,7 @@ Game.movePlayer = function(elapsed) {
 	resolveCollisions(Game.player.x, Game.player.y+GRID_SIZE, {x: -1, y: 1});
 	resolveCollisions(Game.player.x+GRID_SIZE, Game.player.y+GRID_SIZE,
 	                  {x: 1, y: 1});
+	resolveCollisions(Game.player.x, Game.player.y, {x: -1, y: -1});
 					  
 	// Check whether player is casting
 	if (Game.Input.mouse.button && Game.player.casting === 0) {
