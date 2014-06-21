@@ -24,7 +24,12 @@ window.onload = function() {
 */
 
 	// Initialize game
-	Game.player = {x: 0, y: 0, casting: 0};
+	Game.player = {
+		x: 0, 
+		y: 0, 
+		health: 10,
+		casting: 0
+	};
 
 
 	Game.loadImages(start);
@@ -198,13 +203,24 @@ function draw() {
 	// Draw current spell
 	if (Game.currentSpell) { Game.currentSpell.draw(ctx); }
 	
+	// Draw health bar
+	for (i = 0; i < 5; ++i) {
+		if (Game.player.health > i*2 + 1) {
+			Game.drawImage(ctx, 'heart.png', 2 + i * 16, 2);
+		} else if (Game.player.health > i*2) {
+			Game.drawImage(ctx, 'heart_half.png', 2 + i * 16, 2);
+		} else {
+			Game.drawImage(ctx, 'heart_empty.png', 2 + i * 16, 2);
+		}
+	}
+	
 	// Draw mouse test
-	ctx.beginPath();
+	/*ctx.beginPath();
 	ctx.fillStyle = (Game.Input.mouse.button ? "#00f" : "#f00");
 	ctx.arc(Game.Input.mouse.x,Game.Input.mouse.y,2,0,2*Math.PI,false);
 	ctx.fill();
 	
 	// Draw fps counter
 	ctx.fillStyle = "#000";
-	ctx.fillText(Math.round(fps)+" fps; "+Game.Input.lastKey+' '+Game.player.y,2,10);
+	ctx.fillText(Math.round(fps)+" fps; "+Game.Input.lastKey+' '+Game.player.y,2,10);*/
 };
