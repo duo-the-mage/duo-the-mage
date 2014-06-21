@@ -10,6 +10,9 @@ window.onload = function() {
 	ctx.stroke();
 
 	playSound("hello.wav");
+	setTimeout(function() {
+		playSound("hello.wav");
+	}, 3000);
 
 	img = new Image();
 	img.onload = function() {	
