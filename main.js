@@ -63,13 +63,13 @@ function onUpdate(elapsed) {
 	var SPEED = 0.1;
 	if((keys['w'] || keys['s']) && (keys['a'] || keys['d']))
 		SPEED *= 0.707;
-	if(keys["w"])
+	if(keys['w'])
 		Game.player.y -= elapsed * SPEED;
-	if(keys["a"])
+	if(keys['a'])
 		Game.player.x -= elapsed * SPEED;
-	if(keys["s"])
+	if(keys['s'])
 		Game.player.y += elapsed * SPEED;
-	if(keys["d"])
+	if(keys['d'])
 		Game.player.x += elapsed * SPEED;
 };
 
