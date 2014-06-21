@@ -58,8 +58,8 @@ function gameLoop(_timestamp) {
 
 Game.movePlayer = function(elapsed) {
 	// Move player
-	var SPEED = 0.1;
-		dir = {x: 0, y: 0};
+	var SPEED = 0.1,
+		dir = {x: 0, y: 0},
 		keys = Game.Input.keys;
 	if(keys['a'])
 		--dir.x
