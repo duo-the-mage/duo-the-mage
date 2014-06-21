@@ -15,11 +15,11 @@ window.onload = function() {
 	}, 3000);
 
 	img = new Image();
-	img.onload = function() {	
+	img.onload = function() {
 		gameLoop();
 	};
 	img.src = 'hello.png';
-		
+	
 	document.addEventListener("keydown",function() {
 		anykey = true;
 	},false);
