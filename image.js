@@ -11,6 +11,8 @@ Game.drawImage = (function() {
 			'player.png',
 			'player_cast.png',
 			'explosion.png',
+			'enemy_1.png',
+			'enemy_2.png',
 			'enemy.png'
 		];
 	
