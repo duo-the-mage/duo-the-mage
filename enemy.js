@@ -119,5 +119,5 @@ EnemyBug.prototype.draw = function draw(ctx) {
 		filename = 'enemy_2.png';
 	else
 		throw 0;
-	Game.drawImage(ctx, filename, Math.round(this.x), Math.round(this.y));
+	Game.drawImageInWorld(ctx, filename, Math.round(this.x), Math.round(this.y));
 };

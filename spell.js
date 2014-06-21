@@ -46,7 +46,7 @@ Game.castBasicSpell = function castBasicSpell(x,y) {
 				ctx.arc(this.x,this.y,t*BASIC_WINDUP_R,0,2*Math.PI,false);
 				ctx.fill();
 			} else {
-				Game.drawImage(ctx, 'explosion.png', 
+				Game.drawImageInWorld(ctx, 'explosion.png', 
 					Math.round(this.x - BASIC_EXPLOSION_SIZE*0.5), 
 					Math.round(this.y - BASIC_EXPLOSION_SIZE*0.5));
 			}

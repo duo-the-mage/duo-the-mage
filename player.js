@@ -110,9 +110,9 @@ Game.player = (function() {
 	Player.prototype.draw = function draw(ctx) {
 		if (Math.floor(this.invulnerable / 100) % 2 === 0) {
 			if (this.casting) {
-				Game.drawImage(ctx, 'player_cast.png', Math.round(this.x), Math.round(this.y));
+				Game.drawImageInWorld(ctx, 'player_cast.png', Math.round(this.x), Math.round(this.y));
 			} else {
-				Game.drawImage(ctx, 'player.png', Math.round(this.x), Math.round(this.y));
+				Game.drawImageInWorld(ctx, 'player.png', Math.round(this.x), Math.round(this.y));
 			}
 		}
 	};

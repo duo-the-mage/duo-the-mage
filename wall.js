@@ -5,9 +5,9 @@ Game.walls = [];
 Game.wallGrid = (function() {
 	var result = [],
 		i, j;
-	for(i = 0;  i < 15;  ++i) {
+	for(i = 0;  i < 29;  ++i) {
 		result.push([]);
-		for(j = 0;  j < 25;  ++j)
+		for(j = 0;  j < 49;  ++j)
 			result[i].push(null);
 	}
 	return result;
@@ -25,5 +25,5 @@ Game.addWall = function addWall(j, i) {
 };
 
 Game.Wall.prototype.draw = function draw(ctx) {
-	Game.drawImage(ctx, 'testwall.png', this.x, this.y);
+	Game.drawImageInWorld(ctx, 'testwall.png', this.x, this.y);
 };

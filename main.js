@@ -68,6 +68,8 @@ function onUpdate(elapsed) {
 	var i;
 
 	Game.player.update(elapsed);
+
+	Game.camera.update(elapsed);
 	
 	if (Game.currentSpell) { Game.currentSpell.update(elapsed); }
 	
