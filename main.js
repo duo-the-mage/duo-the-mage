@@ -95,6 +95,8 @@ function onUpdate(elapsed) {
 
 function draw() {
 	var i;
+	
+	ctx.translate(-Game.camera.x,-Game.camera.y);
 
 	// Draw background
 	Game.drawImage(ctx, 'background.png', 0, 0);
@@ -105,6 +107,7 @@ function draw() {
 	}
 	
 	// Draw test circle for input
+	/*
 	if (Game.Input.keys["w"]) {
 		ctx.beginPath();
 		ctx.fillStyle = "#0b0";
@@ -114,7 +117,7 @@ function draw() {
 	
 	// Draw test image
 	Game.drawImage(ctx, 'hello.png', 16, 32);
-	
+	*/
 	// Draw enemies
 	for (i = 0; i < Game.actors.length; ++i) {
 		Game.actors[i].draw(ctx);
@@ -125,6 +128,8 @@ function draw() {
 	
 	// Draw current spell
 	if (Game.currentSpell) { Game.currentSpell.draw(ctx); }
+	
+	ctx.translate(Game.camera.x,Game.camera.y);
 	
 	// Draw UI
 	Game.player.drawUI(ctx);
