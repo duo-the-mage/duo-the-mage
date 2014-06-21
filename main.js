@@ -39,6 +39,9 @@ function start() {
 	Game.addWall(14,2);
 	Game.addWall(14,4);
 	Game.addWall(12,4);
+	Game.addWall(11,5);
+	Game.addWall(15,5);
+//	Game.addWall(11,4);
 
 	Game.Input.init();
 	
