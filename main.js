@@ -164,27 +164,8 @@ function onUpdate(elapsed) {
 function draw() {
 	var i;
 
-	// Clear the screen
-	ctx.fillStyle = "#798";
-	ctx.fillRect(0,0,800,480);
-
 	// Draw background
-	ctx.fillStyle = "#687";
-	(function() {
-		var i, x, y;
-		for(i = 0;  i < 100;  ++i) {
-			x = Math.random() * 800;
-			y = Math.random() * 480;
-			while(Math.random() < 0.9) {
-				ctx.beginPath();
-				ctx.arc(x, y, Math.random()*3+1, 0, 2*Math.PI, false);
-				ctx.fill();
-				x += Math.random()*7-3;
-				y += Math.random()*7-3;
-			}
-		}
-	}());
-	throw 0;
+	Game.drawImage(ctx, 'background.png', 0, 0);
 	
 	// Draw walls
 	for (i = 0; i < Game.walls.length; ++i) {

@@ -13,7 +13,8 @@ Game.drawImage = (function() {
 			'explosion.png',
 			'enemy_1.png',
 			'enemy_2.png',
-			'enemy.png'
+			'enemy.png',
+			'background.png'
 		];
 	
 	// Pre-load all images
