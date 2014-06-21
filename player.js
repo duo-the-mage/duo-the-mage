@@ -88,6 +88,7 @@ Game.player = (function() {
 							Game.playSound("hurt.wav");
 						} else {
 							this.dead = elapsed;
+							Game.playSound("death.wav");
 						}
 					}
 				}
