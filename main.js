@@ -24,14 +24,6 @@ window.onload = function() {
 */
 
 	// Initialize game
-	Game.player = {
-		x: 0, 
-		y: 0, 
-		health: 10,
-		casting: 0
-	};
-
-
 	Game.loadImages(start);
 };
 
@@ -72,86 +64,10 @@ function gameLoop(_timestamp) {
 	window.requestAnimationFrame(gameLoop);
 };
 
-Game.movePlayer = function(elapsed) {
-	var SPEED = 0.1 * elapsed,
-		SPELL_RANGE = 50,
-		CAST_COOLDOWN = 700,			// ms
-	
-		dir = {x: 0, y: 0},
-		keys = Game.Input.keys,
-		
-		spellX, spellY, spellRange;
-
-	// Cap move speed.
-	if(SPEED > 10)
-		SPEED = 10;
-
-	// Move player.
-	if(keys['a'])
-		--dir.x
-	if(keys['d'])
-		++dir.x;
-	if(keys['w'])
-		--dir.y;
-	if(keys['s'])
-		++dir.y;
-	if(dir.x != 0  &&  dir.y != 0)
-		SPEED *= 0.707;
-	Game.player.x += dir.x * SPEED;
-	Game.player.y += dir.y * SPEED;
-
-	// Resolve collisions.
-	var GRID_SIZE = 32;
-	var resolveCollisions = function(x, y, dir) {
-		var j = Math.floor(x/GRID_SIZE);
-		var i = Math.floor(y/GRID_SIZE);
-		var xoff = x - (j+((dir.x+1)/2))*GRID_SIZE;
-		var yoff = y - (i+((dir.y+1)/2))*GRID_SIZE;
-		var snapx, snapy;
-		if(Game.wallGrid[i][j] == null)
-			return;
-
-		if(dir.x*xoff <= dir.y*yoff  &&  Game.wallGrid[i][j-dir.x] == null)
-			snapx = true;
-		else if(dir.x*xoff >= dir.y*yoff  &&  Game.wallGrid[i-dir.y][j] == null)
-			snapy = true;
-		else
-			snapx = snapy = true;
-
-		if(snapx)
-			Game.player.x += GRID_SIZE * dir.x * -1  -  xoff;
-		if(snapy)
-			Game.player.y += GRID_SIZE * dir.y * -1  -  yoff;
-	};
-
-	resolveCollisions(Game.player.x, Game.player.y, {x: -1, y: -1});
-	resolveCollisions(Game.player.x+GRID_SIZE, Game.player.y, {x: 1, y: -1});
-	resolveCollisions(Game.player.x, Game.player.y+GRID_SIZE, {x: -1, y: 1});
-	resolveCollisions(Game.player.x+GRID_SIZE, Game.player.y+GRID_SIZE,
-	                  {x: 1, y: 1});
-	resolveCollisions(Game.player.x, Game.player.y, {x: -1, y: -1});
-					  
-	// Check whether player is casting
-	if (Game.Input.mouse.button && Game.player.casting === 0) {
-		Game.player.casting = CAST_COOLDOWN;
-		
-		spellX = Game.Input.mouse.x - Game.player.x - GRID_SIZE * 0.5;
-		spellY = Game.Input.mouse.y - Game.player.y - GRID_SIZE * 0.5;
-		spellRange = SPELL_RANGE / Math.sqrt(spellX*spellX+spellY*spellY);
-		spellX = Game.player.x + GRID_SIZE * 0.5 + spellRange * spellX;
-		spellY = Game.player.y + GRID_SIZE * 0.5 + spellRange * spellY;
-		
-		Game.castBasicSpell(spellX,spellY);
-	} else if (Game.player.casting > 0) {
-		Game.player.casting -= elapsed;
-		if (Game.player.casting < 0) { Game.player.casting = 0; }
-	}
-};
-
 function onUpdate(elapsed) {
 	var i;
 
-	Game.movePlayer(elapsed);
+	Game.player.update(elapsed);
 	
 	if (Game.currentSpell) { Game.currentSpell.update(elapsed); }
 	
@@ -194,25 +110,13 @@ function draw() {
 	}
 	
 	// Draw player
-	if (Game.player.casting) {
-		Game.drawImage(ctx, 'player_cast.png', Math.round(Game.player.x), Math.round(Game.player.y));
-	} else {
-		Game.drawImage(ctx, 'player.png', Math.round(Game.player.x), Math.round(Game.player.y));
-	}
+	Game.player.draw(ctx);
 	
 	// Draw current spell
 	if (Game.currentSpell) { Game.currentSpell.draw(ctx); }
 	
-	// Draw health bar
-	for (i = 0; i < 5; ++i) {
-		if (Game.player.health > i*2 + 1) {
-			Game.drawImage(ctx, 'heart.png', 2 + i * 16, 2);
-		} else if (Game.player.health > i*2) {
-			Game.drawImage(ctx, 'heart_half.png', 2 + i * 16, 2);
-		} else {
-			Game.drawImage(ctx, 'heart_empty.png', 2 + i * 16, 2);
-		}
-	}
+	// Draw UI
+	Game.player.drawUI(ctx);
 	
 	// Draw mouse test
 	/*ctx.beginPath();

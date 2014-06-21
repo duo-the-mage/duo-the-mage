@@ -12,10 +12,13 @@ function EnemyBug(x,y) {
 	this.gridY = y;
 	this.x = x * 32;
 	this.y = y * 32;
-	this.walkSpeed = 0.1;
 	this.width = 32;
 	this.height = 32;
+	
+	this.walkSpeed = 0.1;
 	this.time = 0;
+	this.attackPower = 1;
+	
 	this.changeDirection();
 };
 
