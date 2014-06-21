@@ -1,4 +1,4 @@
-var ctx, lastFrameTime, fps, anykey;
+var ctx, img, lastFrameTime, fps, anykey;
 
 window.onload = function() {
 	var c = document.getElementById("myCanvas");
@@ -8,6 +8,12 @@ window.onload = function() {
 	ctx.moveTo(0,0);
 	ctx.lineTo(200,100);
 	ctx.stroke();
+
+	img = new Image();
+	img.src = 'hello.png';
+	img.onload = function() {	
+		gameLoop();
+	};
 		
 	document.addEventListener("keydown",function() {
 		anykey = true;
@@ -16,8 +22,7 @@ window.onload = function() {
 	document.addEventListener("keyup",function() {
 		anykey = false;
 	},false);
-		
-	gameLoop();
+	
 }
 
 function gameLoop(_timestamp) {
@@ -48,4 +53,6 @@ function draw() {
 		ctx.arc(50,50,20,0,2*Math.PI,false);
 		ctx.fill();
 	}
+	
+	ctx.drawImage(img, 16, 32);
 };
