@@ -76,7 +76,8 @@ Game.movePlayer = function(elapsed) {
 
 	var GRID_SIZE
 	var resolveCollisions = function(x, y) {
-		Math.floor(x/GRID_SIZE, y/GRID_SIZE);
+		var j = Math.floor(x/GRID_SIZE);
+		var i = Math.floor(y/GRID_SIZE);
 	};
 };
 
