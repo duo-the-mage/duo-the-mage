@@ -24,7 +24,7 @@ window.onload = function() {
 */
 
 	// Initialize game
-	Game.player = {x: 0, y: 0};
+	Game.player = {x: 0, y: 0, casting: 0};
 
 
 	Game.loadImages(start);
@@ -60,8 +60,13 @@ function gameLoop(_timestamp) {
 
 Game.movePlayer = function(elapsed) {
 	var SPEED = 0.1 * elapsed,
+		SPELL_RANGE = 50,
+		CAST_COOLDOWN = 700,			// ms
+	
 		dir = {x: 0, y: 0},
-		keys = Game.Input.keys;
+		keys = Game.Input.keys,
+		
+		spellX, spellY, spellRange;
 
 	// Cap move speed.
 	if(SPEED > 10)
@@ -110,10 +115,28 @@ Game.movePlayer = function(elapsed) {
 	resolveCollisions(Game.player.x, Game.player.y+GRID_SIZE, {x: -1, y: 1});
 	resolveCollisions(Game.player.x+GRID_SIZE, Game.player.y+GRID_SIZE,
 	                  {x: 1, y: 1});
+					  
+	// Check whether player is casting
+	if (Game.Input.mouse.button && Game.player.casting === 0) {
+		Game.player.casting = CAST_COOLDOWN;
+		
+		spellX = Game.Input.mouse.x - Game.player.x - GRID_SIZE * 0.5;
+		spellY = Game.Input.mouse.y - Game.player.y - GRID_SIZE * 0.5;
+		spellRange = SPELL_RANGE / Math.sqrt(spellX*spellX+spellY*spellY);
+		spellX = Game.player.x + GRID_SIZE * 0.5 + spellRange * spellX;
+		spellY = Game.player.y + GRID_SIZE * 0.5 + spellRange * spellY;
+		
+		Game.castBasicSpell(spellX,spellY);
+	} else if (Game.player.casting > 0) {
+		Game.player.casting -= elapsed;
+		if (Game.player.casting < 0) { Game.player.casting = 0; }
+	}
 };
 
 function onUpdate(elapsed) {
 	Game.movePlayer(elapsed);
+	
+	if (Game.currentSpell) { Game.currentSpell.update(elapsed); }
 };
 
 function draw() {
@@ -140,7 +163,14 @@ function draw() {
 	Game.drawImage(ctx, 'hello.png', 16, 32);
 	
 	// Draw player
-	Game.drawImage(ctx, 'player.png', Math.round(Game.player.x), Math.round(Game.player.y));
+	if (Game.player.casting) {
+		Game.drawImage(ctx, 'player_cast.png', Math.round(Game.player.x), Math.round(Game.player.y));
+	} else {
+		Game.drawImage(ctx, 'player.png', Math.round(Game.player.x), Math.round(Game.player.y));
+	}
+	
+	// Draw current spell
+	if (Game.currentSpell) { Game.currentSpell.draw(ctx); }
 	
 	// Draw mouse test
 	ctx.beginPath();
