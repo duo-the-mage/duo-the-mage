@@ -37,7 +37,7 @@ Game.addLockedDoor = function(j, i) {
 
 Game.Wall.prototype.draw = function draw(ctx) {
 	if(this.type === 'wall')
-		Game.drawImageInWorld(ctx, 'testwall.png', this.x, this.y);
+		Game.drawImageInWorld(ctx, 'wall_1.png', this.x, this.y);
 	else if(this.type === 'locked_door')
 		Game.drawImageInWorld(ctx, 'testlockeddoor.png', this.x, this.y);
 	else
