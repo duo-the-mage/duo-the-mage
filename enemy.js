@@ -30,10 +30,10 @@ EnemyBug.prototype.changeDirection = function changeDirection() {
 			if (this.gridY <= 0 || Game.wallGrid[this.gridY - 1][this.gridX]) { this.changeDirection(); }
 		break;
 		case 1:
-			if (this.gridX >= 24 || Game.wallGrid[this.gridY][this.gridX + 1]) { this.changeDirection(); }
+			if (this.gridX >= Game.wallGrid.width - 1 || Game.wallGrid[this.gridY][this.gridX + 1]) { this.changeDirection(); }
 		break;
 		case 2:
-			if (this.gridY >= 14 || Game.wallGrid[this.gridY + 1][this.gridX]) { this.changeDirection(); }
+			if (this.gridY >= Game.wallGrid.height - 1 || Game.wallGrid[this.gridY + 1][this.gridX]) { this.changeDirection(); }
 		break;
 		case 3:
 			if (this.gridX <= 0 || Game.wallGrid[this.gridY][this.gridX - 1]) { this.changeDirection(); }
