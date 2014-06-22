@@ -5,7 +5,7 @@ Game.castBasicSpell = function castBasicSpell(x,y) {
 	var BASIC_WINDUP = 500,
 		BASIC_WINDUP_R = 10,
 		BASIC_EXPLOSION_SIZE = 64,
-		BASIC_EXPLOSION_LINGER = 200,
+		BASIC_EXPLOSION_LINGER = 400,
 		BASIC_EXPLOSION_FRAMES = 8;
 	
 	// Set the currently active spell for the game

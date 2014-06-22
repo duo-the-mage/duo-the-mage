@@ -27,7 +27,6 @@ Game.player = (function() {
 		if (this.dead === 0) {
 			var SPEED = 0.1 * elapsed,
 				SPELL_RANGE = 50,
-				CAST_COOLDOWN = 700,			// ms
 				HIT_COOLDOWN = 2000,			// ms
 			
 				dir = {x: 0, y: 0},
@@ -140,9 +139,7 @@ Game.player = (function() {
 			}
 					
 			// Check whether player is casting
-			if (Game.Input.mouse.button && this.casting === 0) {
-				Game.player.casting = CAST_COOLDOWN;
-				
+			if (Game.Input.mouse.button && Game.currentSpell == null) {
 				spellX = Game.camera.x + Game.Input.mouse.x - this.x - GRID_SIZE * 0.5;
 				spellY = Game.camera.y + Game.Input.mouse.y - this.y - GRID_SIZE * 0.5;
 				spellRange = SPELL_RANGE / Math.sqrt(spellX*spellX+spellY*spellY);
@@ -150,10 +147,7 @@ Game.player = (function() {
 				spellY = this.y + GRID_SIZE * 0.5 + spellRange * spellY;
 			
 				Game.castBasicSpell(spellX,spellY);
-			} else if (this.casting > 0) {
-				this.casting -= elapsed;
-				if (this.casting < 0) { this.casting = 0; }
-			}
+			} 
 		} else {
 			this.dead += elapsed;
 		}
@@ -164,7 +158,7 @@ Game.player = (function() {
 	
 		if (this.dead === 0) {
 			if (Math.floor(this.invulnerable / 100) % 2 === 0) {
-				if (this.casting) {
+				if (Game.currentSpell) {
 					Game.drawImageInWorld(ctx, 'player_cast.png', Math.round(this.x), Math.round(this.y));
 				} else {
 					Game.drawImageInWorld(ctx, 'player.png', Math.round(this.x), Math.round(this.y));
