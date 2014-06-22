@@ -38,7 +38,7 @@ Game.world1 =	"wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww"+
 				"w......w.w..............w..w.................w..w"+
 				"w......www..........w...w..w.................w..w"+
 				"w...................w.........w.BB.www.BB.w.....w"+
-				"w..P................w.........w.BB.w.w.BB.w.....w"+
+				"w..P....k...........w.........w.BB.w.w.BB.w.....w"+
 				"w...................w.........w.BB.www.BB.w.....w"+
 				"w......www..........w...w..w.................w..w"+
 				"w......w.w..............w..w.................w..w"+
@@ -59,6 +59,7 @@ Game.initWorld = function initWorld() {
 				Game.player.x = 32*i;
 				Game.player.y = 32*j;
 			}
+			if (Game.world1[n] === 'k') { Game.addSmallKey(i,j); }
 		}
 	}
 	/*
