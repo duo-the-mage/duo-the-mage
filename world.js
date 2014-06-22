@@ -19,6 +19,7 @@ Game.clearWorld = function clearWorld() {
 
 Game.initWorld = function initWorld() {
 	var i;
+	// World boundaries
 	for (i = 0; i < Game.wallGrid.width; ++i) {
 		Game.addWall(i, 0);
 		Game.addWall(i, Game.wallGrid.height - 1);
@@ -27,6 +28,26 @@ Game.initWorld = function initWorld() {
 		Game.addWall(0, i);
 		Game.addWall(Game.wallGrid.width - 1, i);
 	}
+	// Sector boundaries
+	for (i = 1; i < Game.wallGrid.width - 1; ++i) {
+		Game.addWall(i, 14);
+	}
+	for (i = 1; i < Game.wallGrid.height - 1; ++i) {
+		if (i === 14) continue;
+		Game.addWall(24, i);
+	}
+	// Pathways to other sectors
+	Game.removeWall(24,6);
+	Game.removeWall(24,7);
+	Game.removeWall(24,8);
+	Game.removeWall(35,14);
+	Game.removeWall(36,14);
+	Game.removeWall(37,14);
+	Game.removeWall(24,20);
+	Game.removeWall(24,21);
+	Game.removeWall(24,22);
+	
+	// Top left sector
 	Game.addWall(12,2);
 	Game.addWall(14,2);
 	Game.addWall(14,4);
