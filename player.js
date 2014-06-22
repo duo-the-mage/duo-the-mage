@@ -187,6 +187,7 @@ Game.player = (function() {
 	};
 	
 	Player.prototype.drawUI = function drawUI(ctx) {
+		var i;
 		// Draw health bar
 		for (i = 0; i < 5; ++i) {
 			if (this.health > i*2 + 1) {
@@ -196,6 +197,9 @@ Game.player = (function() {
 			} else {
 				Game.drawImage(ctx, 'heart_empty.png', 2 + i * 16, 2);
 			}
+		}
+		for (i = 0; i < this.smallKeys; ++i) {
+			Game.drawImage(ctx, 'small_key.png', 90 + i * 32, 0);
 		}
 	};
 	
