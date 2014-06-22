@@ -15,6 +15,8 @@ function SpikeBlock(x,y) {
 	this.width = 32;
 	this.height = 32;
 	
+	this.homeX = this.x;
+	this.homeY = this.y;
 	this.homeSectorX = Math.floor((x - 1) / Game.wallGrid.sectorWidth);
 	this.homeSectorY = Math.floor((y - 1) / Game.wallGrid.sectorHeight);
 	this.leftBoundary = this.homeSectorX * Game.wallGrid.sectorWidth + 1;
@@ -24,6 +26,44 @@ function SpikeBlock(x,y) {
 	
 	this.time = 0;
 	this.attackPower = 1;
+	this.currentDir = -1;
+	this.currentSpeed = 0;
+	this.ATTACK_SPEED = 0.15;
+	this.RETRACT_SPEED = 0.05;
+};
+
+SpikeBlock.prototype.checkBounce = function checkBounce() {
+	var i,a;
+
+	if (Game.wallGrid[this.gridY][this.gridX]) {
+		this.currentDir = (this.currentDir + 2) % 4;
+		this.currentSpeed = this.RETRACT_SPEED;
+		return;
+	}
+	for (i = 0; i < Game.actors.length; ++i) {
+		a = Game.actors[i];
+		if (a instanceof SpikeBlock && a !== this) {
+			if ((this.x < a.x + a.width) &&
+				(this.y < a.y + a.height) &&
+				(this.x > a.x - a.width) &&
+				(this.y > a.y - a.height)) {
+				this.currentDir = (this.currentDir + 2) % 4;
+				a.currentDir = (a.currentDir + 2) % 4;
+				this.currentSpeed = this.RETRACT_SPEED;
+				a.currentSpeed = a.RETRACT_SPEED;
+				return;
+			}
+		}
+	}
+};
+
+SpikeBlock.prototype.checkHome = function checkHome() {
+	if ((Math.abs(this.x - this.homeX) < 1) &&
+		(Math.abs(this.y - this.homeY) < 1)) { 
+		this.x = this.homeX; 
+		this.y = this.homeY; 
+		this.currentDir = -1; 
+	}
 };
 
 SpikeBlock.prototype.destroy = function destroy() {
@@ -33,7 +73,45 @@ SpikeBlock.prototype.destroy = function destroy() {
 SpikeBlock.prototype.update = function update(elapsed) {
 	if (this.homeSectorX !== Game.player.sectorX ||
 		this.homeSectorY !== Game.player.sectorY) { return; }
-
+		
+	if (this.currentDir === -1) {
+		if ((Game.player.y >= this.y - this.height) &&
+			(Game.player.y <= this.y + this.height)) {
+			if (Game.player.x > this.x) { this.currentDir = 1; }
+			else { this.currentDir = 3; }
+			this.currentSpeed = this.ATTACK_SPEED;
+		} else if ((Game.player.x >= this.x - this.width) &&
+					(Game.player.x <= this.x + this.width)) {
+			if (Game.player.y > this.y) { this.currentDir = 2; }
+			else { this.currentDir = 0; }
+			this.currentSpeed = this.ATTACK_SPEED;
+		}
+	} else {
+		switch(this.currentDir) {
+			case 0:
+				this.y -= this.currentSpeed * elapsed;
+				this.gridY = Math.floor(this.y / 32);
+			break;
+			case 1:
+				this.x += this.currentSpeed * elapsed;
+				this.gridX = Math.ceil(this.x / 32);
+			break;
+			case 2:
+				this.y += this.currentSpeed * elapsed;
+				this.gridY = Math.ceil(this.y / 32);
+			break;
+			case 3:
+				this.x -= this.currentSpeed * elapsed;
+				this.gridX = Math.floor(this.x / 32);
+			break;
+		}
+		if (this.currentSpeed === this.ATTACK_SPEED) {
+			this.checkBounce();
+		} else {
+			this.checkHome();
+		}
+	}
+ 
 	this.time += elapsed;
 };
 
