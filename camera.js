@@ -23,13 +23,11 @@ Game.camera = (function() {
 
 		var self = this;
 		var move = function(x, y) {
-			//ctx.translate(-x, -y);
 			self.x += x;
 			self.y += y;
 		};
 
 		move((this.destx - this.x) * 0.1,  (this.desty - this.y) * 0.1);
-//		move(1,1);
 	};
 
 	return new Camera();
