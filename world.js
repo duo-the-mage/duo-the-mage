@@ -39,6 +39,11 @@ Game.initWorld = function initWorld() {
 	Game.addWall(7,12);
 
 	Game.addLockedDoor(10,4);
+	Game.addLockedDoor(10,5);
+	Game.addLockedDoor(10,6);
+	Game.addLockedDoor(10,7);
+
+	Game.addSmallKey(3,3);
 
 	Game.addEnemyBug(8,12);
 	Game.addEnemyBug(8,12);
