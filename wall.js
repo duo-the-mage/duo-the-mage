@@ -10,6 +10,9 @@ Game.wallGrid = (function() {
 		for(j = 0;  j < 49;  ++j)
 			result[i].push(null);
 	}
+	result.width = result[0].length;
+	result.height = result.length;
+	
 	return result;
 }());
 
