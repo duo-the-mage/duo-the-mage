@@ -134,7 +134,8 @@ Game.player = (function() {
 				        && Game.smallKeys[i].y < mybottom
 				        && Game.smallKeys[i].y > this.y   ) {
 					Game.smallKeys.splice(i, 1);
-					++this.smallKeys
+					Game.playSound("key.wav");
+					++this.smallKeys;
 				}
 			}
 					
