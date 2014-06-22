@@ -1,9 +1,10 @@
 // Load main library
 var Game = window.Game || {};
 
-Game.playSound = (function() {
+(function() {
+
 	var cache = {};
-	return function(filename) {
+	Game.playSound = function(filename) {
 		if(!cache.hasOwnProperty(filename)) {
 			var audio = new Audio(),
 				cacheLine = {sound: audio, ready: false};
@@ -18,19 +19,20 @@ Game.playSound = (function() {
 				cache[filename].sound.play();
 		}
 	};
-}());
 
-Game.startMusic = function() {
-	var loop = new Audio();
-	var playThis = loop.play;
-	var playIntro = function() {
-		loop.removeEventListener('canplaythrough', playIntro, true);
-		var intro = new Audio();
-		intro.addEventListener('canplaythrough', playThis, true);
-		intro.addEventListener('ended', function() {loop.play();}, true);
-		intro.src = 'intro.ogg';
+	Game.startMusic = function() {
+		var loop = new Audio();
+		var playThis = loop.play;
+		var playIntro = function() {
+			loop.removeEventListener('canplaythrough', playIntro, true);
+			var intro = new Audio();
+			intro.addEventListener('canplaythrough', playThis, true);
+			intro.addEventListener('ended', function() {loop.play();}, true);
+			intro.src = 'intro.ogg';
+		};
+		loop.addEventListener('ended', playThis, true);
+		loop.addEventListener('canplaythrough', playIntro, true);
+		loop.src = 'loop.ogg';
 	};
-	loop.addEventListener('ended', playThis, true);
-	loop.addEventListener('canplaythrough', playIntro, true);
-	loop.src = 'loop.ogg';
-};
+
+}());
