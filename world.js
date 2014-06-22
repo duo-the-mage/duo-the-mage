@@ -19,8 +19,13 @@ Game.clearWorld = function clearWorld() {
 
 Game.initWorld = function initWorld() {
 	var i;
-	for (i = 0; i < 10; ++i) {
-		Game.addWall(i, 3);
+	for (i = 0; i < Game.wallGrid[0].length; ++i) {
+		Game.addWall(i, 0);
+		Game.addWall(i, Game.wallGrid.length - 1);
+	}
+	for (i = 1; i < Game.wallGrid.length - 1; ++i) {
+		Game.addWall(0, i);
+		Game.addWall(Game.wallGrid[0].length - 1, i);
 	}
 	Game.addWall(12,2);
 	Game.addWall(14,2);
