@@ -99,19 +99,19 @@ Game.player = (function() {
 					
 			// Check whether player is casting
 			if (Game.Input.mouse.button && this.casting === 0) {
-			Game.player.casting = CAST_COOLDOWN;
+				Game.player.casting = CAST_COOLDOWN;
+				
+				spellX = Game.camera.x + Game.Input.mouse.x - this.x - GRID_SIZE * 0.5;
+				spellY = Game.camera.y + Game.Input.mouse.y - this.y - GRID_SIZE * 0.5;
+				spellRange = SPELL_RANGE / Math.sqrt(spellX*spellX+spellY*spellY);
+				spellX = this.x + GRID_SIZE * 0.5 + spellRange * spellX;
+				spellY = this.y + GRID_SIZE * 0.5 + spellRange * spellY;
 			
-			spellX = Game.camera.x + Game.Input.mouse.x - this.x - GRID_SIZE * 0.5;
-			spellY = Game.camera.y + Game.Input.mouse.y - this.y - GRID_SIZE * 0.5;
-			spellRange = SPELL_RANGE / Math.sqrt(spellX*spellX+spellY*spellY);
-			spellX = this.x + GRID_SIZE * 0.5 + spellRange * spellX;
-			spellY = this.y + GRID_SIZE * 0.5 + spellRange * spellY;
-			
-			Game.castBasicSpell(spellX,spellY);
-		} else if (this.casting > 0) {
-			this.casting -= elapsed;
-			if (this.casting < 0) { this.casting = 0; }
-		}
+				Game.castBasicSpell(spellX,spellY);
+			} else if (this.casting > 0) {
+				this.casting -= elapsed;
+				if (this.casting < 0) { this.casting = 0; }
+			}
 		} else {
 			this.dead += elapsed;
 		}
