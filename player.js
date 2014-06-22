@@ -112,14 +112,16 @@ Game.player = (function() {
 						(a.x < myright) &&
 						(a.y + a.height > this.y) &&
 						(a.y < mybottom)) {
-						this.health -= a.attackPower;
-						if (this.health > 0) {
-							this.invulnerable = HIT_COOLDOWN;
-							Game.playSound("hurt.wav");
-						} else {
-							this.dead = elapsed;
-							Game.playSound("death.wav");
-							Game.stopMusic();
+						if(a.attackPower > 0) {
+							this.health -= a.attackPower;
+							if (this.health > 0) {
+								this.invulnerable = HIT_COOLDOWN;
+								Game.playSound("hurt.wav");
+							} else {
+								this.dead = elapsed;
+								Game.playSound("death.wav");
+								Game.stopMusic();
+							}
 						}
 					}
 				}
