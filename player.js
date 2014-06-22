@@ -12,6 +12,11 @@ Game.player = (function() {
 	};
 	
 	Player.prototype.update = function update(elapsed) {
+		var GRID_SIZE = 32,
+			myright   = this.x + GRID_SIZE,
+			mybottom  = this.y + GRID_SIZE,
+			self = this;
+
 		if (this.dead === 0) {
 			var SPEED = 0.1 * elapsed,
 				SPELL_RANGE = 50,
@@ -44,7 +49,6 @@ Game.player = (function() {
 			this.y += dir.y * SPEED;
 
 			// Resolve collisions.
-			var GRID_SIZE = 32;
 			var resolveCollisions = function(x, y, dir) {
 				var j = Math.floor(x/GRID_SIZE);
 				var i = Math.floor(y/GRID_SIZE);
@@ -85,9 +89,9 @@ Game.player = (function() {
 				for (i = 0; i < Game.actors.length; ++i) {
 					a = Game.actors[i];
 					if ((a.x + a.width > this.x) &&
-						(a.x < this.x + GRID_SIZE) &&
+						(a.x < myright) &&
 						(a.y + a.height > this.y) &&
-						(a.y < this.y + GRID_SIZE)) {
+						(a.y < mybottom)) {
 						this.health -= a.attackPower;
 						if (this.health > 0) {
 							this.invulnerable = HIT_COOLDOWN;
