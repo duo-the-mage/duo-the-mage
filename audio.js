@@ -28,8 +28,12 @@ var Game = window.Game || {};
 		var playIntro = function() {
 			loop.removeEventListener('canplaythrough', playIntro, true);
 			intro = new Audio();
+			Game.currentMusic = intro;
 			intro.addEventListener('canplaythrough', playThis, true);
-			intro.addEventListener('ended', function() {loop.play();}, true);
+			intro.addEventListener('ended', function() {
+				loop.play();
+				Game.currentMusic = loop;
+			}, true);
 			intro.src = 'intro.ogg';
 		};
 		loop.addEventListener('ended', playThis, true);
@@ -38,8 +42,10 @@ var Game = window.Game || {};
 	};
 
 	Game.stopMusic = function() {
-		loop.pause();
-		intro.pause();
+		Game.currentMusic.pause();
+	};
+	Game.resumeMusic = function() {
+		Game.currentMusic.play();
 	};
 
 }());

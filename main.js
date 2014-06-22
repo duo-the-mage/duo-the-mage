@@ -70,16 +70,22 @@ function start() {
 Game.pause = function pause() {
 	if (this.nextFrame) {
 		window.cancelAnimationFrame(this.nextFrame);
+		
 		ctx.beginPath();
 		ctx.fillStyle = "rgba(0,0,0,0.5)";
 		ctx.rect(0,0,800,480);
 		ctx.fill();
+		
+		this.stopMusic();
+		
 		this.nextFrame = null;
 	}
 };
 
 Game.resume = function resume() {
 	if (!this.nextFrame) {
+		this.resumeMusic();
+	
 		lastFrameTime = null;
 		gameLoop(lastFrameTime);
 	}
