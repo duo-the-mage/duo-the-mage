@@ -119,6 +119,7 @@ Game.player = (function() {
 						} else {
 							this.dead = elapsed;
 							Game.playSound("death.wav");
+							Game.stopMusic();
 						}
 					}
 				}
