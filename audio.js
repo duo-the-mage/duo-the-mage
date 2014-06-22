@@ -20,12 +20,14 @@ var Game = window.Game || {};
 		}
 	};
 
+	var loop;
+	var intro;
 	Game.startMusic = function() {
-		var loop = new Audio();
+		loop = new Audio();
 		var playThis = loop.play;
 		var playIntro = function() {
 			loop.removeEventListener('canplaythrough', playIntro, true);
-			var intro = new Audio();
+			intro = new Audio();
 			intro.addEventListener('canplaythrough', playThis, true);
 			intro.addEventListener('ended', function() {loop.play();}, true);
 			intro.src = 'intro.ogg';
@@ -33,6 +35,11 @@ var Game = window.Game || {};
 		loop.addEventListener('ended', playThis, true);
 		loop.addEventListener('canplaythrough', playIntro, true);
 		loop.src = 'loop.ogg';
+	};
+
+	Game.stopMusic = function() {
+		loop.pause();
+		intro.pause();
 	};
 
 }());
