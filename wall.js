@@ -17,22 +17,18 @@ Game.Wall = function Wall(j, i, type) {
 	this.x = j*32;
 	this.y = i*32;
 	this.type = type;
+	if(Game.wallGrid[i][j] !== null)
+		throw 0;
+	Game.walls.push(this);
+	Game.wallGrid[i][j] = this;
 };
 
 Game.addWall = function addWall(j, i) {
-	var w = new Game.Wall(j, i, 'wall');
-	if(Game.wallGrid[i][j] !== null)
-		throw 0;
-	Game.walls.push(w);
-	Game.wallGrid[i][j] = w;
+	new Game.Wall(j, i, 'wall');
 };
 
 Game.addLockedDoor = function(j, i) {
-	var w = new Game.Wall(j, i, 'locked_door');
-	if(Game.wallGrid[i][j] !== null)
-		throw 0;
-	Game.walls.push(w);
-	Game.wallGrid[i][j] = w;
+	new Game.Wall(j, i, 'locked_door');
 };
 
 Game.Wall.prototype.draw = function draw(ctx) {
