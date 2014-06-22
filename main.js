@@ -153,7 +153,11 @@ function draw() {
 	for (i = 0; i < Game.actors.length; ++i) {
 		Game.actors[i].draw(ctx);
 	}
-	
+
+	// Draw small keys
+	for(i = 0;  i < Game.smallKeys.length;  ++i)
+		Game.smallKeys[i].draw(ctx);
+
 	// Draw player
 	Game.player.draw(ctx);
 	

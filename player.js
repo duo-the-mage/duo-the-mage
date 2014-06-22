@@ -9,6 +9,7 @@ Game.player = (function() {
 		this.casting = 0;
 		this.invulnerable = 0;
 		this.dead = 0;
+		this.smallKeys = 0;
 	};
 	
 	Player.prototype.update = function update(elapsed) {
@@ -58,7 +59,9 @@ Game.player = (function() {
 				if(Game.wallGrid[i][j] == null)
 					return;
 
-				if(Game.wallGrid[i][j].type === 'locked_door') {
+				if(        Game.wallGrid[i][j].type === 'locked_door'
+				        && self.smallKeys > 0                         ) {
+					--self.smallKeys;
 					Game.removeWall(j, i);
 					Game.playSound("unlock.wav");
 					return;
@@ -105,6 +108,17 @@ Game.player = (function() {
 			} else {
 				this.invulnerable -= elapsed;
 				if (this.invulnerable < 0) { this.invulnerable = 0; }
+			}
+
+			// Check for collisions with keys
+			for(i = Game.smallKeys.length-1;  i >= 0;  --i) {
+				if(        Game.smallKeys[i].x < myright
+				        && Game.smallKeys[i].x > this.x
+				        && Game.smallKeys[i].y < mybottom
+				        && Game.smallKeys[i].y > this.y   ) {
+					Game.smallKeys.splice(i, 1);
+					++this.smallKeys
+				}
 			}
 					
 			// Check whether player is casting
