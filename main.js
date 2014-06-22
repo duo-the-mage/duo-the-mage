@@ -119,6 +119,7 @@ function onUpdate(elapsed) {
 function draw() {
 	var i;
 	
+	//ctx.scale(0.5,0.5);
 	ctx.translate(-Game.camera.x,-Game.camera.y);
 
 	// Draw background
@@ -164,7 +165,26 @@ function draw() {
 	// Draw current spell
 	if (Game.currentSpell) { Game.currentSpell.draw(ctx); }
 	
+	/*
+	// Debugging for sector boundaries
+	ctx.beginPath();
+	ctx.strokeStyle = "#f00";
+	ctx.lineWidth = 4;
+	var lb = Game.actors[0].leftBoundary * 32,
+		rb = Game.actors[0].rightBoundary * 32,
+		w = rb - lb,
+		tb = Game.actors[0].topBoundary * 32,
+		bb = Game.actors[0].bottomBoundary * 32,
+		h = bb - tb;
+	ctx.rect(lb,
+			 tb,
+			 w,
+			 h);
+	ctx.stroke();
+	*/
+	
 	ctx.translate(Game.camera.x,Game.camera.y);
+	//ctx.scale(2,2);
 	
 	// Draw UI
 	Game.player.drawUI(ctx);
@@ -176,6 +196,20 @@ function draw() {
 		ctx.rect(0,0,800,480);
 		ctx.fill();
 	}
+	
+	/*
+	// Debugging for enemy behavior
+	ctx.fillStyle = "#000";
+	ctx.fillText("gridX: "+Game.actors[0].gridX,2,40);
+	ctx.fillText("gridY: "+Game.actors[0].gridY,2,56);
+	ctx.fillText("homeSectorX: "+Game.actors[0].homeSectorX,2,72);
+	ctx.fillText("homeSectorY: "+Game.actors[0].homeSectorY,2,88);
+	ctx.fillText("leftBoundary: "+Game.actors[0].leftBoundary,2,104);
+	ctx.fillText("topBoundary: "+Game.actors[0].topBoundary,2,120);
+	ctx.fillText("rightBoundary: "+Game.actors[0].rightBoundary,2,136);
+	ctx.fillText("bottomBoundary: "+Game.actors[0].bottomBoundary,2,152);
+	ctx.fillText("directions: "+Game.actors[0].directionChoices,2,168);
+	*/
 	
 /*
 	// Draw mouse test

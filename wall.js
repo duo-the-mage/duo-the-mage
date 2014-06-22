@@ -5,13 +5,17 @@ Game.walls = [];
 Game.wallGrid = (function() {
 	var result = [],
 		i, j;
-	for(i = 0;  i < 29;  ++i) {
+		
+	result.sectorWidth = 24;
+	result.sectorHeight = 14;
+	result.width = result.sectorWidth * 4 + 1;
+	result.height = result.sectorHeight * 4 + 1;
+		
+	for(i = 0;  i < result.height;  ++i) {
 		result.push([]);
-		for(j = 0;  j < 49;  ++j)
+		for(j = 0;  j < result.width;  ++j)
 			result[i].push(null);
 	}
-	result.width = result[0].length;
-	result.height = result.length;
 	
 	return result;
 }());

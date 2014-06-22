@@ -15,7 +15,15 @@ function EnemyBug(x,y) {
 	this.width = 32;
 	this.height = 32;
 	
-	this.walkSpeed = 0.1;
+	this.homeSectorX = Math.floor((x - 1) / Game.wallGrid.sectorWidth);
+	this.homeSectorY = Math.floor((y - 1) / Game.wallGrid.sectorHeight);
+	this.leftBoundary = this.homeSectorX * Game.wallGrid.sectorWidth + 1;
+	this.topBoundary = this.homeSectorY * Game.wallGrid.sectorHeight + 1;
+	this.rightBoundary = (this.homeSectorX+1) * Game.wallGrid.sectorWidth - 1;
+	this.bottomBoundary = (this.homeSectorY+1) * Game.wallGrid.sectorHeight - 1;
+	this.directionChoices = [];
+	
+	this.walkSpeed = 0.05;
 	this.time = 0;
 	this.attackPower = 1;
 	
@@ -27,18 +35,37 @@ EnemyBug.prototype.changeDirection = function changeDirection() {
 	
 	switch (this.currentDir) {
 		case 0:
-			if (this.gridY <= 0 || Game.wallGrid[this.gridY - 1][this.gridX]) { this.currentDir = -1; }
+			if ((this.gridY <= this.topBoundary) || 
+				(Game.wallGrid[this.gridY - 1][this.gridX])) 
+			{ 
+				this.currentDir = -1; 
+			}
 		break;
 		case 1:
-			if (this.gridX >= Game.wallGrid.width - 1 || Game.wallGrid[this.gridY][this.gridX + 1]) { this.currentDir = -1; }
+			if ((this.gridX >= this.rightBoundary) || 
+				(Game.wallGrid[this.gridY][this.gridX + 1])) 
+			{ 
+				this.currentDir = -1; 
+			}
 		break;
 		case 2:
-			if (this.gridY >= Game.wallGrid.height - 1 || Game.wallGrid[this.gridY + 1][this.gridX]) { this.currentDir = -1; }
+			if ((this.gridY >= this.bottomBoundary) ||
+				(Game.wallGrid[this.gridY + 1][this.gridX])) 
+			{ 
+				this.currentDir = -1; 
+			}
 		break;
 		case 3:
-			if (this.gridX <= 0 || Game.wallGrid[this.gridY][this.gridX - 1]) { this.currentDir = -1; }
+			if ((this.gridX <= this.leftBoundary) || 
+				(Game.wallGrid[this.gridY][this.gridX - 1])) 
+			{ 
+				this.currentDir = -1; 
+			}
 		break;
 	}
+	
+	this.directionChoices.push(this.currentDir);
+	if (this.directionChoices.length > 20) { this.directionChoices.shift(); }
 };
 
 EnemyBug.prototype.destroy = function destroy() {
@@ -46,6 +73,9 @@ EnemyBug.prototype.destroy = function destroy() {
 };
 
 EnemyBug.prototype.update = function update(elapsed) {
+	if (this.homeSectorX !== Game.player.sectorX ||
+		this.homeSectorY !== Game.player.sectorY) { return; }
+
 	switch (this.currentDir) {
 		case 0: 
 			if (this.y - this.walkSpeed * elapsed < (this.gridY - 1) * 32) {
@@ -53,7 +83,9 @@ EnemyBug.prototype.update = function update(elapsed) {
 				this.y = (this.gridY - 1) * 32;
 				this.gridY -= 1;
 				// Decide whether to change direction
-				if (this.gridY <= 0 || Game.wallGrid[this.gridY - 1][this.gridX] || Math.random() < 0.1) {
+				if ((this.gridY <= this.topBoundary) || 
+					Game.wallGrid[this.gridY - 1][this.gridX] || 
+					(Math.random() < 0.1)) {
 					this.changeDirection();
 				}
 			} else {
@@ -67,7 +99,9 @@ EnemyBug.prototype.update = function update(elapsed) {
 				this.x = (this.gridX + 1) * 32;
 				this.gridX += 1;
 				// Decide whether to change direction
-				if (this.gridX >= 24 || Game.wallGrid[this.gridY][this.gridX + 1] || Math.random() < 0.1) {
+				if ((this.gridX >= this.rightBoundary) || 
+					Game.wallGrid[this.gridY][this.gridX + 1] || 
+					(Math.random() < 0.1)) {
 					this.changeDirection();
 				}
 			} else {
@@ -81,7 +115,9 @@ EnemyBug.prototype.update = function update(elapsed) {
 				this.y = (this.gridY + 1) * 32;
 				this.gridY += 1;
 				// Decide whether to change direction
-				if (this.gridY >= 14 || Game.wallGrid[this.gridY + 1][this.gridX] || Math.random() < 0.1) {
+				if ((this.gridY >= this.bottomBoundary) || 
+					Game.wallGrid[this.gridY + 1][this.gridX] || 
+					(Math.random() < 0.1)) {
 					this.changeDirection();
 				}
 			} else {
@@ -95,7 +131,9 @@ EnemyBug.prototype.update = function update(elapsed) {
 				this.x = (this.gridX - 1) * 32;
 				this.gridX -= 1;
 				// Decide whether to change direction
-				if (this.gridX <= 0 || Game.wallGrid[this.gridY][this.gridX - 1] || Math.random() < 0.1) {
+				if ((this.gridX <= this.leftBoundary) || 
+					Game.wallGrid[this.gridY][this.gridX - 1] || 
+					(Math.random() < 0.1)) {
 					this.changeDirection();
 				}
 			} else {

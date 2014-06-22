@@ -5,6 +5,10 @@ Game.player = (function() {
 	function Player() {
 		this.x = 32*10;
 		this.y = 32*2;
+		
+		this.sectorX = 0;
+		this.sectorY = 0;
+		
 		this.health = 10;
 		this.casting = 0;
 		this.invulnerable = 0;
@@ -14,6 +18,8 @@ Game.player = (function() {
 	
 	Player.prototype.update = function update(elapsed) {
 		var GRID_SIZE = 32,
+			SECTOR_WIDTH = Game.wallGrid.sectorWidth * GRID_SIZE,
+			SECTOR_HEIGHT = Game.wallGrid.sectorHeight * GRID_SIZE,
 			myright   = this.x + GRID_SIZE,
 			mybottom  = this.y + GRID_SIZE,
 			self = this;
@@ -87,6 +93,18 @@ Game.player = (function() {
 							  {x: 1, y: 1});
 			resolveCollisions(this.x, this.y, {x: -1, y: -1});
 					
+			// Find which sector the player is in
+			if (this.x > (this.sectorX + 1) * SECTOR_WIDTH) {
+				this.sectorX += 1;
+			} else if(this.x < this.sectorX * SECTOR_WIDTH) {
+				this.sectorX -= 1;
+			}
+			if (this.y > (this.sectorY + 1) * SECTOR_HEIGHT) {
+				this.sectorY += 1;
+			} else if(this.y < this.sectorY * SECTOR_HEIGHT) {
+				this.sectorY -= 1;
+			}
+			
 			// Check for collisions with enemies
 			if (this.invulnerable === 0) {
 				for (i = 0; i < Game.actors.length; ++i) {
