@@ -15,7 +15,7 @@ var Game = window.Game || {};
 	};
 
 	Game.addSmallKey = function(j, i) {
-		Game.smallKeys.push(new SmallKey(j*32, i*32));
+		Game.smallKeys.push(new SmallKey(j*32+16, i*32+16));
 	};
 
 }());
