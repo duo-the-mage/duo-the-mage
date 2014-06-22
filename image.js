@@ -9,6 +9,7 @@ Game.drawImage = (function() {
 			'hello.png',
 			'wall_1.png',
 			'testlockeddoor.png',
+			'small_key.png',
 			'player.png',
 			'player_cast.png',
 			'heart.png',
