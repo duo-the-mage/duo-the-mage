@@ -10,8 +10,9 @@ var Game = window.Game || {};
 		this.y = y;
 	};
 	SmallKey.prototype.draw = function(ctx) {
-		ctx.fillStyle = '#000';
-		ctx.fillText('key', this.x, this.y);
+		//ctx.fillStyle = '#000';
+		//ctx.fillText('key', this.x, this.y);
+		Game.drawImage(ctx,"small_key.png",this.x-16,this.y-16);
 	};
 
 	Game.addSmallKey = function(j, i) {
