@@ -23,6 +23,11 @@ Game.Wall = function Wall(j, i, type) {
 	Game.wallGrid[i][j] = this;
 };
 
+Game.removeWall = function(j, i) {
+	Game.walls.splice(Game.walls.indexOf(Game.wallGrid[i][j]), 1);
+	Game.wallGrid[i][j] = null;
+};
+
 Game.addWall = function addWall(j, i) {
 	new Game.Wall(j, i, 'wall');
 };

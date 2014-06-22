@@ -54,6 +54,11 @@ Game.player = (function() {
 				if(Game.wallGrid[i][j] == null)
 					return;
 
+				if(Game.wallGrid[i][j].type === 'locked_door') {
+					Game.removeWall(j, i);
+					return;
+				}
+
 				if(dir.x*xoff <= dir.y*yoff  &&  Game.wallGrid[i][j-dir.x] == null)
 					snapx = true;
 				else if(dir.x*xoff >= dir.y*yoff  &&  Game.wallGrid[i-dir.y][j] == null)
