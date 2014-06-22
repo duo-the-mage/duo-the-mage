@@ -56,6 +56,7 @@ Game.player = (function() {
 
 				if(Game.wallGrid[i][j].type === 'locked_door') {
 					Game.removeWall(j, i);
+					Game.playSound("unlock.wav");
 					return;
 				}
 
