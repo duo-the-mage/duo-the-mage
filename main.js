@@ -58,35 +58,9 @@ window.onload = function() {
 };
 
 function start() {
-	var i, w;
-	for (i = 0; i < 10; ++i) {
-		Game.addWall(i, 3);
-	}
-	Game.addWall(12,2);
-	Game.addWall(14,2);
-	Game.addWall(14,4);
-	Game.addWall(12,4);
-	Game.addWall(11,5);
-	Game.addWall(15,5);
-	Game.addLockedDoor(10,4);
-//	Game.addWall(11,4);
-
-	Game.addWall(8,8);
-	Game.addWall(15,9);
-	Game.addWall(14,13);
-	Game.addWall(7,12);
-	Game.addEnemyBug(8,12);
-	Game.addEnemyBug(8,12);
-	Game.addEnemyBug(8,12);
-	Game.addEnemyBug(8,12);
-	Game.addEnemyBug(8,12);
-	Game.addEnemyBug(8,12);
-	Game.addEnemyBug(8,12);
-	Game.addEnemyBug(8,12);
-	Game.addEnemyBug(8,12);
-	Game.addEnemyBug(8,12);
-
 	Game.Input.init();
+	
+	Game.initWorld();
 	
 	gameLoop();
 }
