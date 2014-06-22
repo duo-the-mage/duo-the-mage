@@ -22,8 +22,9 @@ function EnemyBat(x,y) {
 	this.rightBoundary = (this.homeSectorX+1) * Game.wallGrid.sectorWidth - 1;
 	this.bottomBoundary = (this.homeSectorY+1) * Game.wallGrid.sectorHeight - 1;
 	
+	this.attackPower = 0;
+
 	this.time = 0;
-	this.attackPower = 1;
 };
 
 EnemyBat.prototype.destroy = function destroy() {
