@@ -3,8 +3,8 @@ var Game = window.Game || {};
 
 Game.player = (function() {
 	function Player() {
-		this.x = 750;
-		this.y = 430;
+		this.x = 32*10;
+		this.y = 32*2;
 		this.health = 10;
 		this.casting = 0;
 		this.invulnerable = 0;
