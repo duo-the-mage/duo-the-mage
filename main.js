@@ -61,6 +61,8 @@ function start() {
 	Game.Input.init();
 	
 	Game.initWorld();
+
+	Game.startMusic();
 	
 	gameLoop();
 }
