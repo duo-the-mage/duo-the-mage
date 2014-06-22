@@ -13,17 +13,33 @@ Game.wallGrid = (function() {
 	return result;
 }());
 
-Game.Wall = function Wall(j, i) {
+Game.Wall = function Wall(j, i, type) {
 	this.x = j*32;
 	this.y = i*32;
+	this.type = type;
 };
 
 Game.addWall = function addWall(j, i) {
-	var w = new Game.Wall(j, i);
+	var w = new Game.Wall(j, i, 'wall');
+	if(Game.wallGrid[i][j] !== null)
+		throw 0;
+	Game.walls.push(w);
+	Game.wallGrid[i][j] = w;
+};
+
+Game.addLockedDoor = function(j, i) {
+	var w = new Game.Wall(j, i, 'locked_door');
+	if(Game.wallGrid[i][j] !== null)
+		throw 0;
 	Game.walls.push(w);
 	Game.wallGrid[i][j] = w;
 };
 
 Game.Wall.prototype.draw = function draw(ctx) {
-	Game.drawImageInWorld(ctx, 'testwall.png', this.x, this.y);
+	if(this.type === 'wall')
+		Game.drawImageInWorld(ctx, 'testwall.png', this.x, this.y);
+	else if(this.type === 'locked_door')
+		Game.drawImageInWorld(ctx, 'testlockeddoor.png', this.x, this.y);
+	else
+		throw 0;
 };

@@ -68,6 +68,7 @@ function start() {
 	Game.addWall(12,4);
 	Game.addWall(11,5);
 	Game.addWall(15,5);
+	Game.addLockedDoor(10,4);
 //	Game.addWall(11,4);
 
 	Game.addWall(8,8);

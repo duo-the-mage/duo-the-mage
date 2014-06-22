@@ -8,6 +8,7 @@ Game.drawImage = (function() {
 	var	imageList = [
 			'hello.png',
 			'testwall.png',
+			'testlockeddoor.png',
 			'player.png',
 			'player_cast.png',
 			'heart.png',
