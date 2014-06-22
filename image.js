@@ -20,6 +20,7 @@ Game.drawImage = (function() {
 			'enemy_1.png',
 			'enemy_2.png',
 			'enemy.png',
+			'bat.png',
 			'background.png'
 		];
 	
