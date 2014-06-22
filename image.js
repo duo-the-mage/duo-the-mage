@@ -21,6 +21,8 @@ Game.drawImage = (function() {
 			'enemy_2.png',
 			'enemy.png',
 			'bat.png',
+			'spike.png',
+			'spike_block.png',
 			'background.png'
 		];
 	

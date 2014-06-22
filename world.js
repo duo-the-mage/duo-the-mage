@@ -23,9 +23,9 @@ Game.world1 =	"wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
 				"w......www..............w..wwwwwwww...wwwwwwww..................................................w"+
 				"w......w.w..............w..w........B........w..wwwwwwwwwww...wwwwwwwwwww...wwwwwwwwwwwwwwwww...w"+
 				"w......www..........w...w..w.................w..w.........wwLww.........w...w...............w...w"+
-				"w...................w.........w....www....w.....w.......................w...w.B...........B.w...w"+
-				"w..P.............F..w.........w.B..w.w..B.w.....w.......................w...w.......k.......w...w"+
-				"w...................w.........w....www....w.....w.......................w...w...............w...w"+
+				"w.......s...........w.........w....www....w.....w.......................w...w.B...........B.w...w"+
+				"w..P....s........S..w.........w.B..w.w..B.w.....w.......................w...w.......k.......w...w"+
+				"w.......s...........w.........w....www....w.....w.......................w...w...............w...w"+
 				"w......www..........w...w..w.................w..w.......................w...w...www...www...w...w"+
 				"w......w.w..............w..w........B........w..w.www...............www.w...w...w.w...w.w...w...w"+
 				"w......www..............w..wwwwwwww...wwwwwwww..w.w.w..B..B...B..B..w.w.w...wwwwwww...wwwwwww...w"+
@@ -84,6 +84,8 @@ Game.initWorld = function initWorld() {
 			if (Game.world1[n] === 'L') { Game.addLockedDoor(i,j); }
 			if (Game.world1[n] === 'B') { Game.addEnemyBug(i,j); }
 			if (Game.world1[n] === 'F') { Game.addEnemyBat(i,j); }
+			if (Game.world1[n] === 's') { Game.addSpikes(i,j); }
+			if (Game.world1[n] === 'S') { Game.addSpikeBlock(i,j); }
 			if (Game.world1[n] === 'P') {
 				Game.player.x = 32*i;
 				Game.player.y = 32*j;
