@@ -27,16 +27,16 @@ EnemyBug.prototype.changeDirection = function changeDirection() {
 	
 	switch (this.currentDir) {
 		case 0:
-			if (this.gridY <= 0 || Game.wallGrid[this.gridY - 1][this.gridX]) { this.changeDirection(); }
+			if (this.gridY <= 0 || Game.wallGrid[this.gridY - 1][this.gridX]) { this.currentDir = -1; }
 		break;
 		case 1:
-			if (this.gridX >= Game.wallGrid.width - 1 || Game.wallGrid[this.gridY][this.gridX + 1]) { this.changeDirection(); }
+			if (this.gridX >= Game.wallGrid.width - 1 || Game.wallGrid[this.gridY][this.gridX + 1]) { this.currentDir = -1; }
 		break;
 		case 2:
-			if (this.gridY >= Game.wallGrid.height - 1 || Game.wallGrid[this.gridY + 1][this.gridX]) { this.changeDirection(); }
+			if (this.gridY >= Game.wallGrid.height - 1 || Game.wallGrid[this.gridY + 1][this.gridX]) { this.currentDir = -1; }
 		break;
 		case 3:
-			if (this.gridX <= 0 || Game.wallGrid[this.gridY][this.gridX - 1]) { this.changeDirection(); }
+			if (this.gridX <= 0 || Game.wallGrid[this.gridY][this.gridX - 1]) { this.currentDir = -1; }
 		break;
 	}
 };
@@ -102,6 +102,9 @@ EnemyBug.prototype.update = function update(elapsed) {
 				// Continue walking
 				this.x -= this.walkSpeed * elapsed; 
 			}
+		break;
+		case -1:
+			this.changeDirection();
 		break;
 	}
 
