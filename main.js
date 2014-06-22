@@ -3,7 +3,37 @@ var Game = window.Game || {};
 
 var ctx, lastFrameTime, fps;
 
-
+(function handlePageVisibility() {
+	var hidden, visibilityChange; 
+	if (typeof document.hidden !== "undefined") { // Opera 12.10 and Firefox 18 and later support 
+	  hidden = "hidden";
+	  visibilityChange = "visibilitychange";
+	} else if (typeof document.mozHidden !== "undefined") {
+	  hidden = "mozHidden";
+	  visibilityChange = "mozvisibilitychange";
+	} else if (typeof document.msHidden !== "undefined") {
+	  hidden = "msHidden";
+	  visibilityChange = "msvisibilitychange";
+	} else if (typeof document.webkitHidden !== "undefined") {
+	  hidden = "webkitHidden";
+	  visibilityChange = "webkitvisibilitychange";
+	}
+	
+	function handleVisibilityChange() {
+		console.log("VC");
+	
+		if (document[hidden]) {
+			Game.pause();
+		} else {
+			Game.resume();
+		}
+	};
+	
+	document.addEventListener(visibilityChange, handleVisibilityChange, false);
+	window.addEventListener("blur",function() { Game.pause(); }, false);
+	window.addEventListener("focus",function() { Game.resume(); }, false);
+  
+}());
 
 window.onload = function() {
 	var c = document.getElementById("myCanvas");
@@ -60,6 +90,24 @@ function start() {
 	gameLoop();
 }
 
+Game.pause = function pause() {
+	if (this.nextFrame) {
+		window.cancelAnimationFrame(this.nextFrame);
+		ctx.beginPath();
+		ctx.fillStyle = "rgba(0,0,0,0.5)";
+		ctx.rect(0,0,800,480);
+		ctx.fill();
+		this.nextFrame = null;
+	}
+};
+
+Game.resume = function resume() {
+	if (!this.nextFrame) {
+		lastFrameTime = null;
+		gameLoop(lastFrameTime);
+	}
+};
+
 function gameLoop(_timestamp) {
 	var elapsed;
 	if (lastFrameTime) {
@@ -70,7 +118,7 @@ function gameLoop(_timestamp) {
 	}
 	lastFrameTime = _timestamp;
 
-	window.requestAnimationFrame(gameLoop);
+	Game.nextFrame = window.requestAnimationFrame(gameLoop);
 };
 
 function onUpdate(elapsed) {
@@ -142,6 +190,14 @@ function draw() {
 	// Draw UI
 	Game.player.drawUI(ctx);
 
+	// Draw darken overlay if paused
+	if (Game.nextFrame == null) {
+		ctx.beginPath();
+		ctx.fillStyle = "rgba(0,0,0,0.5)";
+		ctx.rect(0,0,800,480);
+		ctx.fill();
+	}
+	
 /*
 	// Draw mouse test
 	ctx.beginPath();
