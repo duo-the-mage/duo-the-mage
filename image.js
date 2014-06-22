@@ -15,6 +15,7 @@ Game.drawImage = (function() {
 			'heart_half.png',
 			'heart_empty.png',
 			'explosion.png',
+			'explosion_1.png',
 			'enemy_1.png',
 			'enemy_2.png',
 			'enemy.png',
@@ -39,8 +40,11 @@ Game.drawImage = (function() {
 	}
 
 	// Draw an image
-	return function (ctx, filename, x, y) {
-		ctx.drawImage(images[filename], x, y);
+	return function (ctx, filename) {
+		var imageArgs = Array.prototype.slice.call(arguments,2);
+		imageArgs.unshift(images[filename]);
+		ctx.drawImage.apply(ctx,imageArgs);
+		//ctx.drawImage(images[filename], x, y);
 	};
 }());
 
