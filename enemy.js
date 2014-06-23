@@ -70,6 +70,7 @@ EnemyBug.prototype.changeDirection = function changeDirection() {
 
 EnemyBug.prototype.destroy = function destroy() {
 	this.isDestroyed = true;
+	Game.playSound("enemy_die.wav");
 };
 
 EnemyBug.prototype.update = function update(elapsed) {

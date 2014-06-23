@@ -101,6 +101,7 @@ Game.actors = Game.actors || [];
 	};
 
 	Game.addLaser = function(x, y) {
+		Game.playSound("laser.wav");
 		Game.actors.push(new Laser(x, y));
 	};
 
