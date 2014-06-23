@@ -49,9 +49,11 @@ SpikeBlock.prototype.checkBounce = function checkBounce() {
 				(this.y > a.y - a.height)) {
 				Game.playSound("block.wav");
 				this.currentDir = (this.currentDir + 2) % 4;
-				a.currentDir = (a.currentDir + 2) % 4;
 				this.currentSpeed = this.RETRACT_SPEED;
-				a.currentSpeed = a.RETRACT_SPEED;
+				if (a.currentSpeed !== a.RETRACT_SPEED) {
+					a.currentDir = (a.currentDir + 2) % 4;
+					a.currentSpeed = a.RETRACT_SPEED;
+				}
 				return;
 			}
 		}
