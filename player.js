@@ -2,6 +2,9 @@
 var Game = window.Game || {};
 
 Game.player = (function() {
+	var GRID_SIZE = 32,
+		SPELL_RANGE = 50;
+
 	function Player() {
 		this.x = 32*10;
 		this.y = 32*2;
@@ -22,8 +25,7 @@ Game.player = (function() {
 	};
 	
 	Player.prototype.update = function update(elapsed) {
-		var GRID_SIZE = 32,
-			SECTOR_WIDTH = Game.wallGrid.sectorWidth * GRID_SIZE,
+		var SECTOR_WIDTH = Game.wallGrid.sectorWidth * GRID_SIZE,
 			SECTOR_HEIGHT = Game.wallGrid.sectorHeight * GRID_SIZE,
 			myright   = this.x + GRID_SIZE,
 			mybottom  = this.y + GRID_SIZE,
@@ -31,16 +33,13 @@ Game.player = (function() {
 
 		if (this.dead === 0 && !this.victory) {
 			var SPEED = 0.1 * elapsed,
-				SPELL_RANGE = 50,
 				HIT_COOLDOWN = 2000,			// ms
 				HIT_GRACE = 2,
 			
 				dir = {x: 0, y: 0},
 				keys = Game.Input.keys,
 				
-				i, a,
-				
-				spellX, spellY, spellRange;
+				i, a;
 
 			// Move player.
 			if(keys['a'])
@@ -240,6 +239,19 @@ Game.player = (function() {
 			Game.drawImage(ctx, 'small_key.png', 90 + i * 32, 0);
 		}
 	};
-	
+
+	Player.prototype.onClick = function() {
+		var spellX, spellY, spellRange;
+		if(Game.currentSpell == null) {
+			spellX = Game.camera.x+Game.Input.mouse.x - this.x - GRID_SIZE*0.5;
+			spellY = Game.camera.y+Game.Input.mouse.y - this.y - GRID_SIZE*0.5;
+			spellRange = SPELL_RANGE / Math.sqrt(spellX*spellX+spellY*spellY);
+			spellX = this.x + GRID_SIZE * 0.5 + spellRange * spellX;
+			spellY = this.y + GRID_SIZE * 0.5 + spellRange * spellY;
+
+			Game.castBasicSpell(spellX, spellY);
+		}
+	};
+
 	return new Player();
 }());

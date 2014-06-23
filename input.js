@@ -45,6 +45,8 @@ Game.Input = (function() {
 		// Mouse down event
 		canvas.addEventListener("mousedown",function(e) {
 			Input.mouse.button = true;
+			if(Game.currentMode === 1)
+				Game.player.onClick();
 			e.preventDefault();
 		},false);
 		// Mouse up event
