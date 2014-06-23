@@ -13,8 +13,12 @@ Game.clearWorld = function clearWorld() {
 	Game.walls.splice(0);
 	// Clear the actor list
 	Game.actors.splice(0);
+	// Clear the small key list
+	Game.smallKeys.splice(0);
 	// Clear the current spell
 	Game.currentSpell = null;
+	// Reset the player
+	Game.player.reset();
 };
 
 Game.world1 =	"wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww"+
@@ -93,58 +97,4 @@ Game.initWorld = function initWorld() {
 			if (Game.world1[n] === 'k') { Game.addSmallKey(i,j); }
 		}
 	}
-	/*
-	// World boundaries
-	for (i = 0; i < Game.wallGrid.width; ++i) {
-		Game.addWall(i, 0);
-		Game.addWall(i, Game.wallGrid.height - 1);
-	}
-	for (i = 1; i < Game.wallGrid.height - 1; ++i) {
-		Game.addWall(0, i);
-		Game.addWall(Game.wallGrid.width - 1, i);
-	}
-	// Sector boundaries
-	for (i = 1; i < Game.wallGrid.width - 1; ++i) {
-		Game.addWall(i, 14);
-	}
-	for (i = 1; i < Game.wallGrid.height - 1; ++i) {
-		if (i === 14) continue;
-		Game.addWall(24, i);
-	}
-	// Pathways to other sectors
-	Game.removeWall(24,6);
-	Game.removeWall(24,7);
-	Game.removeWall(24,8);
-	Game.removeWall(35,14);
-	Game.removeWall(36,14);
-	Game.removeWall(37,14);
-	Game.removeWall(24,20);
-	Game.removeWall(24,21);
-	Game.removeWall(24,22);
-	
-	// Top left sector
-	Game.addWall(12,2);
-	Game.addWall(14,2);
-	Game.addWall(14,4);
-	Game.addWall(12,4);
-	Game.addWall(11,5);
-	Game.addWall(15,5);
-	Game.addWall(8,8);
-	Game.addWall(15,9);
-	Game.addWall(14,13);
-	Game.addWall(7,12);
-
-	Game.addLockedDoor(10,4);
-
-	Game.addEnemyBug(8,12);
-	Game.addEnemyBug(8,12);
-	Game.addEnemyBug(8,12);
-	Game.addEnemyBug(8,12);
-	Game.addEnemyBug(8,12);
-	Game.addEnemyBug(8,12);
-	Game.addEnemyBug(8,12);
-	Game.addEnemyBug(8,12);
-	Game.addEnemyBug(8,12);
-	Game.addEnemyBug(8,12);
-	*/
 };

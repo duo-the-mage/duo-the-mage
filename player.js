@@ -9,6 +9,10 @@ Game.player = (function() {
 		this.sectorX = 0;
 		this.sectorY = 0;
 		
+		this.reset();
+	};
+	
+	Player.prototype.reset = function reset() {
 		this.health = 10;
 		this.casting = 0;
 		this.invulnerable = 0;
@@ -115,6 +119,7 @@ Game.player = (function() {
 								Game.playSound("hurt.wav");
 							} else {
 								this.dead = elapsed;
+								Game.Input.mouse.button = false;
 								Game.playSound("death.wav");
 								Game.stopMusic();
 							}
@@ -148,8 +153,14 @@ Game.player = (function() {
 			
 				Game.castBasicSpell(spellX,spellY);
 			} 
-		} else {
+		} 
+		else {
 			this.dead += elapsed;
+			if (Game.Input.mouse.button || (this.dead > 5000)) {
+				Game.clearWorld();
+				Game.currentMode = 2;
+				Game.Input.mouse.button = false;
+			}
 		}
 	};
 	

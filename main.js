@@ -60,10 +60,10 @@ window.onload = function() {
 function start() {
 	Game.Input.init();
 	
-	Game.initWorld();
-
-	Game.startMusic();
+	//Game.initWorld();
+	Game.currentMode = 0;
 	
+	Game.startMusic();
 	gameLoop();
 }
 
@@ -106,128 +106,175 @@ function gameLoop(_timestamp) {
 
 function onUpdate(elapsed) {
 	var i;
+	if (Game.currentMode === 1) {
+		// Main game play mode
+		Game.player.update(elapsed);
 
-	Game.player.update(elapsed);
-
-	Game.camera.update(elapsed);
-	
-	if (Game.currentSpell) { Game.currentSpell.update(elapsed); }
-	
-	for (i = 0; i < Game.actors.length; ++i) {
-		Game.actors[i].update(elapsed);
-	}
-	
-	for (i = Game.actors.length-1; i >= 0;--i) {
-		if (Game.actors[i].isDestroyed) {
-			Game.actors.splice(i,1);
+		Game.camera.update(elapsed);
+		
+		if (Game.currentSpell) { Game.currentSpell.update(elapsed); }
+		
+		for (i = 0; i < Game.actors.length; ++i) {
+			Game.actors[i].update(elapsed);
 		}
+		
+		for (i = Game.actors.length-1; i >= 0;--i) {
+			if (Game.actors[i].isDestroyed) {
+				Game.actors.splice(i,1);
+			}
+		}
+	} else {
+		// Menu mode
+		if (Game.Input.mouse.button) {
+			if (Game.currentMode === 2) {
+				Game.startMusic();
+			}
+			Game.initWorld();
+			Game.Input.mouse.button = false;
+			Game.currentMode = 1;
+		}		
 	}
 };
 
 function draw() {
 	var i;
-	
-	//ctx.scale(0.5,0.5);
-	ctx.translate(-Game.camera.x,-Game.camera.y);
+	// Main game mode
+	if (Game.currentMode === 1) {
+		//ctx.scale(0.5,0.5);
+		ctx.translate(-Game.camera.x,-Game.camera.y);
 
-	// Draw background
-	(function() {
-		var WIDTH = 800, HEIGHT = 480;
-		var x = Math.floor(Game.camera.x / WIDTH) * WIDTH;
-		var y = Math.floor(Game.camera.y / HEIGHT) * HEIGHT;
-		Game.drawImage(ctx, 'background.png', x, y);
-		Game.drawImage(ctx, 'background.png', x+WIDTH, y);
-		Game.drawImage(ctx, 'background.png', x, y+HEIGHT);
-		Game.drawImage(ctx, 'background.png', x+WIDTH, y+HEIGHT);
-	}());
+		// Draw background
+		(function() {
+			var WIDTH = 800, HEIGHT = 480;
+			var x = Math.floor(Game.camera.x / WIDTH) * WIDTH;
+			var y = Math.floor(Game.camera.y / HEIGHT) * HEIGHT;
+			Game.drawImage(ctx, 'background.png', x, y);
+			Game.drawImage(ctx, 'background.png', x+WIDTH, y);
+			Game.drawImage(ctx, 'background.png', x, y+HEIGHT);
+			Game.drawImage(ctx, 'background.png', x+WIDTH, y+HEIGHT);
+		}());
 
-	// Draw walls
-	for (i = 0; i < Game.walls.length; ++i) {
-		Game.walls[i].draw(ctx);
-	}
-	
-	// Draw test circle for input
-	/*
-	if (Game.Input.keys["w"]) {
+		// Draw walls
+		for (i = 0; i < Game.walls.length; ++i) {
+			Game.walls[i].draw(ctx);
+		}
+		
+		// Draw test circle for input
+		/*
+		if (Game.Input.keys["w"]) {
+			ctx.beginPath();
+			ctx.fillStyle = "#0b0";
+			ctx.arc(50,50,20,0,2*Math.PI,false);
+			ctx.fill();
+		}
+		
+		// Draw test image
+		Game.drawImage(ctx, 'hello.png', 16, 32);
+		*/
+		// Draw enemies
+		for (i = 0; i < Game.actors.length; ++i) {
+			Game.actors[i].draw(ctx);
+		}
+
+		// Draw small keys
+		for(i = 0;  i < Game.smallKeys.length;  ++i)
+			Game.smallKeys[i].draw(ctx);
+
+		// Draw player
+		Game.player.draw(ctx);
+		
+		// Draw current spell
+		if (Game.currentSpell) { Game.currentSpell.draw(ctx); }
+		
+		/*
+		// Debugging for sector boundaries
 		ctx.beginPath();
-		ctx.fillStyle = "#0b0";
-		ctx.arc(50,50,20,0,2*Math.PI,false);
-		ctx.fill();
-	}
-	
-	// Draw test image
-	Game.drawImage(ctx, 'hello.png', 16, 32);
-	*/
-	// Draw enemies
-	for (i = 0; i < Game.actors.length; ++i) {
-		Game.actors[i].draw(ctx);
-	}
+		ctx.strokeStyle = "#f00";
+		ctx.lineWidth = 4;
+		var lb = Game.actors[0].leftBoundary * 32,
+			rb = Game.actors[0].rightBoundary * 32,
+			w = rb - lb,
+			tb = Game.actors[0].topBoundary * 32,
+			bb = Game.actors[0].bottomBoundary * 32,
+			h = bb - tb;
+		ctx.rect(lb,
+				 tb,
+				 w,
+				 h);
+		ctx.stroke();
+		*/
+		
+		ctx.translate(Game.camera.x,Game.camera.y);
+		//ctx.scale(2,2);
+		
+		// Draw UI
+		Game.player.drawUI(ctx);
 
-	// Draw small keys
-	for(i = 0;  i < Game.smallKeys.length;  ++i)
-		Game.smallKeys[i].draw(ctx);
-
-	// Draw player
-	Game.player.draw(ctx);
-	
-	// Draw current spell
-	if (Game.currentSpell) { Game.currentSpell.draw(ctx); }
-	
+		// Draw darken overlay if paused
+		if (Game.nextFrame == null) {
+			ctx.beginPath();
+			ctx.fillStyle = "rgba(0,0,0,0.5)";
+			ctx.rect(0,0,800,480);
+			ctx.fill();
+		}
+		
+		/*
+		// Debugging for enemy behavior
+		ctx.fillStyle = "#000";
+		ctx.fillText("gridX: "+Game.actors[0].gridX,2,40);
+		ctx.fillText("gridY: "+Game.actors[0].gridY,2,56);
+		ctx.fillText("homeSectorX: "+Game.actors[0].homeSectorX,2,72);
+		ctx.fillText("homeSectorY: "+Game.actors[0].homeSectorY,2,88);
+		ctx.fillText("leftBoundary: "+Game.actors[0].leftBoundary,2,104);
+		ctx.fillText("topBoundary: "+Game.actors[0].topBoundary,2,120);
+		ctx.fillText("rightBoundary: "+Game.actors[0].rightBoundary,2,136);
+		ctx.fillText("bottomBoundary: "+Game.actors[0].bottomBoundary,2,152);
+		ctx.fillText("directions: "+Game.actors[0].directionChoices,2,168);
+		*/
+		
 	/*
-	// Debugging for sector boundaries
-	ctx.beginPath();
-	ctx.strokeStyle = "#f00";
-	ctx.lineWidth = 4;
-	var lb = Game.actors[0].leftBoundary * 32,
-		rb = Game.actors[0].rightBoundary * 32,
-		w = rb - lb,
-		tb = Game.actors[0].topBoundary * 32,
-		bb = Game.actors[0].bottomBoundary * 32,
-		h = bb - tb;
-	ctx.rect(lb,
-			 tb,
-			 w,
-			 h);
-	ctx.stroke();
-	*/
-	
-	ctx.translate(Game.camera.x,Game.camera.y);
-	//ctx.scale(2,2);
-	
-	// Draw UI
-	Game.player.drawUI(ctx);
-
-	// Draw darken overlay if paused
-	if (Game.nextFrame == null) {
+		// Draw mouse test
 		ctx.beginPath();
-		ctx.fillStyle = "rgba(0,0,0,0.5)";
-		ctx.rect(0,0,800,480);
+		ctx.fillStyle = (Game.Input.mouse.button ? "#00f" : "#f00");
+		ctx.arc(Game.Input.mouse.x,Game.Input.mouse.y,2,0,2*Math.PI,false);
 		ctx.fill();
-	}
-	
-	/*
-	// Debugging for enemy behavior
-	ctx.fillStyle = "#000";
-	ctx.fillText("gridX: "+Game.actors[0].gridX,2,40);
-	ctx.fillText("gridY: "+Game.actors[0].gridY,2,56);
-	ctx.fillText("homeSectorX: "+Game.actors[0].homeSectorX,2,72);
-	ctx.fillText("homeSectorY: "+Game.actors[0].homeSectorY,2,88);
-	ctx.fillText("leftBoundary: "+Game.actors[0].leftBoundary,2,104);
-	ctx.fillText("topBoundary: "+Game.actors[0].topBoundary,2,120);
-	ctx.fillText("rightBoundary: "+Game.actors[0].rightBoundary,2,136);
-	ctx.fillText("bottomBoundary: "+Game.actors[0].bottomBoundary,2,152);
-	ctx.fillText("directions: "+Game.actors[0].directionChoices,2,168);
+		
+		// Draw fps counter
+		ctx.fillStyle = "#000";
+		ctx.fillText(Math.round(fps)+" fps; "+Game.Input.lastKey+' '+Game.player.y,2,40);
 	*/
-	
-/*
-	// Draw mouse test
-	ctx.beginPath();
-	ctx.fillStyle = (Game.Input.mouse.button ? "#00f" : "#f00");
-	ctx.arc(Game.Input.mouse.x,Game.Input.mouse.y,2,0,2*Math.PI,false);
-	ctx.fill();
-	
-	// Draw fps counter
-	ctx.fillStyle = "#000";
-	ctx.fillText(Math.round(fps)+" fps; "+Game.Input.lastKey+' '+Game.player.y,2,40);
-*/
+
+	}
+	// Menu mode
+	else {
+		// Draw background
+		Game.drawImage(ctx, 'background.png', 0, 0);
+		
+		switch(Game.currentMode) {
+			// Title screen mode
+			case 0:
+				// Draw prompt
+				ctx.fillStyle = "#fff";
+				ctx.font = "bold 16pt sans-serif";
+				ctx.textAlign = "center";
+				ctx.fillText("Click to begin",400,300);
+			break;
+			// Death screen mode
+			case 2:
+				// Draw prompt
+				ctx.fillStyle = "#fff";
+				ctx.font = "bold 16pt sans-serif";
+				ctx.textAlign = "center";
+				ctx.fillText("Click to retry",400,300);
+			break;
+			// Victory screen mode
+			case 3:
+				// Draw prompt
+				ctx.fillStyle = "#fff";
+				ctx.font = "bold 16pt sans-serif";
+				ctx.textAlign = "center";
+				ctx.fillText("Click to start over",400,300);
+			break;
+		}
+	}
 };
