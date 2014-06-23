@@ -122,6 +122,7 @@ Game.player = (function() {
 								Game.Input.mouse.button = false;
 								Game.playSound("death.wav");
 								Game.stopMusic();
+								Game.currentMusic = null;
 							}
 						}
 					}

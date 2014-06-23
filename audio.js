@@ -42,10 +42,14 @@ var Game = window.Game || {};
 	};
 
 	Game.stopMusic = function() {
-		Game.currentMusic.pause();
+		if (Game.currentMusic) {
+			Game.currentMusic.pause();
+		}
 	};
 	Game.resumeMusic = function() {
-		Game.currentMusic.play();
+		if (Game.currentMusic) {
+			Game.currentMusic.play();
+		}
 	};
 
 }());
