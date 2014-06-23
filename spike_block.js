@@ -68,6 +68,8 @@ SpikeBlock.prototype.checkHome = function checkHome() {
 		(this.y >= this.homeY  &&  this.currentDir == 2)) {
 		this.x = this.homeX;
 		this.y = this.homeY;
+		this.gridX = Math.round(this.x / 32);
+		this.gridY = Math.round(this.y / 32);
 		this.currentDir = -1;
 	}
 };
