@@ -62,8 +62,10 @@ SpikeBlock.prototype.checkBounce = function checkBounce() {
 };
 
 SpikeBlock.prototype.checkHome = function checkHome() {
-	if ((Math.abs(this.x - this.homeX) < 1) &&
-		(Math.abs(this.y - this.homeY) < 1)) { 
+	if ((this.x <= this.homeX  &&  this.currentDir == 3) ||
+		(this.x >= this.homeX  &&  this.currentDir == 1) ||
+		(this.y <= this.homeY  &&  this.currentDir == 0) ||
+		(this.y >= this.homeY  &&  this.currentDir == 2)) {
 		this.x = this.homeX; 
 		this.y = this.homeY; 
 		this.currentDir = -1; 
