@@ -259,6 +259,8 @@ function draw() {
 				ctx.fillStyle = "#fff";
 				ctx.font = "bold 16pt sans-serif";
 				ctx.textAlign = "center";
+				ctx.fillText("Use w, a, s, d to move",400,300);
+				ctx.fillText("Use the mouse to cast spells",400,320);
 				ctx.fillText("Click to begin",400,420);
 			break;
 			// Death screen mode

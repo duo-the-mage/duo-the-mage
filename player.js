@@ -18,6 +18,7 @@ Game.player = (function() {
 		this.invulnerable = 0;
 		this.dead = 0;
 		this.smallKeys = 0;
+		this.victory = 0;
 	};
 	
 	Player.prototype.update = function update(elapsed) {
@@ -28,7 +29,7 @@ Game.player = (function() {
 			mybottom  = this.y + GRID_SIZE,
 			self = this;
 
-		if (this.dead === 0) {
+		if (this.dead === 0 && !this.victory) {
 			var SPEED = 0.1 * elapsed,
 				SPELL_RANGE = 50,
 				HIT_COOLDOWN = 2000,			// ms
@@ -143,7 +144,12 @@ Game.player = (function() {
 					++this.smallKeys;
 				}
 			}
-					
+				
+			// Check for victory
+			if (this.y > (Game.wallGrid.height - 2) * 32) {
+				this.victory += elapsed;
+			}
+				
 			// Check whether player is casting
 			if (Game.Input.mouse.button && Game.currentSpell == null) {
 				spellX = Game.camera.x + Game.Input.mouse.x - this.x - GRID_SIZE * 0.5;
@@ -155,11 +161,19 @@ Game.player = (function() {
 				Game.castBasicSpell(spellX,spellY);
 			} 
 		} 
-		else {
+		else if (this.dead > 0) {
 			this.dead += elapsed;
 			if (Game.Input.mouse.button || (this.dead > 5000)) {
 				Game.clearWorld();
 				Game.currentMode = 2;
+				Game.Input.mouse.button = false;
+			}
+		}
+		else {
+			this.victory += elapsed;
+			if (this.victory > 2000) {
+				Game.clearWorld();
+				Game.currentMode = 3;
 				Game.Input.mouse.button = false;
 			}
 		}
@@ -169,7 +183,9 @@ Game.player = (function() {
 		var t = 0, i, dx, dy;
 	
 		if (this.dead === 0) {
-			if (Math.floor(this.invulnerable / 100) % 2 === 0) {
+			if (this.victory > 0) {
+				Game.drawImageInWorld(ctx, 'player.png', Math.round(this.x), Math.round(this.y + this.victory * 0.05));
+			} else if (Math.floor(this.invulnerable / 100) % 2 === 0) {
 				if (Game.currentSpell) {
 					Game.drawImageInWorld(ctx, 'player_cast.png', Math.round(this.x), Math.round(this.y));
 				} else {
