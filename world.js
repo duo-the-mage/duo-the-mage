@@ -95,6 +95,7 @@ Game.initWorld = function initWorld() {
 				Game.player.y = 32*j;
 			}
 			if (Game.world1[n] === 'k') { Game.addSmallKey(i,j); }
+			if (Game.world1[n] === '>') { Game.addOneWayDoorR(i,j); }
 		}
 	}
 };
