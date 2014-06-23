@@ -27,7 +27,8 @@ Game.camera = (function() {
 			self.y += y;
 		};
 
-		move((this.destx - this.x) * 0.1,  (this.desty - this.y) * 0.1);
+		var speed = 0.006 * elapsed;
+		move((this.destx - this.x) * speed,  (this.desty - this.y) * speed);
 	};
 
 	return new Camera();
