@@ -50,7 +50,7 @@ SpikeBlock.prototype.checkBounce = function checkBounce() {
 				Game.playSound("block.wav");
 				this.currentDir = (this.currentDir + 2) % 4;
 				this.currentSpeed = this.RETRACT_SPEED;
-				if (a.currentSpeed !== a.RETRACT_SPEED) {
+				if (a.currentSpeed === a.ATTACK_SPEED) {
 					a.currentDir = (a.currentDir + 2) % 4;
 					a.currentSpeed = a.RETRACT_SPEED;
 				}
@@ -80,14 +80,32 @@ SpikeBlock.prototype.update = function update(elapsed) {
 	if (this.currentDir === -1) {
 		if ((Game.player.y >= this.y - this.height) &&
 			(Game.player.y <= this.y + this.height)) {
-			if (Game.player.x > this.x) { this.currentDir = 1; }
-			else { this.currentDir = 3; }
-			this.currentSpeed = this.ATTACK_SPEED;
+			if ((Game.player.x > this.x) &&
+				(!Game.wallGrid[this.gridY][this.gridX+1]))
+			{ 
+				this.currentDir = 1; 
+				this.currentSpeed = this.ATTACK_SPEED;
+			}
+			else if ((Game.player.x < this.x) &&
+				(!Game.wallGrid[this.gridY][this.gridX-1]))
+			{ 
+				this.currentDir = 3; 
+				this.currentSpeed = this.ATTACK_SPEED;
+			}
 		} else if ((Game.player.x >= this.x - this.width) &&
 					(Game.player.x <= this.x + this.width)) {
-			if (Game.player.y > this.y) { this.currentDir = 2; }
-			else { this.currentDir = 0; }
-			this.currentSpeed = this.ATTACK_SPEED;
+			if ((Game.player.y > this.y) &&
+				(!Game.wallGrid[this.gridY + 1][this.gridX]))
+			{ 
+				this.currentDir = 2; 
+				this.currentSpeed = this.ATTACK_SPEED;
+			}
+			else if ((Game.player.y < this.y) &&
+				(!Game.wallGrid[this.gridY - 1][this.gridX]))
+			{ 
+				this.currentDir = 0; 
+				this.currentSpeed = this.ATTACK_SPEED;
+			}
 		}
 	} else {
 		switch(this.currentDir) {
