@@ -43,7 +43,7 @@ Game.addLockedDoor = function(j, i) {
 	new Game.Wall(j, i, 'locked_door');
 };
 
-Game.addLockedDoor = function(j, i) {
+Game.addOneWayDoorR = function(j, i) {
 	new Game.Wall(j, i, 'one_way_r');
 };
 

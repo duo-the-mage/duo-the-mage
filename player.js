@@ -68,7 +68,7 @@ Game.player = (function() {
 
 				// One-way doors
 				if(      Game.wallGrid[i][j].type === 'one_way_r'
-				      && (x - j*GRID_SIZE  <  16)                 )
+				      && (x - j*GRID_SIZE  <  16)                 ) {
 					Game.removeWall(j, i);
 					Game.playSound("unlock.wav");
 					return;
