@@ -23,7 +23,8 @@ Game.drawImage = (function() {
 			'bat.png',
 			'spike.png',
 			'spike_block.png',
-			'background.png'
+			'background.png',
+			'title.png'
 		];
 	
 	// Pre-load all images

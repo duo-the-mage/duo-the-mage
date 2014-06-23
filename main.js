@@ -253,27 +253,40 @@ function draw() {
 		switch(Game.currentMode) {
 			// Title screen mode
 			case 0:
+				// Draw title
+				Game.drawImage(ctx, 'title.png', 180, 20);
 				// Draw prompt
 				ctx.fillStyle = "#fff";
 				ctx.font = "bold 16pt sans-serif";
 				ctx.textAlign = "center";
-				ctx.fillText("Click to begin",400,300);
+				ctx.fillText("Click to begin",400,420);
 			break;
 			// Death screen mode
 			case 2:
 				// Draw prompt
+				ctx.fillStyle = "#00b";
+				ctx.font = "bold 32pt serif";
+				ctx.textAlign = "center";
+				ctx.fillText("You have died.",400,100);
+				
 				ctx.fillStyle = "#fff";
 				ctx.font = "bold 16pt sans-serif";
 				ctx.textAlign = "center";
-				ctx.fillText("Click to retry",400,300);
+				ctx.fillText("Click to retry",400,420);
 			break;
 			// Victory screen mode
 			case 3:
 				// Draw prompt
+				ctx.fillStyle = "#00b";
+				ctx.font = "bold 32pt serif";
+				ctx.textAlign = "center";
+				ctx.fillText("Congratulations!",400,80);
+				ctx.fillText("You've won!",400,130);
+				
 				ctx.fillStyle = "#fff";
 				ctx.font = "bold 16pt sans-serif";
 				ctx.textAlign = "center";
-				ctx.fillText("Click to start over",400,300);
+				ctx.fillText("Click to start over",400,420);
 			break;
 		}
 	}
