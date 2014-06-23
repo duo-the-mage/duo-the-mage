@@ -4,7 +4,7 @@ var Game = window.Game || {};
 Game.actors = Game.actors || [];
 
 Game.addSpikes = function addSpikes(x,y) {
-	Game.actors.push(new Spikes(x,y));
+	Game.actors.unshift(new Spikes(x,y));
 };
 
 function Spikes(x,y) {
