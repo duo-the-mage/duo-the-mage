@@ -96,7 +96,7 @@ function gameLoop(_timestamp) {
 	if (lastFrameTime) {
 		elapsed = _timestamp - lastFrameTime;
 		fps = 1000/elapsed;
-		onUpdate(elapsed);
+		onUpdate(Math.min(elapsed,100));
 		draw();
 	}
 	lastFrameTime = _timestamp;

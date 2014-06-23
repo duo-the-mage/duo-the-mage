@@ -36,10 +36,6 @@ Game.player = (function() {
 				
 				spellX, spellY, spellRange;
 
-			// Cap move speed.
-			if(SPEED > 10)
-				SPEED = 10;
-
 			// Move player.
 			if(keys['a'])
 				--dir.x
