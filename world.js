@@ -44,7 +44,7 @@ Game.world1 =	"wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
 				"wF......................wS......................w.........w...w...............s.......ww.......ww"+
 				"wwwwwwwwwwwwwwwwwwwwwww.wwwwwwwwwwwwwwwwwwwwwwwww...........F.................s.......w........Sw"+
 				"wS......................w...................w...w.........w...w...............s.......ww.......ww"+
-				"wwwwwwwwwwww.wwwwwwwwwwww...B..B.....B....B.www.w.........ww.ww.........wwwwwwwwwww...w.........w"+
+				"wwwwwwwwwwww.wwwwwwwwwwww...B..B.....B....B.www.w.........w.w.w.........wwwwwwwwwww...w.........w"+
 				"w....................Fwww......B......B.B.......www.....................w.........w...w.........w"+
 				"w.wwwwwwwwwwwwwwwwwwwww............B........B.....w.....................w.........wsssw.........w"+
 				"w....................S..w......B.....B...B....wwwkw.......wwLww.........w.........w...w.........w"+
@@ -69,7 +69,7 @@ Game.world1 =	"wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
 				"w..wwwwwwwwwwwwwwwwwww..w..F.................F..w...wwww...www...wwww...w......................Sw"+
 				"w..........SwS..........w.........wwwww.........w......w...w.w...w......w......................Sw"+
 				"wsss...sss..F..sss...sssw......................Sw..B...w...www...w...B..wwww..wwwwwwwwwwwwwwwwwww"+
-				"wwss.B.sss..B..sss.B.ssww...........w...........w......w.B..w..B.w......w..w..wSw....wSw.....w..w"+
+				"wwss.B.sss..B..sss.B.ssww...........w...........w......w....w....w......w..w..wSw....wSw.....w..w"+
 				"wS...B..B...B...B..B...Swwwwww.....www.....wwwwww...B..SwwwwwwwwwS..B...wwww......ss.........wwww"+
 				"ww..sss.B..sss..B.sss..ww...........w...........w......w.........w......w.........ss............w"+
 				"w...sss.F..sss..F.sss...wS......................w..B...w....k....w...B..w.........ss............w"+
