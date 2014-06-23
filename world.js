@@ -45,10 +45,10 @@ Game.world1 =	"wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
 				"wwwwwwwwwwwwwwwwwwwwwww.wwwwwwwwwwwwwwwwwwwwwwwww...........F.................s.......w........Sw"+
 				"wS......................w...................w...w.........w...w...............s.......ww.......ww"+
 				"wwwwwwwwwwww.wwwwwwwwwwww...B..B.....B....B.www.w.........ww.ww.........wwwwwwwwwww...w.........w"+
-				"w....................Fwww......B......B.B.......w.......................w.........w...w.........w"+
-				"w.wwwwwwwwwwwwwwwwwwwww............B........B...w.......................w.........wsssw.........w"+
-				"w....................S..w......B.....B...B..wwwkw.........wwLww.........w.........w...w.........w"+
-				"w....................S..w...................wkkLL.........wwLww.........w.........w...w.........w"+
+				"w....................Fwww......B......B.B.......www.....................w.........w...w.........w"+
+				"w.wwwwwwwwwwwwwwwwwwwww............B........B.....w.....................w.........wsssw.........w"+
+				"w....................S..w......B.....B...B....wwwkw.......wwLww.........w.........w...w.........w"+
+				"w....................S..w.....................wkkLL.......wwLww.........w.........w...w.........w"+
 				"wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww...wwwwwwwwwww....wwwwww...wwwwwwwwwww"+
 				"wS...................Sw.w.......................w.........w...w.........w....w.............w....w"+
 				"w.......B.....B.......www.......................w.F.......w...w.......F.w....w.............w....w"+
