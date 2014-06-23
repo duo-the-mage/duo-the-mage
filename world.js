@@ -43,12 +43,12 @@ Game.world1 =	"wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
 				"w..wwwwwwwww.wwwwwwwwwwwww............wwwwwwww..w.........ww.ww.........wwwwwwwwwwwwwww.........w"+
 				"wF......................wS......................w.........w...w...............s.......ww.......ww"+
 				"wwwwwwwwwwwwwwwwwwwwwww.wwwwwwwwwwwwwwwwwwwwwwwww...........F.................s.......w........Sw"+
-				"wS......................w...................w...w.........w...w...............s.......ww.......ww"+
-				"wwwwwwwwwwww.wwwwwwwwwwww...B..B.....B....B.www.w.........w.w.w.........wwwwwwwwwww...w.........w"+
-				"w....................Fwww......B......B.B.......www.....................w.........w...w.........w"+
-				"w.wwwwwwwwwwwwwwwwwwwww............B........B.....w.....................w.........wsssw.........w"+
-				"w....................S..w......B.....B...B....wwwkw.......wwLww.........w.........w...w.........w"+
-				"w....................S..w.....................wkkLL.......wwLww.........w.........w...w.........w"+
+				"wS......................w......................kw.........w...w...............s.......ww.......ww"+
+				"wwwwwwwwwwww.wwwwwwwwwwww...B..B.....B....B.....w.........w.w.w.........wwwwwwwwwww...w.........w"+
+				"w....................Fwww......B......B.B.......w.......................w.........>...w.........w"+
+				"w.wwwwwwwwwwwwwwwwwwwww............B........B...w.......................w.........wsssw.........w"+
+				"w....................S..w......B.....B...B......w.........wwLww.........w.........w...w.........w"+
+				"w....................S..w.......................>.........wwLww.........w.........w...w.........w"+
 				"wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww...wwwwwwwwwww....wwwwww...wwwwwwwwwww"+
 				"wS...................Sw.w.......................w.........w...w.........w....w.............w....w"+
 				"w.......B.....B.......www.......................w.F.......w...w.......F.w....w.............w....w"+
@@ -65,7 +65,7 @@ Game.world1 =	"wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
 				"wS...................Sw.w.......................w.......................w....w.............w....w"+
 				"wwwwwwwwwww...wwwwwwwwwwwwwwwwwwwww...wwwwwwwwwwwwwwwwwwwww...wwwwwwwwwww....wwwwww...wwwwwwwwwww"+
 				"w.......................w.......................wS........w...w........Sw.........w...w.........w"+
-				"w.......................w.......................w........B.....B........wwwwwwwwwww...wwwwwwwwwww"+
+				"w.......................w.......................w........B.....B........w..wwwwwwww...wwwwwwwwwww"+
 				"w..wwwwwwwwwwwwwwwwwww..w..F.................F..w...wwww...www...wwww...w......................Sw"+
 				"w..........SwS..........w.........wwwww.........w......w...w.w...w......w......................Sw"+
 				"wsss...sss..F..sss...sssw......................Sw..B...w...www...w...B..wwww..wwwwwwwwwwwwwwwwwww"+
