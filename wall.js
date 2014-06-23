@@ -47,6 +47,10 @@ Game.addOneWayDoorR = function(j, i) {
 	new Game.Wall(j, i, 'one_way_r');
 };
 
+Game.addOneWayDoorL = function(j, i) {
+	new Game.Wall(j, i, 'one_way_l');
+};
+
 Game.Wall.prototype.draw = function draw(ctx) {
 	if ((this.x >= Game.camera.x - 32) &&
 		(this.x <= Game.camera.x + 800) &&
@@ -58,6 +62,8 @@ Game.Wall.prototype.draw = function draw(ctx) {
 			Game.drawImageInWorld(ctx, 'testlockeddoor.png', this.x, this.y);
 		else if(this.type === 'one_way_r')
 			Game.drawImage(ctx, 'one_way_r.png', this.x, this.y);
+		else if(this.type === 'one_way_l')
+			Game.drawImage(ctx, 'one_way_l.png', this.x, this.y);
 		else
 			throw 0;
 	}

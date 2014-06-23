@@ -71,6 +71,12 @@ Game.player = (function() {
 					Game.playSound("unlock.wav");
 					return;
 				}
+				if(      Game.wallGrid[i][j].type === 'one_way_l'
+				      && (x - j*GRID_SIZE  >=  16)                ) {
+					Game.removeWall(j, i);
+					Game.playSound("unlock.wav");
+					return;
+				}
 
 				// Unlock locked doors
 				if(        Game.wallGrid[i][j].type === 'locked_door'

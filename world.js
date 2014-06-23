@@ -45,10 +45,10 @@ Game.world1 =	"wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
 				"wwwwwwwwwwwwwwwwwwwwwww.wwwwwwwwwwwwwwwwwwwwwwwww...........F.................s.......w........Sw"+
 				"wS......................w......................kw.........w...w...............s.......ww.......ww"+
 				"wwwwwwwwwwww.wwwwwwwwwwww...B..B.....B....B.....w.........w.w.w.........wwwwwwwwwww...w.........w"+
-				"w....................Fwww......B......B.B.......w.......................w.........>...w.........w"+
+				"w....................Fwww......B......B.B.......w.......................w.........w...w.........w"+
 				"w.wwwwwwwwwwwwwwwwwwwww............B........B...w.......................w.........wsssw.........w"+
 				"w....................S..w......B.....B...B......w.........wwLww.........w.........w...w.........w"+
-				"w....................S..w.......................>.........wwLww.........w.........w...w.........w"+
+				"w....................S..w.......................>.........wwLww.........<.........w...w.........w"+
 				"wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww...wwwwwwwwwww....wwwwww...wwwwwwwwwww"+
 				"wS...................Sw.w.......................w.........w...w.........w....w.............w....w"+
 				"w.......B.....B.......www.......................w.F.......w...w.......F.w....w.............w....w"+
@@ -96,6 +96,7 @@ Game.initWorld = function initWorld() {
 			}
 			if (Game.world1[n] === 'k') { Game.addSmallKey(i,j); }
 			if (Game.world1[n] === '>') { Game.addOneWayDoorR(i,j); }
+			if (Game.world1[n] === '<') { Game.addOneWayDoorL(i,j); }
 		}
 	}
 };

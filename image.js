@@ -10,6 +10,7 @@ Game.drawImage = (function() {
 			'wall_1.png',
 			'testlockeddoor.png',
 			'one_way_r.png',
+			'one_way_l.png',
 			'small_key.png',
 			'player.png',
 			'player_cast.png',
