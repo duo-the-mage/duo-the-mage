@@ -17,7 +17,7 @@ Game.actors = Game.actors || [];
 	};
 
 	var GRID_SIZE = 32;
-	var SPEED = 0.5;
+	var SPEED = 0.2;
 	var LENGTH = 100;
 
 	var Laser = function(x, y) {
