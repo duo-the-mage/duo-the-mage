@@ -33,6 +33,7 @@ Game.player = (function() {
 			var SPEED = 0.1 * elapsed,
 				SPELL_RANGE = 50,
 				HIT_COOLDOWN = 2000,			// ms
+				HIT_GRACE = 2,
 			
 				dir = {x: 0, y: 0},
 				keys = Game.Input.keys,
@@ -109,10 +110,10 @@ Game.player = (function() {
 			if (this.invulnerable === 0) {
 				for (i = 0; i < Game.actors.length; ++i) {
 					a = Game.actors[i];
-					if ((a.x + a.width > this.x) &&
-						(a.x < myright) &&
-						(a.y + a.height > this.y) &&
-						(a.y < mybottom)) {
+					if ((a.x + a.width - HIT_GRACE > this.x) &&
+						(a.x + HIT_GRACE < myright) &&
+						(a.y + a.height - HIT_GRACE > this.y) &&
+						(a.y + HIT_GRACE < mybottom)) {
 						if(a.attackPower > 0) {
 							this.health -= a.attackPower;
 							if (this.health > 0) {
