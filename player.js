@@ -247,7 +247,7 @@ Game.player = (function() {
 
 	Player.prototype.onClick = function() {
 		var spellX, spellY, spellRange;
-		if(Game.currentSpell == null) {
+		if(this.dead === 0  &&  !this.victory  &&  Game.currentSpell == null) {
 			spellX = Game.camera.x+Game.Input.mouse.x - this.x - GRID_SIZE*0.5;
 			spellY = Game.camera.y+Game.Input.mouse.y - this.y - GRID_SIZE*0.5;
 			spellRange = SPELL_RANGE / Math.sqrt(spellX*spellX+spellY*spellY);
