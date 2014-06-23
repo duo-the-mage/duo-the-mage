@@ -47,6 +47,7 @@ SpikeBlock.prototype.checkBounce = function checkBounce() {
 				(this.y < a.y + a.height) &&
 				(this.x > a.x - a.width) &&
 				(this.y > a.y - a.height)) {
+				Game.playSound("block.wav");
 				this.currentDir = (this.currentDir + 2) % 4;
 				a.currentDir = (a.currentDir + 2) % 4;
 				this.currentSpeed = this.RETRACT_SPEED;
