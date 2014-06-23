@@ -56,13 +56,12 @@ Game.actors = Game.actors || [];
 	};
 
 	Laser.prototype.update = function update(elapsed) {
-/*
+		// Destroy laser if off-screen
 		if (     this.homeSectorX !== Game.player.sectorX
 		      || this.homeSectorY !== Game.player.sectorY) {
-			this.destroy();
+			this.isDestroyed = true;
 			return;
 		}
-*/
 
 		this.time += elapsed;
 
