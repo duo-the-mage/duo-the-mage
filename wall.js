@@ -44,10 +44,15 @@ Game.addLockedDoor = function(j, i) {
 };
 
 Game.Wall.prototype.draw = function draw(ctx) {
-	if(this.type === 'wall')
-		Game.drawImageInWorld(ctx, 'wall_1.png', this.x, this.y);
-	else if(this.type === 'locked_door')
-		Game.drawImageInWorld(ctx, 'testlockeddoor.png', this.x, this.y);
-	else
-		throw 0;
+	if ((this.x >= Game.camera.x - 32) &&
+		(this.x <= Game.camera.x + 800) &&
+		(this.y >= Game.camera.y - 32) &&
+		(this.y <= Game.camera.y + 480)) {
+		if(this.type === 'wall')
+			Game.drawImageInWorld(ctx, 'wall_1.png', this.x, this.y);
+		else if(this.type === 'locked_door')
+			Game.drawImageInWorld(ctx, 'testlockeddoor.png', this.x, this.y);
+		else
+			throw 0;
+	}
 };
