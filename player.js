@@ -17,7 +17,6 @@ Game.player = (function() {
 	
 	Player.prototype.reset = function reset() {
 		this.health = 10;
-		this.casting = 0;
 		this.invulnerable = 0;
 		this.dead = 0;
 		this.smallKeys = 0;
