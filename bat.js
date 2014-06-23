@@ -25,6 +25,7 @@ function EnemyBat(x,y) {
 	this.attackPower = 0;
 
 	this.time = 0;
+	this.lastAttack = 0;  //The value of this.time when most recently attacking
 };
 
 EnemyBat.prototype.destroy = function destroy() {
@@ -32,8 +33,18 @@ EnemyBat.prototype.destroy = function destroy() {
 };
 
 EnemyBat.prototype.update = function update(elapsed) {
+	var GRID_SIZE = 32;
+
 	if (this.homeSectorX !== Game.player.sectorX ||
 		this.homeSectorY !== Game.player.sectorY) { return; }
+
+	// Possibly fire laser
+	if(Math.floor(this.time/20) !== this.lastAttack) {
+		this.lastAttack = Math.floor(this.time/20);
+
+		// Fire laser
+		Game.addLaser(this.x + GRID_SIZE/2, this.y + GRID_SIZE/2 + 1);
+	}
 
 	this.time += elapsed / 100;
 };
