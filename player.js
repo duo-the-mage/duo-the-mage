@@ -125,6 +125,7 @@ Game.player = (function() {
 								Game.stopMusic();
 								Game.currentMusic = null;
 							}
+							break;
 						}
 					}
 				}
