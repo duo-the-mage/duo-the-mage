@@ -31,7 +31,7 @@ Game.drawImage = (function() {
 	
 	// Pre-load all images
 	Game.loadImages = function(callback) {
-		var numLoadedImages = 0, i;
+		var numLoadedImages = 0, i, img;
 		
 		for(i = 0;  i < imageList.length;  ++i) {
 			img = new Image();
