@@ -2,8 +2,39 @@
 var Game = window.Game || {};
 
 (function() {
-
+	var	soundList = [
+			'intro.ogg',
+			'loop.ogg',
+			'block.wav',
+			'death.wav',
+			'enemy_die.wav',
+			'explosion.wav',
+			'hurt.wav',
+			'key.wav',
+			'laser.wav',
+			'unlock.wav'
+		];
+	
+	// Pre-load all images
 	var cache = {};
+	Game.loadSounds = function(callback) {
+		var numLoadedsounds = 0, i, snd, cacheLine;
+		
+		for(i = 0;  i < soundList.length;  ++i) {
+			snd = new Audio();
+			cacheLine = {sound: snd, ready: false};
+			cache[soundList[i]] = cacheLine;
+			// Call the callback after all images are loaded
+			snd.addEventListener("canplaythrough", (function(_cacheline) { return function() {
+				_cacheline.ready = true;
+				++numLoadedsounds;
+				if(numLoadedsounds == soundList.length)
+					callback();
+			}}(cacheLine)),false);
+			snd.src = soundList[i];
+		}
+	}
+
 	Game.playSound = function(filename) {
 		if(!cache.hasOwnProperty(filename)) {
 			var audio = new Audio(),
