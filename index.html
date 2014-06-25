@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Hello World</title>
+<title>Mia the Mage</title>
 
 <script type="application/javascript" src="main.js"></script>
 <script type="application/javascript" src="input.js"></script>
@@ -18,12 +18,95 @@
 <script type="application/javascript" src="spikes.js"></script>
 <script type="application/javascript" src="spike_block.js"></script>
 <script type="application/javascript" src="laser.js"></script>
+
+<style>
+html, body {
+	margin:				0;
+	height:				100%;
+}
+
+body {
+	background-color:	#eee;
+}
+
+#center {
+	width:				960px;
+	margin:				auto;
+	padding-top:		1em;
+	padding-bottom:		1em;
+	background-color:	#fff;
+	text-align:			center;
+}
+
+#myCanvas {
+	margin:				auto; 
+	border:				1px solid #bbb;
+}
+
+h1 {
+	margin-top:			0;
+	margin-bottom:		1em;
+	font-family:		sans-serif;
+	font-size:			larger;
+}
+
+h2 {
+	font-family:		sans-serif;
+	font-size:			large;
+	color:				#444;
+}
+
+h2::before, h2::after {
+	position:			relative;
+	content:			'\b7\b7\b7\b7\b7\b7\b7\b7\b7\b7\b7\b7';
+	color:				#bbb;
+}
+h2::before {
+	padding-right:		1em;
+}
+h2::after {
+	padding-left:		1em;
+}
+
+p {
+	width:				40%;
+	margin:				1em auto;
+}
+
+</style>
+
 </head>
 
 <body>
 
-<canvas id="myCanvas" width="800" height="480" style="border:1px solid #d3d3d3;">
-Your browser does not support the HTML5 canvas tag.</canvas>
+<div id="center">
+
+<h1>Mia the Mage</h1>
+
+<canvas id="myCanvas" width="800" height="480">
+Your browser does not support the HTML5 canvas tag.
+</canvas>
+
+<h2>About</h2>
+
+<p>This game was made by Tommy and Eli as part of a game 
+jam that went from Saturday, June 21 to Sunday, June 22, 
+2014. No external libraries or frameworks were used.</p>
+
+<p>You can control Mia using the w, a, s, and d keys. Left
+click with the mouse to cast a fireball spell next to Mia.</p>
+
+<p>Your goal is to navigate the Perilous Swamps and make it
+out the other end alive.</p>
+
+<h2>Contact</h2>
+
+<ul style="list-style-type: none; padding: 0;">
+<li>Tommy Schmitz: <a href="mailto:tschmitz@ucsc.edu">tschmitz@ucsc.edu</a></li>
+<li>Eli Marable: <a href="mailto:edm1234@sbcglobal.net">edm1234@sbcglobal.net</a></li>
+</ul>
+
+</div>
 
 </body>
 
