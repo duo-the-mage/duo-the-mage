@@ -6,7 +6,9 @@ var ctx, lastFrameTime, fps;
 // Polyfill for animation frames
 window.requestAnimationFrame = window.requestAnimationFrame ||
 	function(_callback) {
-		return window.setTimeout(_callback,1);
+		return window.setTimeout(function() {
+			_callback(Date.now());
+		},1);
 	};
 window.cancelAnimationFrame = window.cancelAnimationFrame ||
 	function(_frame) {
