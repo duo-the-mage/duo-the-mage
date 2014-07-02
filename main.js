@@ -3,6 +3,16 @@ var Game = window.Game || {};
 
 var ctx, lastFrameTime, fps;
 
+// Polyfill for animation frames
+window.requestAnimationFrame = window.requestAnimationFrame ||
+	function(_callback) {
+		return window.setTimeout(_callback,1);
+	};
+window.cancelAnimationFrame = window.cancelAnimationFrame ||
+	function(_frame) {
+		return window.clearTimeout(_frame);
+	};
+
 (function handlePageVisibility() {
 	var hidden, visibilityChange; 
 	if (typeof document.hidden !== "undefined") { // Opera 12.10 and Firefox 18 and later support 
@@ -50,6 +60,7 @@ window.onload = function() {
 };
 
 Game.load = function load() {
+	Game.ready = false;
 	this.loadImages(function() {
 		Game.loadSounds(start);
 	});
@@ -61,6 +72,7 @@ function start() {
 	Game.currentMode = 0;
 	
 	Game.startMusic();
+	Game.ready = true;
 	gameLoop();
 }
 
@@ -80,7 +92,7 @@ Game.pause = function pause() {
 };
 
 Game.resume = function resume() {
-	if (!this.nextFrame) {
+	if (!this.nextFrame && this.ready) {
 		this.resumeMusic();
 	
 		lastFrameTime = null;
