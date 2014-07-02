@@ -3,11 +3,15 @@ var Game = window.Game || {};
 
 Game.player = (function() {
 	var GRID_SIZE = 32,
-		SPELL_RANGE = 50;
+		SPELL_RANGE = 50,
+		MAX_HP = 10;
 
 	function Player() {
 		this.x = 32*10;
 		this.y = 32*2;
+
+		this.spawnX = this.x;
+		this.spawnY = this.y;
 		
 		this.sectorX = 0;
 		this.sectorY = 0;
@@ -16,11 +20,23 @@ Game.player = (function() {
 	};
 	
 	Player.prototype.reset = function reset() {
-		this.health = 10;
+		this.health = MAX_HP;
 		this.invulnerable = 0;
 		this.dead = 0;
 		this.smallKeys = 0;
 		this.victory = 0;
+	};
+
+	Player.prototype.setSpawnPoint = function() {
+		this.spawnX = this.x;
+		this.spawnY = this.y;
+	};
+	Player.prototype.respawn = function() {
+		this.x = this.spawnX;
+		this.y = this.spawnY;
+		this.health = MAX_HP;
+		this.invulnerable = 0;
+		this.dead = 0;
 	};
 	
 	Player.prototype.update = function update(elapsed) {
@@ -134,6 +150,7 @@ Game.player = (function() {
 								Game.playSound("hurt.wav");
 							} else {
 								this.dead = elapsed;
+								++Game.totalDeaths;
 								Game.Input.mouse.button = false;
 								Game.playSound("death.wav");
 								Game.stopMusic();
@@ -179,7 +196,6 @@ Game.player = (function() {
 		else if (this.dead > 0) {
 			this.dead += elapsed;
 			if (Game.Input.mouse.button || (this.dead > 5000)) {
-				Game.clearWorld();
 				Game.currentMode = 2;
 				Game.Input.mouse.button = false;
 			}

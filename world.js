@@ -93,10 +93,12 @@ Game.initWorld = function initWorld() {
 			if (Game.world1[n] === 'P') {
 				Game.player.x = 32*i;
 				Game.player.y = 32*j;
+				Game.player.setSpawnPoint();
 			}
 			if (Game.world1[n] === 'k') { Game.addSmallKey(i,j); }
 			if (Game.world1[n] === '>') { Game.addOneWayDoorR(i,j); }
 			if (Game.world1[n] === '<') { Game.addOneWayDoorL(i,j); }
 		}
 	}
+	Game.totalDeaths = 0;
 };

@@ -139,8 +139,10 @@ function onUpdate(elapsed) {
 		if (Game.Input.mouse.button) {
 			if (Game.currentMode === 2) {
 				Game.startMusic();
+				Game.player.respawn();
+			} else {
+				Game.initWorld();
 			}
-			Game.initWorld();
 			Game.Input.mouse.button = false;
 			Game.currentMode = 1;
 		}		
@@ -240,6 +242,8 @@ function draw() {
 				ctx.fillStyle = "#fff";
 				ctx.font = "bold 16pt sans-serif";
 				ctx.textAlign = "center";
+				if(Game.totalDeaths > 0)
+					ctx.fillText("You used "+(Game.totalDeaths+1)+" lives to get here.",400,300);
 				ctx.fillText("Click to start over",400,420);
 			break;
 		}
