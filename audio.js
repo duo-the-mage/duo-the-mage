@@ -53,7 +53,7 @@ var Game = window.Game || {};
 			cache[filename] = cacheLine;
 			audio.src = filename;
 		} else {
-			if(cache[filename].ready)
+			if(cache[filename].ready && !cache[filename].error)
 				cache[filename].sound.play();
 		}
 	};
