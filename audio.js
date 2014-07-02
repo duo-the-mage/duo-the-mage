@@ -22,11 +22,18 @@ var Game = window.Game || {};
 		
 		for(i = 0;  i < soundList.length;  ++i) {
 			snd = new Audio();
-			cacheLine = {sound: snd, ready: false};
+			cacheLine = {sound: snd, ready: false, error: false};
 			cache[soundList[i]] = cacheLine;
 			// Call the callback after all images are loaded
 			snd.addEventListener("canplaythrough", (function(_cacheline) { return function() {
 				_cacheline.ready = true;
+				++numLoadedsounds;
+				if(numLoadedsounds == soundList.length)
+					callback();
+			}}(cacheLine)),false);
+			// Skip this sound if it failed to load
+			snd.addEventListener("error", (function(_cacheline) { return function() {
+				_cacheline.error = true;
 				++numLoadedsounds;
 				if(numLoadedsounds == soundList.length)
 					callback();
