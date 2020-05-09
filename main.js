@@ -1,6 +1,9 @@
 // Load main library
 var Game = window.Game || {};
 
+Game.start = function() {
+
+
 var ctx, lastFrameTime, fps;
 
 // Polyfill for animation frames
@@ -46,20 +49,6 @@ window.cancelAnimationFrame = window.cancelAnimationFrame ||
   window.addEventListener("focus",function() { Game.resume(); }, false);
 
 }());
-
-window.onload = function() {
-  var c = document.getElementById("myCanvas");
-
-  ctx = c.getContext("2d");
-
-  ctx.fillStyle = "#444";
-  ctx.font = "bold 16pt sans-serif";
-  ctx.textAlign = "center";
-  ctx.fillText("Loading, please wait...",400,240);
-
-  // Initialize game
-  Game.load();
-};
 
 Game.load = function load() {
   Game.ready = false;
@@ -248,4 +237,25 @@ function draw() {
       break;
     }
   }
+};
+
+var c = document.getElementById("myCanvas");
+
+ctx = c.getContext("2d");
+
+ctx.fillStyle = "#444";
+ctx.font = "bold 16pt sans-serif";
+ctx.textAlign = "center";
+ctx.fillText("Loading, please wait...",400,240);
+
+// Initialize game
+Game.load();
+
+
+};
+
+
+window.onload = async function() {
+  await Game.start_multiplayer();
+  Game.start();
 };

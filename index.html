@@ -18,6 +18,9 @@
 <script type="application/javascript" src="spikes.js"></script>
 <script type="application/javascript" src="spike_block.js"></script>
 <script type="application/javascript" src="laser.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/simple-peer/9.7.0/simplepeer.min.js"></script>
+<script src="multiplayer.js"></script>
 
 <style>
 html, body {
@@ -82,6 +85,8 @@ p {
 <div id="center">
 
 <h1>Mia the Mage</h1>
+
+<div id="multiplayer_root_div"></div>
 
 <canvas id="myCanvas" width="800" height="480">
 Your browser does not support the HTML5 canvas tag.
