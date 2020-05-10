@@ -54,16 +54,74 @@ Game.other_player = (function() {
     let t = elapsed;
     while(t > 0  &&  Game.other_movement_buffer.length > 0) {
       const action = Game.other_movement_buffer[0];
-      if(action.elapsed > t) {
-        action.elapsed -= t;
-        move(action.dir_x, action.dir_y, t);
-        t = 0;
-      } else {
+      if(action.type === 'relative') {
+        if(action.elapsed > t) {
+          action.elapsed -= t;
+          move(action.dir_x, action.dir_y, t);
+          t = 0;
+        } else {
+          Game.other_movement_buffer.splice(0, 1);
+          t -= action.elapsed;
+          move(action.dir_x, action.dir_y, action.elapsed);
+        }
+      } else if(action.type === 'teleport') {
+        this.x = action.x;
+        this.y = action.y;
         Game.other_movement_buffer.splice(0, 1);
-        t -= action.elapsed;
-        move(action.dir_x, action.dir_y, action.elapsed);
       }
     }
+
+    // Resolve collisions.
+    var resolveCollisions = (x, y, dir) => {
+      var j = Math.floor(x/GRID_SIZE);
+      var i = Math.floor(y/GRID_SIZE);
+      var xoff = x - (j+((dir.x+1)/2))*GRID_SIZE;
+      var yoff = y - (i+((dir.y+1)/2))*GRID_SIZE;
+      var snapx, snapy;
+      if(Game.wallGrid[i][j] == null)
+        return;
+
+      // One-way doors
+      if(      Game.wallGrid[i][j].type === 'one_way_r'
+            && (x - j*GRID_SIZE  <  16)                 ) {
+        Game.removeWall(j, i);
+        Game.playSound("unlock.wav");
+        return;
+      }
+      if(      Game.wallGrid[i][j].type === 'one_way_l'
+            && (x - j*GRID_SIZE  >=  16)                ) {
+        Game.removeWall(j, i);
+        Game.playSound("unlock.wav");
+        return;
+      }
+
+      // Unlock locked doors
+      if(        Game.wallGrid[i][j].type === 'locked_door'
+              && self.smallKeys > 0                         ) {
+        --self.smallKeys;
+        Game.removeWall(j, i);
+        Game.playSound("unlock.wav");
+        return;
+      }
+
+      if(dir.x*xoff <= dir.y*yoff  &&  Game.wallGrid[i][j-dir.x] == null)
+        snapx = true;
+      else if(dir.x*xoff >= dir.y*yoff  &&  Game.wallGrid[i-dir.y][j] == null)
+        snapy = true;
+      else
+        snapx = snapy = true;
+
+      if(snapx)
+        this.x += GRID_SIZE * dir.x * -1  -  xoff;
+      if(snapy)
+        this.y += GRID_SIZE * dir.y * -1  -  yoff;
+    };
+
+    resolveCollisions(this.x, this.y, {x: -1, y: -1});
+    resolveCollisions(this.x+GRID_SIZE,this.y, {x: 1, y: -1});
+    resolveCollisions(this.x, this.y+GRID_SIZE, {x: -1, y: 1});
+    resolveCollisions(this.x+GRID_SIZE, this.y+GRID_SIZE, {x: 1, y: 1});
+    resolveCollisions(this.x, this.y, {x: -1, y: -1});
   };
 
   Player.prototype.draw = function draw(ctx) {

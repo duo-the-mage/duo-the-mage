@@ -72,16 +72,16 @@ Game.player = (function() {
 
       if(Game.movement_buffer.length > 0) {
         const action = Game.movement_buffer[Game.movement_buffer.length-1];
-        if(action.dir_x === dir.x  &&  action.dir_y === dir.y)
+        if(action.type === 'relative'  &&  action.dir_x === dir.x  &&  action.dir_y === dir.y)
           action.elapsed += elapsed;
         else
-          Game.movement_buffer.push({dir_x: dir.x, dir_y: dir.y, elapsed});
+          Game.movement_buffer.push({type: 'relative', dir_x: dir.x, dir_y: dir.y, elapsed});
       } else {
-        Game.movement_buffer.push({dir_x: dir.x, dir_y: dir.y, elapsed});
+        Game.movement_buffer.push({type: 'relative', dir_x: dir.x, dir_y: dir.y, elapsed});
       }
 
       // Resolve collisions.
-      var resolveCollisions = function(x, y, dir) {
+      var resolveCollisions = (x, y, dir) => {
         var j = Math.floor(x/GRID_SIZE);
         var i = Math.floor(y/GRID_SIZE);
         var xoff = x - (j+((dir.x+1)/2))*GRID_SIZE;
@@ -121,16 +121,15 @@ Game.player = (function() {
           snapx = snapy = true;
 
         if(snapx)
-          Game.player.x += GRID_SIZE * dir.x * -1  -  xoff;
+          this.x += GRID_SIZE * dir.x * -1  -  xoff;
         if(snapy)
-          Game.player.y += GRID_SIZE * dir.y * -1  -  yoff;
+          this.y += GRID_SIZE * dir.y * -1  -  yoff;
       };
 
       resolveCollisions(this.x, this.y, {x: -1, y: -1});
       resolveCollisions(this.x+GRID_SIZE,this.y, {x: 1, y: -1});
       resolveCollisions(this.x, this.y+GRID_SIZE, {x: -1, y: 1});
-      resolveCollisions(this.x+GRID_SIZE, this.y+GRID_SIZE,
-                {x: 1, y: 1});
+      resolveCollisions(this.x+GRID_SIZE, this.y+GRID_SIZE, {x: 1, y: 1});
       resolveCollisions(this.x, this.y, {x: -1, y: -1});
 
       // Find which sector the player is in

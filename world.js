@@ -81,6 +81,9 @@ Game.world1 =  "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
 
 Game.initWorld = function initWorld(random) {
   var i, j, n;
+  Game.other_movement_buffer = [];
+  Game.movement_buffer = [];
+  Game.unique_id = 0;
   for (j = 0; j < Game.wallGrid.height; ++j) {
     for (i = 0; i < Game.wallGrid.width; ++i) {
       n = j*Game.wallGrid.width + i;

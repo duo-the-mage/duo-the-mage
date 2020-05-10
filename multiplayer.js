@@ -209,6 +209,7 @@ setInterval(function() {
   peer.send({type: 'elapsed', elapsed: Game.drift_buffer});
   Game.drift_buffer = 0;
 
+  Game.movement_buffer.push({type: 'teleport', x: Game.player.x, y: Game.player.y});
   peer.send({type: 'movement', actions: Game.movement_buffer});
   Game.movement_buffer.splice(0);
 }, 100);
