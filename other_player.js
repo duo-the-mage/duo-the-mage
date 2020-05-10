@@ -158,6 +158,7 @@ Game.other_player = (function() {
     }
   };
 
+/*
   Player.prototype.drawUI = function drawUI(ctx) {
     var i;
     // Draw health bar
@@ -174,6 +175,7 @@ Game.other_player = (function() {
       Game.drawImage(ctx, 'small_key.png', 90 + i * 32, 0);
     }
   };
+*/
 
   Player.prototype.onClick = function() {
     var spellX, spellY, spellRange;

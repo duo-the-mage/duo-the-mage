@@ -28,7 +28,7 @@ const buffered_wrap = function(f, self, args) {
   const listener_buffer = [];
   const a = args.slice();
   a.push(function(data) {
-    console.log(N + ' buffered: ' + str(data));
+//    console.log(N + ' buffered: ' + str(data));
     buffer.push(data);
     if(listener_buffer.length > 0)
       listener_buffer[0]();
@@ -39,7 +39,7 @@ const buffered_wrap = function(f, self, args) {
       const result = buffer[0];
       buffer.splice(0, 1);
       listener_buffer.splice(0, 1);
-      console.log(N + ' unbuffered: ' + str(result));
+//      console.log(N + ' unbuffered: ' + str(result));
       resolve(result);
     };
     listener_buffer.push(eat);
@@ -58,7 +58,7 @@ const make_real_socket = function(socket) {
   }());
   socket.on('disconnect', function() {console.log('Disconnected.');});
   const send = function(s) {
-    console.log('sending: ' + str(s));
+//    console.log('sending: ' + str(s));
     socket.send(JSON.stringify(s));
   };
   return {on_connect, send, receive};
@@ -75,7 +75,7 @@ const make_real_peer = function(peer) {
   }());
   const signal = ((x) => peer.signal(x));
   const send = function(s) {
-    console.log('rtc_send: ' + str(s));
+//    console.log('rtc_send: ' + str(s));
     peer.send(JSON.stringify(s));
   };
   return {signal, on_signal, on_data, send, on_connect};

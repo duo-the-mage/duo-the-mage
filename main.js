@@ -93,7 +93,6 @@ Game.resume = function resume() {
 
 function gameLoop(_timestamp) {
   var elapsed;
-  console.log(Game.multiplayer_drift);
   if (lastFrameTime  &&  Game.multiplayer_drift < 5000) {
     elapsed = _timestamp - lastFrameTime;
     if(Game.multiplayer_drift < 0)
