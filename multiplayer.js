@@ -246,6 +246,21 @@ spawn(async function() {
         const GRID_SIZE = 32;
         Game.addLaser(msg.laser_id, bat.x + GRID_SIZE/2, bat.y + GRID_SIZE/2 + 1, msg.tx, msg.ty);
       }
+    } else if(msg.type === 'unlock') {
+      Game.removeWall(msg.x, msg.y);
+      if(Game.onscreen_ji(msg.x, msg.y))
+        Game.playSound('unlock.wav');
+    } else if(msg.type === 'destroy key in world') {
+      for(let i=0; i<Game.smallKeys.length; ++i) {
+        if(Game.smallKeys[i].unique_id === msg.id) {
+          Game.smallKeys.splice(i, 1);
+          break;
+        }
+      }
+    } else if(msg.type === 'change key count') {
+      Game.player.smallKeys += msg.amount;
+      if(msg.amount > 0)
+        Game.playSound('key.wav');
     }
 /*
     console.log(msg);

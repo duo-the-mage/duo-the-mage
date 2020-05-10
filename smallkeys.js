@@ -6,6 +6,7 @@ var Game = window.Game || {};
   Game.smallKeys = [];
 
   var SmallKey = function(x, y) {
+    this.unique_id = Game.unique_id++;
     this.x = x;
     this.y = y;
   };

@@ -106,8 +106,11 @@ Game.player = (function() {
 
         // Unlock locked doors
         if(        Game.wallGrid[i][j].type === 'locked_door'
-                && self.smallKeys > 0                         ) {
+                && self.smallKeys > 0
+                && Game.hosting
+                ) {
           --self.smallKeys;
+          Game.multiplayer_send({type: 'unlock', x: j, y: i});
           Game.removeWall(j, i);
           Game.playSound("unlock.wav");
           return;
@@ -179,7 +182,10 @@ Game.player = (function() {
         if(        Game.smallKeys[i].x < myright
                 && Game.smallKeys[i].x > this.x
                 && Game.smallKeys[i].y < mybottom
-                && Game.smallKeys[i].y > this.y   ) {
+                && Game.smallKeys[i].y > this.y
+                && Game.hosting
+                ) {
+          Game.multiplayer_send({type: 'destroy key in world', id: Game.smallKeys[i].unique_id});
           Game.smallKeys.splice(i, 1);
           Game.playSound("key.wav");
           ++this.smallKeys;
