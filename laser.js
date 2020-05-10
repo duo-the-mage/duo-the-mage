@@ -62,8 +62,8 @@ Game.actors = Game.actors || [];
     const sectorY = Math.floor(this.y / SECTOR_HEIGHT);
 
     // Destroy upon hitting edge of screen
-    if (     this.homeSectorX === sectorX
-          && this.homeSectorY === sectorY )
+    if (     this.homeSectorX !== sectorX
+          || this.homeSectorY !== sectorY )
       this.willBeDestroyed = true;
 
     this.time += elapsed;
