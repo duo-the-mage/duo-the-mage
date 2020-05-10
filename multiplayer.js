@@ -237,7 +237,11 @@ spawn(async function() {
     } else if(msg.type === 'initWorld') {
       Game.initWorld(Game.make_random(msg.random));
     } else if(msg.type === 'destroy') {
-      id2actor(msg.id).destroy();
+      const actor = id2actor(msg.id);
+      if(actor === null)  // Probably a laser
+        console.log('desync!');
+      else
+        actor.destroy();
     } else if(msg.type === 'fire laser') {
       const bat = id2actor(msg.bat_id);
       if(bat === null) {
