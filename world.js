@@ -94,6 +94,9 @@ Game.initWorld = function initWorld() {
         Game.player.x = 32*i;
         Game.player.y = 32*j;
         Game.player.setSpawnPoint();
+
+        Game.other_player.x = 32*i;
+        Game.other_player.y = 32*j;
       }
       if (Game.world1[n] === 'k') { Game.addSmallKey(i,j); }
       if (Game.world1[n] === '>') { Game.addOneWayDoorR(i,j); }

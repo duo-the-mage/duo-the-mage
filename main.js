@@ -4,7 +4,7 @@ var Game = window.Game || {};
 Game.start = function() {
 
 
-var ctx, lastFrameTime, fps;
+var ctx, lastFrameTime;
 
 // Polyfill for animation frames
 window.requestAnimationFrame = window.requestAnimationFrame ||
@@ -93,10 +93,15 @@ Game.resume = function resume() {
 
 function gameLoop(_timestamp) {
   var elapsed;
-  if (lastFrameTime) {
+  console.log(Game.multiplayer_drift);
+  if (lastFrameTime  &&  Game.multiplayer_drift < 5000) {
     elapsed = _timestamp - lastFrameTime;
-    fps = 1000/elapsed;
-    onUpdate(Math.min(elapsed,100));
+    if(Game.multiplayer_drift < 0)
+      elapsed *= 2;
+    elapsed = Math.min(elapsed, 100);
+    Game.multiplayer_drift += elapsed;
+    Game.drift_buffer += elapsed;
+    onUpdate(elapsed);
     draw();
   }
   lastFrameTime = _timestamp;
@@ -108,6 +113,8 @@ function onUpdate(elapsed) {
   var i;
   if (Game.currentMode === 1) {
     // Main game play mode
+
+    Game.other_player.update(elapsed);
     Game.player.update(elapsed);
 
     Game.camera.update(elapsed);
@@ -130,7 +137,10 @@ function onUpdate(elapsed) {
         Game.startMusic();
         Game.player.respawn();
       } else {
-        Game.initWorld();
+        if(Game.hosting) {
+          Game.multiplayer_send({type: 'initWorld'});
+          Game.initWorld();
+        }
       }
       Game.Input.mouse.button = false;
       Game.currentMode = 1;
@@ -168,6 +178,8 @@ function draw() {
     // Draw small keys
     for(i = 0;  i < Game.smallKeys.length;  ++i)
       Game.smallKeys[i].draw(ctx);
+
+    Game.other_player.draw(ctx);
 
     // Draw player
     Game.player.draw(ctx);

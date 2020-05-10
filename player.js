@@ -70,6 +70,16 @@ Game.player = (function() {
       this.x += dir.x * SPEED;
       this.y += dir.y * SPEED;
 
+      if(Game.movement_buffer.length > 0) {
+        const action = Game.movement_buffer[Game.movement_buffer.length-1];
+        if(action.dir_x === dir.x  &&  action.dir_y === dir.y)
+          action.elapsed += elapsed;
+        else
+          Game.movement_buffer.push({dir_x: dir.x, dir_y: dir.y, elapsed});
+      } else {
+        Game.movement_buffer.push({dir_x: dir.x, dir_y: dir.y, elapsed});
+      }
+
       // Resolve collisions.
       var resolveCollisions = function(x, y, dir) {
         var j = Math.floor(x/GRID_SIZE);

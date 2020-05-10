@@ -107,6 +107,8 @@ b1.innerText = 'Guest';
 
 const b2 = document.createElement('button');
 root_div.appendChild(b2);
+
+let peer;
   
 b1.onclick = async function() {
   b1.remove();
@@ -128,37 +130,8 @@ b1.onclick = async function() {
   socket.send('Guest');
   socket.send(input.value);
 
-  const peer = make_real_peer(new Peer({initiator: true}));
-  spawn(async function() {
-    for(;;) {
-      const data = await peer.on_signal();
-      socket.send({type: 'signal', data: data});
-    }
-  });
-
-  spawn(async function() {
-    for(;;) {
-      const m = await socket.receive();
-      if(m.type === 'signal')
-        peer.signal(m.data);
-    }
-  });
-
-  await peer.on_connect();
-
-  setInterval(function() {
-//    peer.send(my_state);
-  }, 100);
-  spawn(async function() {
-    for(;;) {
-      const msg = await peer.on_data();
-/*
-      console.log(msg);
-      Object.assign(other_state, msg);
-      update_view();
-*/
-    }
-  });
+  peer = make_real_peer(new Peer({initiator: true}));
+  Game.hosting = false;
 
   finished.send();
 };
@@ -183,44 +156,141 @@ b2.onclick = async function() {
   root_div.appendChild(div);
   div.innerText = id;
 
-  const peer = make_real_peer(new Peer());
-  spawn(async function() {
-    for(;;) {
-      const data = await peer.on_signal();
-      socket.send({type: 'signal', data: data});
-    }
-  });
-
-  spawn(async function() {
-    for(;;) {
-      const m = await socket.receive();
-      if(m.type === 'signal')
-        peer.signal(m.data);
-    }
-  });
-
-  await peer.on_connect();
-  
-  div.remove();
-
-  spawn(async function() {
-    for(;;) {
-      const msg = await peer.on_data();
-/*
-      console.log(msg);
-      Object.assign(other_state, msg);
-      update_view();
-*/
-    }
-  });
-  setInterval(function() {
-//    peer.send(my_state);
-  }, 100);
+  peer = make_real_peer(new Peer());
+  Game.hosting = true;
 
   finished.send();
 };
 
 await finished.receive();
+
+spawn(async function() {
+  for(;;) {
+    const data = await peer.on_signal();
+    socket.send({type: 'signal', data: data});
+  }
+});
+
+spawn(async function() {
+  for(;;) {
+    const m = await socket.receive();
+    if(m.type === 'signal')
+      peer.signal(m.data);
+  }
+});
+
+await peer.on_connect();
+
+root_div.remove();
+
+const make_state = () => [Game.actors, Game.player, Game.smallKeys, Game.wallGrid];
+
+const sync_buffer = [];
+const other_sync_buffer = [];
+let desynced = false;
+
+const clean_buffers = function() {
+  while(sync_buffer.length > 0  &&  other_sync_buffer.length > 0) {
+    if(sync_buffer[0].hash !== other_sync_buffer[0].hash  &&  !desynced) {
+      peer.send({type: 'desync', state: stringify(make_state())});
+      desynced = true;
+    }
+
+    sync_buffer.splice(0, 1);
+    other_sync_buffer.splice(0, 1);
+  }
+};
+
+Game.multiplayer_drift = 0;
+Game.drift_buffer = 0;
+Game.movement_buffer = [];
+Game.other_movement_buffer = [];
+setInterval(function() {
+  peer.send({type: 'elapsed', elapsed: Game.drift_buffer});
+  Game.drift_buffer = 0;
+
+  peer.send({type: 'movement', actions: Game.movement_buffer});
+  Game.movement_buffer.splice(0);
+}, 100);
+spawn(async function() {
+  for(;;) {
+    const msg = await peer.on_data();
+    if(msg.type === 'sync') {
+      other_sync_buffer.push(msg);
+      clean_buffers();
+    } else if(msg.type === 'desync') {
+      desynced = true;
+      console.log('Other state: ', JSON.parse(msg.state));
+      console.log('My state: ', make_state());
+    } else if(msg.type === 'elapsed') {
+      Game.multiplayer_drift -= msg.elapsed;
+    } else if(msg.type === 'movement') {
+      Game.other_movement_buffer.push(...msg.actions);
+    } else if(msg.type === 'initWorld') {
+      Game.initWorld();
+    }
+/*
+    console.log(msg);
+    Object.assign(other_state, msg);
+    update_view();
+*/
+  }
+});
+
+const stringify = function(obj) {
+  const f = (x) => {
+    if(Array.isArray(x)) {
+      let r = '[';
+      for(let i=0; i<x.length; ++i)
+        r += f(x[i]) + ',';
+      if(x.length > 0)
+        r = r.substring(0, r.length - 1);
+      r += ']';
+      return r;
+    } else if(typeof x === 'object'  &&  x !== null) {
+      let r = '{';
+      const keys = Object.keys(x);
+      keys.sort();
+      for(let i=0; i<keys.length; ++i)
+        r += JSON.stringify(keys[i]) + ':' + f(x[keys[i]]) + ','
+      if(keys.length > 0)
+        r = r.substring(0, r.length - 1);
+      r += '}'
+      return r;
+    } else {
+      return JSON.stringify(x);
+    }
+  };
+
+  return f(obj);
+};
+
+const digest = async function(obj) {
+  return (
+    Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(stringify(obj)))))
+    .map(b=>b.toString(16).padStart(2,'0')).join('')
+  );
+};
+
+let sequence_number = 0;
+Game.multiplayer_sync = async function() {
+  if(Game.hosting) {
+    const n = sequence_number;
+    ++sequence_number;
+    const hash = await digest(make_state());
+    const sync = {type: 'sync', hash};
+    sync_buffer.push(sync);
+    peer.send(sync);
+
+    clean_buffers();
+  } else {
+    
+  }
+};
+
+Game.multiplayer_send = function(msg) {
+  peer.send(msg);
+};
 
 
 };
