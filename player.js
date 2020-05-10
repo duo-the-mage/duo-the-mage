@@ -32,6 +32,7 @@ Game.player = (function() {
     this.spawnY = this.y;
   };
   Player.prototype.respawn = function() {
+    Game.multiplayer_send({type: 'respawn'});
     this.x = this.spawnX;
     this.y = this.spawnY;
     this.health = MAX_HP;
@@ -160,11 +161,13 @@ Game.player = (function() {
               if (this.health > 0) {
                 this.invulnerable = HIT_COOLDOWN;
                 Game.playSound("hurt.wav");
+                Game.multiplayer_send({type: 'hurt'});
               } else {
                 this.dead = elapsed;
                 ++Game.totalDeaths;
                 Game.Input.mouse.button = false;
                 Game.playSound("death.wav");
+                Game.multiplayer_send({type: 'death'});
                 Game.stopMusic();
                 Game.currentMusic = null;
               }

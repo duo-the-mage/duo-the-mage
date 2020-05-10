@@ -277,6 +277,24 @@ spawn(async function() {
       }
     } else if(msg.type === 'cast') {
       Game.other_player.cast_spell(msg.x, msg.y);
+    } else if(msg.type === 'hurt') {
+      const HIT_COOLDOWN = 2000;  // ms
+      Game.other_player.invulnerable = HIT_COOLDOWN;
+      if(Game.onscreen_xy(Game.other_player.x, Game.other_player.y))
+        Game.playSound("hurt.wav");
+    } else if(msg.type === 'death') {
+      Game.other_player.dead = 16;
+      ++Game.totalDeaths;
+      if(Game.onscreen_xy(Game.other_player.x, Game.other_player.y))
+        Game.playSound("death.wav");
+    } else if(msg.type === 'respawn') {
+      const MAX_HP = 10;
+      const t = Game.other_player;
+      t.x = t.spawnX;
+      t.y = t.spawnY;
+      t.health = MAX_HP;
+      t.invulnerable = 0;
+      t.dead = 0;
     }
 /*
     console.log(msg);

@@ -168,6 +168,12 @@ Game.other_player = (function() {
         }
       }
     }
+    else if (this.dead > 0) {
+      this.dead += elapsed;
+    }
+    else {
+      this.victory += elapsed;
+    }
   };
 
   Player.prototype.draw = function draw(ctx) {
@@ -183,7 +189,7 @@ Game.other_player = (function() {
           Game.drawImageInWorld(ctx, 'player.png', Math.round(this.x), Math.round(this.y));
         }
       }
-    } else {
+    } else if(Game.onscreen_xy(this.x, this.y)) {
       for (i = 0; i < 8; ++i) {
         if (i >= 1 && i <= 3) { dx = this.dead * 0.1; }
         else if (i >= 5 && i <= 7) { dx = this.dead * -0.1; }
