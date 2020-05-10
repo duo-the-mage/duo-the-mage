@@ -283,11 +283,13 @@ spawn(async function() {
       if(Game.onscreen_xy(Game.other_player.x, Game.other_player.y))
         Game.playSound("hurt.wav");
     } else if(msg.type === 'death') {
+      Game.other_movement_buffer.splice(0);
       Game.other_player.dead = 16;
       ++Game.totalDeaths;
       if(Game.onscreen_xy(Game.other_player.x, Game.other_player.y))
         Game.playSound("death.wav");
     } else if(msg.type === 'respawn') {
+      Game.other_movement_buffer.splice(0);
       const MAX_HP = 10;
       const t = Game.other_player;
       t.x = t.spawnX;

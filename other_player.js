@@ -149,6 +149,9 @@ Game.other_player = (function() {
         this.sectorY -= 1;
       }
 
+      this.invulnerable -= elapsed;
+      if (this.invulnerable < 0) { this.invulnerable = 0; }
+
       // Check for collisions with keys
       for(i = Game.smallKeys.length-1;  i >= 0;  --i) {
         if(        Game.smallKeys[i].x < myright
