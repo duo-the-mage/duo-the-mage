@@ -81,6 +81,7 @@ Game.world1 =  "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
 
 Game.initWorld = function initWorld(random) {
   var i, j, n;
+  Game.clearWorld();
   Game.other_movement_buffer = [];
   Game.movement_buffer = [];
   Game.unique_id = 0;

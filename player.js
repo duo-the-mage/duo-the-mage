@@ -218,7 +218,6 @@ Game.player = (function() {
     else {
       this.victory += elapsed;
       if (this.victory > 2000) {
-        Game.clearWorld();
         Game.currentMode = 3;
         Game.Input.mouse.button = false;
       }
