@@ -92,14 +92,14 @@ Game.other_player = (function() {
         if(      Game.wallGrid[i][j].type === 'one_way_r'
               && (x - j*GRID_SIZE  <  16)                 ) {
           Game.removeWall(j, i);
-          if(onscreen_ji(j, i))
+          if(Game.onscreen_ji(j, i))
             Game.playSound("unlock.wav");
           return;
         }
         if(      Game.wallGrid[i][j].type === 'one_way_l'
               && (x - j*GRID_SIZE  >=  16)                ) {
           Game.removeWall(j, i);
-          if(onscreen_ji(j, i))
+          if(Game.onscreen_ji(j, i))
             Game.playSound("unlock.wav");
           return;
         }
@@ -113,7 +113,7 @@ Game.other_player = (function() {
           --self.smallKeys;
           Game.multiplayer_send({type: 'unlock', x: j, y: i});
           Game.removeWall(j, i);
-          if(onscreen_ji(j, i))
+          if(Game.onscreen_ji(j, i))
             Game.playSound("unlock.wav");
           return;
         }
