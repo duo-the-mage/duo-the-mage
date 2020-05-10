@@ -61,6 +61,7 @@ var Game = window.Game || {};
   var loop;
   var intro;
   Game.startMusic = function() {
+    return;
     loop = new Audio();
     var playThis = loop.play;
     var playIntro = function() {
