@@ -96,8 +96,10 @@ function gameLoop(_timestamp) {
   if (lastFrameTime  &&  Game.multiplayer_drift < 5000) {
     elapsed = _timestamp - lastFrameTime;
     if(Game.multiplayer_drift < 0)
-      elapsed *= 2;
-    elapsed = Math.min(elapsed, 100);
+      elapsed *= 1-Game.multiplayer_drift/2500;
+    if(Game.multiplayer_drift > 2500)
+      elapsed *= 2-Game.multiplayer_drift/2500;
+    elapsed = Math.max(1, Math.min(elapsed, 100));
     Game.multiplayer_drift += elapsed;
     Game.drift_buffer += elapsed;
     onUpdate(elapsed);
