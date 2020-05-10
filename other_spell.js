@@ -1,7 +1,7 @@
 // Load main library
 var Game = window.Game || {};
 
-Game.castBasicSpell = function castBasicSpell(x,y) {
+Game.castOtherSpell = function(x,y) {
   var BASIC_WINDUP = 500,
     BASIC_WINDUP_R = 10,
     BASIC_EXPLOSION_SIZE = 64,
@@ -9,32 +9,22 @@ Game.castBasicSpell = function castBasicSpell(x,y) {
     BASIC_EXPLOSION_FRAMES = 8;
 
   // Set the currently active spell for the game
-  Game.currentSpell = {
+  Game.other_spell = {
     update:  function update(elapsed) {
       var a;
 
+      // Play sound only on transition
       if (this.countdown >= 0 && this.countdown - elapsed < 0) {
-        // Play sound only on transition
-        Game.playSound("explosion.wav");
+        // Play sound only when on same screen
+        if(Game.onscreen_xy(x,y))
+          Game.playSound("explosion.wav");
       }
       // Update each tick
       this.countdown -= elapsed;
       if (this.countdown < 0) {
-        // Check for enemy collision
-        for (i = 0; i < Game.actors.length; ++i) {
-          a = Game.actors[i];
-          if ((a.x + a.width > this.x - BASIC_EXPLOSION_SIZE * 0.5) &&
-            (a.x < this.x + BASIC_EXPLOSION_SIZE * 0.5) &&
-            (a.y + a.height > this.y - BASIC_EXPLOSION_SIZE * 0.5) &&
-            (a.y < this.y + BASIC_EXPLOSION_SIZE * 0.5)) {
-            a.destroy();
-            Game.multiplayer_send({type: 'destroy', id: a.unique_id});
-          }
-        }
-
         if (this.countdown < -BASIC_EXPLOSION_LINGER) {
           // Destroy self
-          Game.currentSpell = null;
+          Game.other_spell = null;
         }
       }
     },

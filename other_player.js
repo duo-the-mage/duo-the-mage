@@ -177,7 +177,7 @@ Game.other_player = (function() {
       if (this.victory > 0) {
         Game.drawImageInWorld(ctx, 'player.png', Math.round(this.x), Math.round(this.y + this.victory * 0.05));
       } else if (Math.floor(this.invulnerable / 100) % 2 === 0) {
-        if (Game.currentSpell) {
+        if (Game.other_spell) {
           Game.drawImageInWorld(ctx, 'player_cast.png', Math.round(this.x), Math.round(this.y));
         } else {
           Game.drawImageInWorld(ctx, 'player.png', Math.round(this.x), Math.round(this.y));
@@ -223,19 +223,12 @@ Game.other_player = (function() {
   };
 */
 
-  Player.prototype.onClick = function() {
-    var spellX, spellY, spellRange;
-    if(this.dead === 0  &&  !this.victory  &&  Game.currentSpell == null) {
-      spellX = Game.camera.x+Game.Input.mouse.x - this.x - GRID_SIZE*0.5;
-      spellY = Game.camera.y+Game.Input.mouse.y - this.y - GRID_SIZE*0.5;
-      spellRange = SPELL_RANGE / Math.sqrt(spellX*spellX+spellY*spellY);
-      spellX = this.x + GRID_SIZE * 0.5 + spellRange * spellX;
-      spellY = this.y + GRID_SIZE * 0.5 + spellRange * spellY;
+  Player.prototype.cast_spell = function(spellX, spellY) {
+    Game.other_spell = null;
 
-      Game.castBasicSpell(spellX, spellY);
+    if(this.dead === 0  &&  !this.victory) {
+      Game.castOtherSpell(spellX, spellY);
     }
-
-    Game.multiplayer_sync();
   };
 
   return new Player();

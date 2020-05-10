@@ -17,6 +17,7 @@ Game.clearWorld = function clearWorld() {
   Game.smallKeys.splice(0);
   // Clear the current spell
   Game.currentSpell = null;
+  Game.other_spell = null;
   // Reset the player
   Game.player.reset();
 };

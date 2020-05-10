@@ -8,6 +8,8 @@ Game.castBasicSpell = function castBasicSpell(x,y) {
     BASIC_EXPLOSION_LINGER = 400,
     BASIC_EXPLOSION_FRAMES = 8;
 
+  Game.multiplayer_send({type: 'cast', x, y});
+
   // Set the currently active spell for the game
   Game.currentSpell = {
     update:  function update(elapsed) {

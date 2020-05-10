@@ -275,6 +275,8 @@ spawn(async function() {
           spike.currentSpeed = spike.ATTACK_SPEED;
         }
       }
+    } else if(msg.type === 'cast') {
+      Game.other_player.cast_spell(msg.x, msg.y);
     }
 /*
     console.log(msg);

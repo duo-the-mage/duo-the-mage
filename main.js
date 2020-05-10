@@ -119,6 +119,7 @@ function onUpdate(elapsed) {
     Game.camera.update(elapsed);
 
     if (Game.currentSpell) { Game.currentSpell.update(elapsed); }
+    if (Game.other_spell) { Game.other_spell.update(elapsed); }
 
     for (i = 0; i < Game.actors.length; ++i) {
       Game.actors[i].update(elapsed);
@@ -184,8 +185,8 @@ function draw() {
     // Draw player
     Game.player.draw(ctx);
 
-    // Draw current spell
     if (Game.currentSpell) { Game.currentSpell.draw(ctx); }
+    if (Game.other_spell) { Game.other_spell.draw(ctx); }
 
     ctx.translate(Game.camera.x,Game.camera.y);
 
