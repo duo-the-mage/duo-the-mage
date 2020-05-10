@@ -30,6 +30,8 @@ function EnemyBug(x,y,random) {
   this.time = 0;
   this.attackPower = 1;
 
+  this.unique_id = Game.unique_id++;
+
   this.changeDirection();
 };
 

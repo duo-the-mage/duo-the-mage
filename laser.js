@@ -20,7 +20,7 @@ Game.actors = Game.actors || [];
   var SPEED = 0.2;
   var LENGTH = 100;
 
-  var Laser = function(x, y) {
+  var Laser = function(id, x, y, tx, ty) {
     var j = Math.floor(x/GRID_SIZE);
     var i = Math.floor(y/GRID_SIZE);
 
@@ -43,11 +43,9 @@ Game.actors = Game.actors || [];
     this.time = 0;
     this.attackPower = 1;
 
-    var playerCenter = {
-        x: Game.player.x+GRID_SIZE/2,
-        y: Game.player.y+GRID_SIZE/2
-      };
-    this.dir = {x: playerCenter.x - x, y: playerCenter.y - y}
+    this.unique_id = id;
+
+    this.dir = {x: tx - x, y: ty - y};
     normalize(this.dir);
   };
 
@@ -56,12 +54,17 @@ Game.actors = Game.actors || [];
   };
 
   Laser.prototype.update = function update(elapsed) {
-    // Destroy laser if off-screen
-    if (     this.homeSectorX !== Game.player.sectorX
-          || this.homeSectorY !== Game.player.sectorY) {
-      this.isDestroyed = true;
-      return;
-    }
+    var SECTOR_WIDTH = Game.wallGrid.sectorWidth * GRID_SIZE,
+      SECTOR_HEIGHT = Game.wallGrid.sectorHeight * GRID_SIZE;
+
+    // Find which sector the laser is in
+    const sectorX = Math.floor(this.x / SECTOR_WIDTH);
+    const sectorY = Math.floor(this.y / SECTOR_HEIGHT);
+
+    // Destroy upon hitting edge of screen
+    if (     this.homeSectorX === sectorX
+          && this.homeSectorY === sectorY )
+      this.willBeDestroyed = true;
 
     this.time += elapsed;
 
@@ -99,9 +102,11 @@ Game.actors = Game.actors || [];
     ctx.stroke();
   };
 
-  Game.addLaser = function(x, y) {
-    Game.playSound("laser.wav");
-    Game.actors.push(new Laser(x, y));
+  Game.addLaser = function(id, x, y, tx, ty) {
+    // Play sound if on-screen
+    if(Game.onscreen_xy(x, y))
+      Game.playSound("laser.wav");
+    Game.actors.push(new Laser(id, x, y, tx, ty));
   };
 
 }());

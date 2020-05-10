@@ -201,6 +201,13 @@ const clean_buffers = function() {
   }
 };
 
+const id2actor = (id) => {
+  for(let i=0; i<Game.actors.length; ++i)
+    if(Game.actors[i].unique_id === id)
+      return Game.actors[i];
+  return null;
+};
+
 Game.multiplayer_drift = 0;
 Game.drift_buffer = 0;
 Game.movement_buffer = [];
@@ -229,6 +236,16 @@ spawn(async function() {
       Game.other_movement_buffer.push(...msg.actions);
     } else if(msg.type === 'initWorld') {
       Game.initWorld(Game.make_random(msg.random));
+    } else if(msg.type === 'destroy') {
+      id2actor(msg.id).destroy();
+    } else if(msg.type === 'fire laser') {
+      const bat = id2actor(msg.bat_id);
+      if(bat === null) {
+        console.log('desync!')
+      } else {
+        const GRID_SIZE = 32;
+        Game.addLaser(msg.laser_id, bat.x + GRID_SIZE/2, bat.y + GRID_SIZE/2 + 1, msg.tx, msg.ty);
+      }
     }
 /*
     console.log(msg);

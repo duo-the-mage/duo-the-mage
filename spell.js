@@ -28,6 +28,7 @@ Game.castBasicSpell = function castBasicSpell(x,y) {
             (a.y + a.height > this.y - BASIC_EXPLOSION_SIZE * 0.5) &&
             (a.y < this.y + BASIC_EXPLOSION_SIZE * 0.5)) {
             a.destroy();
+            Game.multiplayer_send({type: 'destroy', id: a.unique_id});
           }
         }
 

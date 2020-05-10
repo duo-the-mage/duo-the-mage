@@ -24,6 +24,8 @@ function SpikeBlock(x,y) {
   this.rightBoundary = (this.homeSectorX+1) * Game.wallGrid.sectorWidth - 1;
   this.bottomBoundary = (this.homeSectorY+1) * Game.wallGrid.sectorHeight - 1;
 
+  this.unique_id = Game.unique_id++;
+
   this.time = 0;
   this.attackPower = 1;
   this.currentDir = -1;

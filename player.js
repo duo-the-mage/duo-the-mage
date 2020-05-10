@@ -285,3 +285,12 @@ Game.player = (function() {
 
   return new Player();
 }());
+
+Game.onscreen_xy = function(x, y) {
+  const GRID_SIZE = 32;
+  return Game.onscreen_ji(Math.floor(x / GRID_SIZE), Math.floor(y / GRID_SIZE));
+};
+Game.onscreen_ji = function(j, i) {
+  return Game.player.sectorX === Math.floor(j / Game.wallGrid.sectorWidth)  &&
+         Game.player.sectorY === Math.floor(i / Game.wallGrid.sectorHeight)    ;
+};
