@@ -227,7 +227,7 @@ spawn(async function() {
     } else if(msg.type === 'movement') {
       Game.other_movement_buffer.push(...msg.actions);
     } else if(msg.type === 'initWorld') {
-      Game.initWorld();
+      Game.initWorld(Game.make_random(msg.random));
     }
 /*
     console.log(msg);

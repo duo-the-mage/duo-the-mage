@@ -79,14 +79,14 @@ Game.world1 =  "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
         "w.......................w.....wSwwwwwwwwwwSw....wS.........w.w.........Sw..w..wSw....wSw.....w..w"+
         "wwwwwwwwwww...wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww";
 
-Game.initWorld = function initWorld() {
+Game.initWorld = function initWorld(random) {
   var i, j, n;
   for (j = 0; j < Game.wallGrid.height; ++j) {
     for (i = 0; i < Game.wallGrid.width; ++i) {
       n = j*Game.wallGrid.width + i;
       if (Game.world1[n] === 'w') { Game.addWall(i,j); }
       if (Game.world1[n] === 'L') { Game.addLockedDoor(i,j); }
-      if (Game.world1[n] === 'B') { Game.addEnemyBug(i,j); }
+      if (Game.world1[n] === 'B') { Game.addEnemyBug(i,j,Game.make_random(random)); }
       if (Game.world1[n] === 'F') { Game.addEnemyBat(i,j); }
       if (Game.world1[n] === 'S') { Game.addSpikeBlock(i,j); }
       if (Game.world1[n] === 's') { Game.addSpikes(i,j); }

@@ -3,11 +3,13 @@ var Game = window.Game || {};
 
 Game.actors = Game.actors || [];
 
-Game.addEnemyBug = function addEnemyBug(x,y) {
-  Game.actors.push(new EnemyBug(x,y));
+Game.addEnemyBug = function addEnemyBug(x,y,random) {
+  Game.actors.push(new EnemyBug(x,y,random));
 };
 
-function EnemyBug(x,y) {
+function EnemyBug(x,y,random) {
+  this.random = random.random;
+
   this.gridX = x;
   this.gridY = y;
   this.x = x * 32;
@@ -24,6 +26,7 @@ function EnemyBug(x,y) {
   this.directionChoices = [];
 
   this.walkSpeed = 0.05;
+  this.t = 0;
   this.time = 0;
   this.attackPower = 1;
 
@@ -31,7 +34,7 @@ function EnemyBug(x,y) {
 };
 
 EnemyBug.prototype.changeDirection = function changeDirection() {
-  this.currentDir = Math.floor(Math.random() * 4);
+  this.currentDir = Math.floor(this.random() * 4);
 
   switch (this.currentDir) {
     case 0:
@@ -73,10 +76,16 @@ EnemyBug.prototype.destroy = function destroy() {
   Game.playSound("enemy_die.wav");
 };
 
-EnemyBug.prototype.update = function update(elapsed) {
-  if (this.homeSectorX !== Game.player.sectorX ||
-    this.homeSectorY !== Game.player.sectorY) { return; }
+EnemyBug.prototype.update = function(elapsed) {
+  this.t += elapsed;
+  while(this.t >= 50) {
+    this.t -= 50;
+    this.update_helper();
+  }
+};
 
+EnemyBug.prototype.update_helper = function() {
+  const elapsed = 50;
   switch (this.currentDir) {
     case 0:
       if (this.y - this.walkSpeed * elapsed < (this.gridY - 1) * 32) {
@@ -86,7 +95,7 @@ EnemyBug.prototype.update = function update(elapsed) {
         // Decide whether to change direction
         if ((this.gridY <= this.topBoundary) ||
           Game.wallGrid[this.gridY - 1][this.gridX] ||
-          (Math.random() < 0.1)) {
+          (this.random() < 0.1)) {
           this.changeDirection();
         }
       } else {
@@ -102,7 +111,7 @@ EnemyBug.prototype.update = function update(elapsed) {
         // Decide whether to change direction
         if ((this.gridX >= this.rightBoundary) ||
           Game.wallGrid[this.gridY][this.gridX + 1] ||
-          (Math.random() < 0.1)) {
+          (this.random() < 0.1)) {
           this.changeDirection();
         }
       } else {
@@ -118,7 +127,7 @@ EnemyBug.prototype.update = function update(elapsed) {
         // Decide whether to change direction
         if ((this.gridY >= this.bottomBoundary) ||
           Game.wallGrid[this.gridY + 1][this.gridX] ||
-          (Math.random() < 0.1)) {
+          (this.random() < 0.1)) {
           this.changeDirection();
         }
       } else {
@@ -134,7 +143,7 @@ EnemyBug.prototype.update = function update(elapsed) {
         // Decide whether to change direction
         if ((this.gridX <= this.leftBoundary) ||
           Game.wallGrid[this.gridY][this.gridX - 1] ||
-          (Math.random() < 0.1)) {
+          (this.random() < 0.1)) {
           this.changeDirection();
         }
       } else {

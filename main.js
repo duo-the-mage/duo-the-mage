@@ -138,8 +138,9 @@ function onUpdate(elapsed) {
         Game.player.respawn();
       } else {
         if(Game.hosting) {
-          Game.multiplayer_send({type: 'initWorld'});
-          Game.initWorld();
+          const random = Game.make_random(null);
+          Game.multiplayer_send({type: 'initWorld', random: random.state});
+          Game.initWorld(random);
         }
       }
       Game.Input.mouse.button = false;
