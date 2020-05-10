@@ -265,6 +265,12 @@ spawn(async function() {
       Game.player.smallKeys += msg.amount;
       if(msg.amount > 0)
         Game.playSound('key.wav');
+    } else if(msg.type === 'spike attack') {
+      const spike = id2actor(msg.id);
+      if(spike.currentDir === -1) {
+        spike.currentDir = msg.dir;
+        spike.currentSpeed = spike.ATTACK_SPEED;
+      }
     }
 /*
     console.log(msg);

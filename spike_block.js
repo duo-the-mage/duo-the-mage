@@ -38,7 +38,8 @@ SpikeBlock.prototype.checkBounce = function checkBounce() {
   var i,a;
 
   if (Game.wallGrid[this.gridY][this.gridX]) {
-    Game.playSound("block.wav");
+    if(Game.onscreen_xy(this.x, this.y))
+      Game.playSound("block.wav");
     this.currentDir = (this.currentDir + 2) % 4;
     this.currentSpeed = this.RETRACT_SPEED;
     return;
@@ -50,7 +51,8 @@ SpikeBlock.prototype.checkBounce = function checkBounce() {
         (this.y < a.y + a.height) &&
         (this.x > a.x - a.width) &&
         (this.y > a.y - a.height)) {
-        Game.playSound("block.wav");
+        if(Game.onscreen_xy(this.x, this.y))
+          Game.playSound("block.wav");
         this.currentDir = (this.currentDir + 2) % 4;
         this.currentSpeed = this.RETRACT_SPEED;
         if (a.currentSpeed === a.ATTACK_SPEED) {
@@ -81,10 +83,9 @@ SpikeBlock.prototype.destroy = function destroy() {
 };
 
 SpikeBlock.prototype.update = function update(elapsed) {
-  if (this.homeSectorX !== Game.player.sectorX ||
-    this.homeSectorY !== Game.player.sectorY) { return; }
+  const onscreen = (this.homeSectorX === Game.player.sectorX  &&  this.homeSectorY === Game.player.sectorY);
 
-  if (this.currentDir === -1) {
+  if(onscreen && this.currentDir === -1) {
     if ((Game.player.y >= this.y - this.height) &&
       (Game.player.y <= this.y + this.height)) {
       if ((Game.player.x > this.x) &&
@@ -92,12 +93,14 @@ SpikeBlock.prototype.update = function update(elapsed) {
       {
         this.currentDir = 1;
         this.currentSpeed = this.ATTACK_SPEED;
+        Game.multiplayer_send({type: 'spike attack', id: this.unique_id, dir: this.currentDir});
       }
       else if ((Game.player.x < this.x) &&
         (!Game.wallGrid[this.gridY][this.gridX-1]))
       {
         this.currentDir = 3;
         this.currentSpeed = this.ATTACK_SPEED;
+        Game.multiplayer_send({type: 'spike attack', id: this.unique_id, dir: this.currentDir});
       }
     } else if ((Game.player.x >= this.x - this.width) &&
           (Game.player.x <= this.x + this.width)) {
@@ -106,15 +109,19 @@ SpikeBlock.prototype.update = function update(elapsed) {
       {
         this.currentDir = 2;
         this.currentSpeed = this.ATTACK_SPEED;
+        Game.multiplayer_send({type: 'spike attack', id: this.unique_id, dir: this.currentDir});
       }
       else if ((Game.player.y < this.y) &&
         (!Game.wallGrid[this.gridY - 1][this.gridX]))
       {
         this.currentDir = 0;
         this.currentSpeed = this.ATTACK_SPEED;
+        Game.multiplayer_send({type: 'spike attack', id: this.unique_id, dir: this.currentDir});
       }
     }
-  } else {
+  }
+
+  if(this.currentDir !== -1) {
     switch(this.currentDir) {
       case 0:
         this.y -= this.currentSpeed * elapsed;
