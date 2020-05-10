@@ -177,7 +177,7 @@ Game.other_player = (function() {
       if (this.victory > 0) {
         Game.drawImageInWorld(ctx, 'player.png', Math.round(this.x), Math.round(this.y + this.victory * 0.05));
       } else if (Math.floor(this.invulnerable / 100) % 2 === 0) {
-        if (Game.other_spell) {
+        if (Game.currentSpell  ||  Game.other_spell) {
           Game.drawImageInWorld(ctx, 'player_cast.png', Math.round(this.x), Math.round(this.y));
         } else {
           Game.drawImageInWorld(ctx, 'player.png', Math.round(this.x), Math.round(this.y));
