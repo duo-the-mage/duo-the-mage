@@ -38,26 +38,31 @@ EnemyBat.prototype.destroy = function destroy() {
 EnemyBat.prototype.update = function update(elapsed) {
   var GRID_SIZE = 32;
 
-  if(
-    (
-      this.homeSectorX !== Game.player.sectorX ||
-      this.homeSectorY !== Game.player.sectorY
-    )&&(
-      this.homeSectorX !== Game.other_player.sectorX ||
-      this.homeSectorY !== Game.other_player.sectorY
-    )
-  ){
+  const on_player_screen = (
+      this.homeSectorX === Game.player.sectorX &&
+      this.homeSectorY === Game.player.sectorY
+    );
+  const on_other_player_screen = (
+      this.homeSectorX === Game.other_player.sectorX &&
+      this.homeSectorY === Game.other_player.sectorY
+    );
+  if(!on_player_screen && !on_other_player_screen)
     return;
-  }
 
   // Possibly fire laser
   if(Game.hosting) {
     if(Math.floor(this.time/20) !== this.lastAttack) {
       this.lastAttack = Math.floor(this.time/20);
 
+      // Choose a target
+      let player = Game.player;
+      if(!on_player_screen  ||  Math.random() < 0.5)
+        player = Game.other_player;
+      if(!on_other_player_screen)
+        player = Game.player;
+
       // Fire laser
       const laser_id = Game.unique_id++;
-      const player = (Math.random() < 0.5  ?  Game.player  :  Game.other_player);
       const px = player.x+GRID_SIZE/2;
       const py = player.y+GRID_SIZE/2;
       Game.addLaser(laser_id, this.x + GRID_SIZE/2, this.y + GRID_SIZE/2 + 1, px, py);
