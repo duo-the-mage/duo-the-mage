@@ -70,7 +70,6 @@ Game.my_paused = false;
 Game.other_paused = false;
 Game.is_paused = () => Game.my_paused || Game.other_paused;
 Game.pause = function pause() {
-  return;
   if(!Game.my_paused) {
     Game.my_paused = true;
     Game.multiplayer_send({type: 'pause'});
