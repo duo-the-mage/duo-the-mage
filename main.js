@@ -142,15 +142,15 @@ function onUpdate(elapsed) {
       if (Game.currentMode === 2) {
         Game.startMusic();
         Game.player.respawn();
-      } else {
-        if(Game.hosting) {
-          const random = Game.make_random(null);
-          Game.multiplayer_send({type: 'initWorld', random: random.state});
-          Game.initWorld(random);
-        }
+        Game.Input.mouse.button = false;
+        Game.currentMode = 1;
+      } else if(Game.hosting) {
+        const random = Game.make_random(null);
+        Game.multiplayer_send({type: 'initWorld', random: random.state});
+        Game.initWorld(random);
+        Game.Input.mouse.button = false;
+        Game.currentMode = 1;
       }
-      Game.Input.mouse.button = false;
-      Game.currentMode = 1;
     }
   }
 };
@@ -223,7 +223,10 @@ function draw() {
         ctx.textAlign = "center";
         ctx.fillText("Use w, a, s, d to move",400,300);
         ctx.fillText("Use the mouse to cast spells",400,320);
-        ctx.fillText("Click to begin",400,420);
+        if(Game.hosting)
+          ctx.fillText("Click to begin",400,420);
+        else
+          ctx.fillText('Please wait for the host to start the game!', 400, 420);
       break;
       // Death screen mode
       case 2:
@@ -252,7 +255,10 @@ function draw() {
         ctx.textAlign = "center";
         if(Game.totalDeaths > 0)
           ctx.fillText("You used "+(Game.totalDeaths+1)+" lives to get here.",400,300);
-        ctx.fillText("Click to start over",400,420);
+        if(Game.hosting)
+          ctx.fillText("Click to start over",400,420);
+        else
+          ctx.fillText('Please wait for the host to restart the game.', 400, 420);
       break;
     }
   }

@@ -245,6 +245,7 @@ spawn(async function() {
     } else if(msg.type === 'movement') {
       Game.other_movement_buffer.push(...msg.actions);
     } else if(msg.type === 'initWorld') {
+      Game.currentMode = 1;
       Game.initWorld(Game.make_random(msg.random));
     } else if(msg.type === 'destroy') {
       const actor = id2actor(msg.id);
