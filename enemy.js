@@ -78,16 +78,18 @@ EnemyBug.prototype.destroy = function destroy() {
   Game.playSound("enemy_die.wav");
 };
 
+const GRANULARITY = 16;
+
 EnemyBug.prototype.update = function(elapsed) {
   this.t += elapsed;
-  while(this.t >= 50) {
-    this.t -= 50;
+  while(this.t >= GRANULARITY) {
+    this.t -= GRANULARITY;
     this.update_helper();
   }
 };
 
 EnemyBug.prototype.update_helper = function() {
-  const elapsed = 50;
+  const elapsed = GRANULARITY;
   switch (this.currentDir) {
     case 0:
       if (this.y - this.walkSpeed * elapsed < (this.gridY - 1) * 32) {
