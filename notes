@@ -1,0 +1,18 @@
+I want to add text to the pause screen
+
+I want to rewrite the room full of bugs
+
+--------
+
+Next, I want to make spike blocks synchronous for both players
+
+--------
+
+actors
+currentMode
+player
+smallKeys
+wallGrid
+walls
+
+nextFrame is pause state
