@@ -19,6 +19,7 @@ Game.wallGrid = (function() {
 
   return result;
 }());
+Game.VICTORY_LINE = 32 * (Game.wallGrid.height - 2);
 
 Game.Wall = function Wall(j, i, type) {
   this.x = j*32;

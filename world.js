@@ -24,6 +24,7 @@ Game.clearWorld = function clearWorld() {
   Game.other_spell = null;
   // Reset the player
   Game.player.reset();
+  Game.other_player.reset();
 };
 
 Game.world1 =  "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww"+

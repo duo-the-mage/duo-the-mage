@@ -205,6 +205,19 @@ function draw() {
     // Draw UI
     Game.player.drawUI(ctx);
 
+    // Tell player to wait for the other player before winning.
+    if(Game.player.y > Game.VICTORY_LINE  &&  Game.player.victory === 0) {
+      ctx.beginPath();
+      ctx.fillStyle = 'rgba(0,0,0,0.5)';
+      ctx.rect(80, 290, 640, 40);
+      ctx.fill();
+
+      ctx.fillStyle = "#fff";
+      ctx.font = "bold 16pt sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillText('Wait for the other player before continuing ...', 400, 320);
+    }
+
     // Draw darken overlay if paused
     if(Game.is_paused()) {
       ctx.beginPath();

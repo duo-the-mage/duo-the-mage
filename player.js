@@ -197,8 +197,13 @@ Game.player = (function() {
       }
 
       // Check for victory
-      if (this.y > (Game.wallGrid.height - 2) * 32) {
+      if(Game.hosting  &&  this.y > Game.VICTORY_LINE  &&  Game.other_player.y > Game.VICTORY_LINE) {
         this.victory += elapsed;
+        Game.other_player.victory += elapsed;
+        Game.multiplayer_send({type: 'victory'});
+      }
+      if(this.y > Game.VICTORY_LINE + 8) {
+        this.y = Game.VICTORY_LINE + 8;
       }
 
       // Check whether player is casting

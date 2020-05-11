@@ -300,6 +300,9 @@ spawn(async function() {
     } else if(msg.type === 'unpause') {
       Game.other_paused = false;
       Game.update_music();
+    } else if(msg.type === 'victory') {
+      Game.player.victory += 1;
+      Game.other_player.victory += 1;
     }
   }
 });
