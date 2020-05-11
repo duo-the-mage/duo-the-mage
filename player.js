@@ -237,16 +237,15 @@ Game.player = (function() {
     var t = 0, i, dx, dy;
 
     if (this.dead === 0) {
-      if (this.victory > 0) {
-        Game.drawImageInWorld(ctx, 'player.png', Math.round(this.x), Math.round(this.y + this.victory * 0.05));
-      } else if (Math.floor(this.invulnerable / 100) % 2 === 0) {
-        if (Game.currentSpell  ||  Game.other_spell) {
-          Game.drawImageInWorld(ctx, 'player_cast.png', Math.round(this.x), Math.round(this.y));
-        } else {
-          Game.drawImageInWorld(ctx, 'player.png', Math.round(this.x), Math.round(this.y));
-        }
+      const x = Math.round(this.x);
+      const y = Math.round(this.y) + this.victory * 0.05;
+      if(Math.floor(this.invulnerable / 100) % 2 === 0) {
+        if(this.victory === 0  &&  (Game.currentSpell  ||  Game.other_spell))
+          Game.drawImageInWorld(ctx, 'player_cast.png', x, y);
+        else
+          Game.drawImageInWorld(ctx, 'player.png', x, y);
         if(!Game.hosting)
-          Game.drawImageInWorld(ctx, 'player_2.png', Math.round(this.x)+11, Math.round(this.y)+16);
+          Game.drawImageInWorld(ctx, 'player_2.png', x+11, y+16);
       }
     } else {
       for (i = 0; i < 8; ++i) {
