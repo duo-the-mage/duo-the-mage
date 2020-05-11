@@ -272,7 +272,6 @@ function draw() {
       break;
       // Victory screen mode
       case 3:
-        // Draw prompt
         ctx.fillStyle = "#00b";
         ctx.font = "bold 32pt serif";
         ctx.textAlign = "center";
