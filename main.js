@@ -100,7 +100,7 @@ function gameLoop(_timestamp) {
       elapsed *= 1-Game.multiplayer_drift/2500;
     if(Game.multiplayer_drift > 2500)
       elapsed *= 2-Game.multiplayer_drift/2500;
-    elapsed = Math.max(1, Math.min(elapsed, 100));
+    elapsed = Math.max(1, Math.min(elapsed, 160));
     Game.multiplayer_drift += elapsed;
     Game.drift_buffer += elapsed;
     onUpdate(elapsed);
@@ -108,7 +108,11 @@ function gameLoop(_timestamp) {
   }
   lastFrameTime = _timestamp;
 
-  Game.nextFrame = window.requestAnimationFrame(gameLoop);
+  if(Game.currentMode === 1  &&  !Game.is_paused()) {
+    window.requestAnimationFrame(gameLoop);
+  } else {
+    setTimeout(() => gameLoop(performance.now()), 140);
+  }
 };
 
 function onUpdate(elapsed) {
