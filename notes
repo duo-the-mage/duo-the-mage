@@ -1,18 +1,6 @@
-I want to add text to the pause screen
+Known issues:
 
-I want to rewrite the room full of bugs
-
---------
-
-Next, I want to make spike blocks synchronous for both players
-
---------
-
-actors
-currentMode
-player
-smallKeys
-wallGrid
-walls
-
-nextFrame is pause state
+Green shirt disappears while Guest player is victorying (exiting the final screen off the bottom). Should continue to have a green shirt.
+Other player stands still instead of exiting the screen when victorying. Should animate exiting off the bottom instead.
+Game sounds can still be heard while on the death screen.
+The green shirt looks stupid. It should look better. (Currently it's stupid because my image editor, mspaint, does not support transparency.)
