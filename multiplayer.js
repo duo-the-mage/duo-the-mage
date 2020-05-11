@@ -191,7 +191,7 @@ spawn(async() => {
 
 await peer.on_connect();
 
-root_div.remove();
+root_div.innerText = '';
 
 const make_state = () => [Game.actors, Game.player, Game.smallKeys, Game.wallGrid];
 
