@@ -75,7 +75,7 @@ var Game = window.Game || {};
   window.addEventListener('load', function() {
     document.getElementById('music_volume').addEventListener('input', function() {
       const old_volume = music_volume;
-      music_volume = parseFloat(this.value);
+      music_volume = Math.pow(parseFloat(this.value), 2);
 
       Game.setMusicVolume(music_volume);
 
@@ -83,7 +83,7 @@ var Game = window.Game || {};
         Game.restartMusicLoop();
     });
     document.getElementById('sound_volume').addEventListener('input', function() {
-      sound_volume = this.value;
+      sound_volume = Math.pow(parseFloat(this.value), 2);
       for(const filename in cache)
         cache[filename].sound.volume = sound_volume;
     });
