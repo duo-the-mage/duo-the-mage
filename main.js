@@ -62,7 +62,6 @@ function start() {
 
   Game.currentMode = 0;
 
-  Game.startMusic();
   Game.ready = true;
   gameLoop();
 }
@@ -83,14 +82,14 @@ Game.pause = function pause() {
     ctx.fill();
 */
 
-    this.stopMusic();
+    this.update_music();
   }
 };
 Game.resume = function resume() {
   if(Game.my_paused && this.ready) {
     Game.my_paused = false;
     Game.multiplayer_send({type: 'unpause'});
-    this.resumeMusic();
+    this.update_music();
   }
 };
 
@@ -140,10 +139,10 @@ function onUpdate(elapsed) {
     // Menu mode
     if (Game.Input.mouse.button) {
       if (Game.currentMode === 2) {
-        Game.startMusic();
         Game.player.respawn();
         Game.Input.mouse.button = false;
         Game.currentMode = 1;
+        Game.restartMusicLoop();
       } else if(Game.hosting) {
         const random = Game.make_random(null);
         Game.multiplayer_send({type: 'initWorld', random: random.state});
@@ -281,6 +280,8 @@ Game.load();
 
 
 window.onload = async function() {
+  Game.loadMusic();
+
   await Game.start_multiplayer();
   Game.start();
 };

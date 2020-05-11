@@ -170,8 +170,7 @@ Game.player = (function() {
                 Game.Input.mouse.button = false;
                 Game.playSound("death.wav");
                 Game.multiplayer_send({type: 'death'});
-                Game.stopMusic();
-                Game.currentMusic = null;
+                Game.update_music();
               }
               break;
             }

@@ -292,8 +292,10 @@ spawn(async function() {
       t.dead = 0;
     } else if(msg.type === 'pause') {
       Game.other_paused = true;
+      Game.update_music();
     } else if(msg.type === 'unpause') {
       Game.other_paused = false;
+      Game.update_music();
     }
   }
 });
