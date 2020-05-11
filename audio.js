@@ -22,6 +22,7 @@ var Game = window.Game || {};
 
     for(i = 0;  i < soundList.length;  ++i) {
       snd = new Audio();
+      snd.volume = 0;
       cacheLine = {sound: snd, ready: false, error: false};
       cache[soundList[i]] = cacheLine;
       // Call the callback after all images are loaded
@@ -42,10 +43,14 @@ var Game = window.Game || {};
     }
   }
 
+  let music_volume = 0;
+  let sound_volume = 0;
+
   Game.playSound = function(filename) {
     if(!cache.hasOwnProperty(filename)) {
       var audio = new Audio(),
         cacheLine = {sound: audio, ready: false};
+      audio.volume = sound_volume;
       audio.addEventListener("canplaythrough", function() {
         cacheLine.ready = true;
         audio.play();
@@ -58,11 +63,9 @@ var Game = window.Game || {};
     }
   };
 
-  let volume = 0;
-
   Game.update_music = function() {
     // Game.is_paused === undefined   is supposed to check for whether the WebRTC connection is active yet or not ...
-    if(Game.is_paused === undefined  ||  (!Game.is_paused()  &&  Game.player.dead === 0  &&  volume > 0)) {
+    if(Game.is_paused === undefined  ||  (!Game.is_paused()  &&  Game.player.dead === 0  &&  music_volume > 0)) {
       Game.resumeMusic();
     } else {
       Game.stopMusic();
@@ -70,14 +73,19 @@ var Game = window.Game || {};
   };
 
   window.addEventListener('load', function() {
-    document.getElementById('volume').addEventListener('input', function() {
-      const old_volume = volume;
-      volume = parseFloat(this.value);
+    document.getElementById('music_volume').addEventListener('input', function() {
+      const old_volume = music_volume;
+      music_volume = parseFloat(this.value);
 
-      Game.setMusicVolume(volume);
+      Game.setMusicVolume(music_volume);
 
       if(this.value > 0  &&  old_volume === 0)
         Game.restartMusicLoop();
+    });
+    document.getElementById('sound_volume').addEventListener('input', function() {
+      sound_volume = this.value;
+      for(const filename in cache)
+        cache[filename].sound.volume = sound_volume;
     });
   });
 
