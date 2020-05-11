@@ -1,6 +1,10 @@
 // Load main library
 var Game = window.Game || {};
 
+
+(function() {
+
+
 Game.clearWorld = function clearWorld() {
   // Clear the wall grid
   var i,j;
@@ -80,6 +84,9 @@ Game.world1 =  "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
         "w.......................w.....wSwwwwwwwwwwSw....wS.........w.w.........Sw..w..wSw....wSw.....w..w"+
         "wwwwwwwwwww...wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww";
 
+let canvas2 = null;
+let ctx2;
+
 Game.initWorld = function initWorld(random) {
   var i, j, n;
   Game.clearWorld();
@@ -109,4 +116,25 @@ Game.initWorld = function initWorld(random) {
     }
   }
   Game.totalDeaths = 0;
+
+  if(canvas2 === null) {
+    canvas2 = document.createElement('canvas');
+    canvas2.width = Game.wallGrid[0].length * 32;
+    canvas2.height = Game.wallGrid.length * 32;
+    ctx2 = canvas2.getContext('2d');
+  }
+  Game.redraw_walls();
 };
+
+Game.redraw_walls = function() {
+  ctx2.clearRect(0, 0, canvas2.width, canvas2.height);
+  for(let i=0; i<Game.walls.length; ++i)
+    Game.walls[i].draw(ctx2);
+};
+
+Game.draw_walls = function(ctx) {
+  ctx.drawImage(canvas2, 0, 0);
+};
+
+
+}());

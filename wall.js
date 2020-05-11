@@ -33,6 +33,7 @@ Game.Wall = function Wall(j, i, type) {
 Game.removeWall = function(j, i) {
   Game.walls.splice(Game.walls.indexOf(Game.wallGrid[i][j]), 1);
   Game.wallGrid[i][j] = null;
+  Game.redraw_walls();
 };
 
 Game.addWall = function addWall(j, i) {
@@ -52,10 +53,12 @@ Game.addOneWayDoorL = function(j, i) {
 };
 
 Game.Wall.prototype.draw = function draw(ctx) {
+/*
   if ((this.x >= Game.camera.x - 32) &&
     (this.x <= Game.camera.x + 800) &&
     (this.y >= Game.camera.y - 32) &&
     (this.y <= Game.camera.y + 480)) {
+*/
     if(this.type === 'wall')
       Game.drawImageInWorld(ctx, 'wall_1.png', this.x, this.y);
     else if(this.type === 'locked_door')
@@ -66,5 +69,5 @@ Game.Wall.prototype.draw = function draw(ctx) {
       Game.drawImage(ctx, 'one_way_l.png', this.x, this.y);
     else
       throw 0;
-  }
+//  }
 };

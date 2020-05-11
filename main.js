@@ -172,9 +172,7 @@ function draw() {
     }());
 
     // Draw walls
-    for (i = 0; i < Game.walls.length; ++i) {
-      Game.walls[i].draw(ctx);
-    }
+    Game.draw_walls(ctx);
 
     // Draw enemies
     for (i = 0; i < Game.actors.length; ++i) {
