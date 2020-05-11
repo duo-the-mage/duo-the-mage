@@ -33,6 +33,7 @@ Game.Wall = function Wall(j, i, type) {
 Game.removeWall = function(j, i) {
   Game.walls.splice(Game.walls.indexOf(Game.wallGrid[i][j]), 1);
   Game.wallGrid[i][j] = null;
+  new Game.Wall(j, i, 'bug_repellent');
   Game.redraw_walls();
 };
 
@@ -67,7 +68,13 @@ Game.Wall.prototype.draw = function draw(ctx) {
       Game.drawImage(ctx, 'one_way_r.png', this.x, this.y);
     else if(this.type === 'one_way_l')
       Game.drawImage(ctx, 'one_way_l.png', this.x, this.y);
+    else if(this.type === 'bug_repellent')
+      ;
     else
       throw 0;
 //  }
+};
+
+Game.no_wall = function(j, i) {
+  return Game.wallGrid[i][j] === null || Game.wallGrid[i][j].type === 'bug_repellent';
 };

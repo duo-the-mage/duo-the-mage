@@ -78,7 +78,7 @@ Game.actors = Game.actors || [];
     // Destroy when hitting wall
     var j = Math.floor(this.x / GRID_SIZE);
     var i = Math.floor(this.y / GRID_SIZE);
-    if(Game.wallGrid[i][j] !== null) {
+    if(!Game.no_wall(j, i)) {
       this.destroy();
       return;
     }

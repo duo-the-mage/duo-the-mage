@@ -85,7 +85,7 @@ Game.other_player = (function() {
         var xoff = x - (j+((dir.x+1)/2))*GRID_SIZE;
         var yoff = y - (i+((dir.y+1)/2))*GRID_SIZE;
         var snapx, snapy;
-        if(Game.wallGrid[i][j] == null)
+        if(Game.no_wall(j, i))
           return;
         
         // Unlock locked doors
@@ -102,9 +102,9 @@ Game.other_player = (function() {
           return;
         }
   
-        if(dir.x*xoff <= dir.y*yoff  &&  Game.wallGrid[i][j-dir.x] == null)
+        if(dir.x*xoff <= dir.y*yoff  &&  Game.no_wall(j-dir.x, i))
           snapx = true;
-        else if(dir.x*xoff >= dir.y*yoff  &&  Game.wallGrid[i-dir.y][j] == null)
+        else if(dir.x*xoff >= dir.y*yoff  &&  Game.no_wall(j, i-dir.y))
           snapy = true;
         else
           snapx = snapy = true;
