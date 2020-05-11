@@ -32,7 +32,8 @@ function EnemyBat(x,y) {
 
 EnemyBat.prototype.destroy = function destroy() {
   this.isDestroyed = true;
-  Game.playSound("enemy_die.wav");
+  if(Game.onscreen_xy(this.x, this.y))
+    Game.playSound("enemy_die.wav");
 };
 
 EnemyBat.prototype.update = function update(elapsed) {
