@@ -176,7 +176,12 @@ function draw() {
 
     // Draw enemies
     for (i = 0; i < Game.actors.length; ++i) {
-      Game.actors[i].draw(ctx);
+      const a = Game.actors[i];
+      if( (a.x >= Game.camera.x - 32 ) &&
+          (a.x <= Game.camera.x + 800) &&
+          (a.y >= Game.camera.y - 32 ) &&
+          (a.y <= Game.camera.y + 480)    )
+        Game.actors[i].draw(ctx);
     }
 
     // Draw small keys
