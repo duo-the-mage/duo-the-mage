@@ -191,6 +191,8 @@ Game.other_player = (function() {
         } else {
           Game.drawImageInWorld(ctx, 'player.png', Math.round(this.x), Math.round(this.y));
         }
+        if(Game.hosting)
+          Game.drawImageInWorld(ctx, 'player_2.png', Math.round(this.x)+11, Math.round(this.y)+16);
       }
     } else if(Game.onscreen_xy(this.x, this.y)) {
       for (i = 0; i < 8; ++i) {

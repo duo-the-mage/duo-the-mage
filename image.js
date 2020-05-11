@@ -14,6 +14,7 @@ Game.drawImage = (function() {
       'small_key.png',
       'player.png',
       'player_cast.png',
+      'player_2.png',
       'heart.png',
       'heart_half.png',
       'heart_empty.png',
