@@ -249,7 +249,7 @@ spawn(async function() {
       Game.initWorld(Game.make_random(msg.random));
     } else if(msg.type === 'destroy') {
       const actor = id2actor(msg.id);
-      if(actor === null)  // Probably a laser
+      if(actor === null)
         console.log('desync!');
       else
         actor.destroy();
