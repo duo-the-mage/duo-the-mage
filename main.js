@@ -207,6 +207,16 @@ function draw() {
       ctx.fillStyle = "rgba(0,0,0,0.5)";
       ctx.rect(0,0,800,480);
       ctx.fill();
+
+      ctx.fillStyle = "#fff";
+      ctx.font = "bold 16pt sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillText('The game is paused because the following', 400, 200);
+      ctx.fillText('players are looking at a different window:', 400, 230);
+      if(Game.my_paused)
+        ctx.fillText('you', 400, 260);
+      if(Game.other_paused)
+        ctx.fillText('the other player', 400, 290);
     }
   }
   // Menu mode
