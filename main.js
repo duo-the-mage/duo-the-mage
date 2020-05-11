@@ -103,8 +103,7 @@ function gameLoop(_timestamp) {
     elapsed = Math.max(1, Math.min(elapsed, 100));
     Game.multiplayer_drift += elapsed;
     Game.drift_buffer += elapsed;
-    if(!Game.is_paused())
-      onUpdate(elapsed);
+    onUpdate(elapsed);
     draw();
   }
   lastFrameTime = _timestamp;
@@ -114,7 +113,8 @@ function gameLoop(_timestamp) {
 
 function onUpdate(elapsed) {
   var i;
-  if (Game.currentMode === 1) {
+
+  if(Game.currentMode === 1  &&  !Game.is_paused()) {
     // Main game play mode
 
     Game.other_player.update(elapsed);
@@ -134,8 +134,9 @@ function onUpdate(elapsed) {
         Game.actors.splice(i,1);
       }
     }
-  } else {
-    // Menu mode
+  }
+  
+  if(Game.currentMode !== 1) {  // Menu mode
     if (Game.Input.mouse.button) {
       if (Game.currentMode === 2) {
         Game.player.respawn();
