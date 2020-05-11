@@ -173,11 +173,15 @@ spawn(async function() {
 });
 
 spawn(async function() {
+  let first_time = true;
   for(;;) {
     const m = await socket.receive();
     if(m.type === 'signal')
       peer.signal(m.data);
-    root_div.innerText = 'Connecting ...';
+    if(first_time) {
+      root_div.innerText = 'Connecting ...';
+      first_time = false;
+    }
   }
 });
 
