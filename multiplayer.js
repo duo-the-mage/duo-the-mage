@@ -307,6 +307,10 @@ spawn(async function() {
       t.health = MAX_HP;
       t.invulnerable = 0;
       t.dead = 0;
+    } else if(msg.type === 'pause') {
+      Game.other_paused = true;
+    } else if(msg.type === 'unpause') {
+      Game.other_paused = false;
     }
 /*
     console.log(msg);

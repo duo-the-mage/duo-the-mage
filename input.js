@@ -45,7 +45,7 @@ Game.Input = (function() {
     // Mouse down event
     canvas.addEventListener("mousedown",function(e) {
       Input.mouse.button = true;
-      if(Game.currentMode === 1)
+      if(Game.currentMode === 1 && !Game.is_paused())
         Game.player.onClick();
       e.preventDefault();
     },false);

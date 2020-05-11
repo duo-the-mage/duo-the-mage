@@ -67,27 +67,30 @@ function start() {
   gameLoop();
 }
 
+Game.my_paused = false;
+Game.other_paused = false;
+Game.is_paused = () => Game.my_paused || Game.other_paused;
 Game.pause = function pause() {
-  if (this.nextFrame) {
-    window.cancelAnimationFrame(this.nextFrame);
+  return;
+  if(!Game.my_paused) {
+    Game.my_paused = true;
+    Game.multiplayer_send({type: 'pause'});
 
+/*
     ctx.beginPath();
     ctx.fillStyle = "rgba(0,0,0,0.5)";
     ctx.rect(0,0,800,480);
     ctx.fill();
+*/
 
     this.stopMusic();
-
-    this.nextFrame = null;
   }
 };
-
 Game.resume = function resume() {
-  if (!this.nextFrame && this.ready) {
+  if(Game.my_paused && this.ready) {
+    Game.my_paused = false;
+    Game.multiplayer_send({type: 'unpause'});
     this.resumeMusic();
-
-    lastFrameTime = null;
-    gameLoop(lastFrameTime);
   }
 };
 
@@ -102,7 +105,8 @@ function gameLoop(_timestamp) {
     elapsed = Math.max(1, Math.min(elapsed, 100));
     Game.multiplayer_drift += elapsed;
     Game.drift_buffer += elapsed;
-    onUpdate(elapsed);
+    if(!Game.is_paused())
+      onUpdate(elapsed);
     draw();
   }
   lastFrameTime = _timestamp;
@@ -196,7 +200,7 @@ function draw() {
     Game.player.drawUI(ctx);
 
     // Draw darken overlay if paused
-    if (Game.nextFrame == null) {
+    if(Game.is_paused()) {
       ctx.beginPath();
       ctx.fillStyle = "rgba(0,0,0,0.5)";
       ctx.rect(0,0,800,480);
