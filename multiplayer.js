@@ -102,6 +102,8 @@ const finished = make_channel();
 const socket = make_real_socket(window.io('https://webrtc-multiplayer-hello.glitch.me', {reconnection: false}));
 await socket.on_connect();
 
+root_div.innerText = '';
+
 const b1 = document.createElement('button');
 root_div.appendChild(b1);
 b1.innerText = 'Guest';
