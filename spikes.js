@@ -27,9 +27,6 @@ Spikes.prototype.destroy = function destroy() {
 };
 
 Spikes.prototype.update = function update(elapsed) {
-  if (this.homeSectorX !== Game.player.sectorX ||
-    this.homeSectorY !== Game.player.sectorY) { return; }
-
   this.time += elapsed;
   if (this.time < 4000) {
     this.attackPower = 0;
