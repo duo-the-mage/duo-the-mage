@@ -193,24 +193,6 @@ await peer.on_connect();
 
 root_div.innerText = '';
 
-const make_state = () => [Game.actors, Game.player, Game.smallKeys, Game.wallGrid];
-
-const sync_buffer = [];
-const other_sync_buffer = [];
-let desynced = false;
-
-const clean_buffers = function() {
-  while(sync_buffer.length > 0  &&  other_sync_buffer.length > 0) {
-    if(sync_buffer[0].hash !== other_sync_buffer[0].hash  &&  !desynced) {
-      peer.send({type: 'desync', state: stringify(make_state())});
-      desynced = true;
-    }
-
-    sync_buffer.splice(0, 1);
-    other_sync_buffer.splice(0, 1);
-  }
-};
-
 const id2actor = (id) => {
   for(let i=0; i<Game.actors.length; ++i)
     if(Game.actors[i].unique_id === id)
@@ -313,64 +295,8 @@ spawn(async function() {
     } else if(msg.type === 'unpause') {
       Game.other_paused = false;
     }
-/*
-    console.log(msg);
-    Object.assign(other_state, msg);
-    update_view();
-*/
   }
 });
-
-const stringify = function(obj) {
-  const f = (x) => {
-    if(Array.isArray(x)) {
-      let r = '[';
-      for(let i=0; i<x.length; ++i)
-        r += f(x[i]) + ',';
-      if(x.length > 0)
-        r = r.substring(0, r.length - 1);
-      r += ']';
-      return r;
-    } else if(typeof x === 'object'  &&  x !== null) {
-      let r = '{';
-      const keys = Object.keys(x);
-      keys.sort();
-      for(let i=0; i<keys.length; ++i)
-        r += JSON.stringify(keys[i]) + ':' + f(x[keys[i]]) + ','
-      if(keys.length > 0)
-        r = r.substring(0, r.length - 1);
-      r += '}'
-      return r;
-    } else {
-      return JSON.stringify(x);
-    }
-  };
-
-  return f(obj);
-};
-
-const digest = async function(obj) {
-  return (
-    Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(stringify(obj)))))
-    .map(b=>b.toString(16).padStart(2,'0')).join('')
-  );
-};
-
-let sequence_number = 0;
-Game.multiplayer_sync = async function() {
-  if(Game.hosting) {
-    const n = sequence_number;
-    ++sequence_number;
-    const hash = await digest(make_state());
-    const sync = {type: 'sync', hash};
-    sync_buffer.push(sync);
-    peer.send(sync);
-
-    clean_buffers();
-  } else {
-    
-  }
-};
 
 Game.multiplayer_send = function(msg) {
   peer.send(msg);
