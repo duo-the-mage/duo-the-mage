@@ -66,6 +66,7 @@ const make_real_socket = function(socket) {
 const make_real_peer = function(peer) {
   const on_signal = buffered_wrap(peer.on, peer, ['signal']);
   const on_connect = buffered_wrap(peer.on, peer, ['connect']);
+  const on_error = buffered_wrap(peer.on, peer, ['error']);
   const on_data = (function() {
     const f = buffered_wrap(peer.on, peer, ['data']);
     return async function() {
@@ -78,7 +79,7 @@ const make_real_peer = function(peer) {
 //    console.log('rtc_send: ' + str(s));
     peer.send(JSON.stringify(s));
   };
-  return {signal, on_signal, on_data, send, on_connect};
+  return {signal, on_signal, on_data, send, on_connect, on_error};
 };
 const spawn = function(async_function) {
   return async_function();
@@ -176,6 +177,15 @@ spawn(async function() {
     const m = await socket.receive();
     if(m.type === 'signal')
       peer.signal(m.data);
+    root_div.innerText = 'Connecting ...';
+  }
+});
+
+spawn(async() => {
+  for(;;) {
+    const e = await peer.on_error();
+    console.log('WebRTC error: ', e);
+    root_div.innerText = 'Connection failed. Please refresh.';
   }
 });
 
