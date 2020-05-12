@@ -192,6 +192,12 @@ spawn(async() => {
     const e = await peer.on_error();
     console.log('WebRTC error: ', e);
     root_div.innerText = 'Connection failed. Please refresh.';
+    peer.send = () => {Game.multiplayer_drift = 0};
+    Game.other_paused = false;
+    Game.update_music();
+    Game.other_player.dead = 20000;
+    Game.player.smallKeys += Game.other_player.smallKeys;
+//    Game.other_player.smallKeys = 0;  // Planned feature ... reconnect after disconnection. Use this count to restore small keys
   }
 });
 
@@ -260,7 +266,9 @@ spawn(async function() {
           break;
         }
       }
+      Game.other_player.smallKeys += 1;
     } else if(msg.type === 'change key count') {
+      Game.other_player.smallKeys -= msg.amount;
       Game.player.smallKeys += msg.amount;
       if(msg.amount > 0)
         Game.playSound('key.wav');
