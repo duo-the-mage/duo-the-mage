@@ -1,6 +1,5 @@
 Known issues:
 
-Green shirt disappears while Guest player is victorying (exiting the final screen off the bottom). Should continue to have a green shirt.
-Other player stands still instead of exiting the screen when victorying. Should animate exiting off the bottom instead.
 Game sounds can still be heard while on the death screen.
 The green shirt looks stupid. It should look better. (Currently it's stupid because my image editor, mspaint, does not support transparency.)
+Mouse feels unresponsive in the menu screens because I decreased the framerate to improve performance. Should be responsive and good perf too.
