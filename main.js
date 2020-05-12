@@ -103,7 +103,8 @@ function gameLoop(_timestamp) {
     elapsed = Math.max(1, Math.min(elapsed, 160));
     Game.multiplayer_drift += elapsed;
     Game.drift_buffer += elapsed;
-    onUpdate(elapsed);
+    if(!Game.is_paused())
+      onUpdate(elapsed);
     draw();
   }
   lastFrameTime = _timestamp;
@@ -118,25 +119,21 @@ function gameLoop(_timestamp) {
 function onUpdate(elapsed) {
   var i;
 
-  if(!Game.is_paused()) {
-    // Main game play mode
+  Game.other_player.update(elapsed);
+  Game.player.update(elapsed);
 
-    Game.other_player.update(elapsed);
-    Game.player.update(elapsed);
+  Game.camera.update(elapsed);
 
-    Game.camera.update(elapsed);
+  if (Game.currentSpell) { Game.currentSpell.update(elapsed); }
+  if (Game.other_spell) { Game.other_spell.update(elapsed); }
 
-    if (Game.currentSpell) { Game.currentSpell.update(elapsed); }
-    if (Game.other_spell) { Game.other_spell.update(elapsed); }
+  for (i = 0; i < Game.actors.length; ++i) {
+    Game.actors[i].update(elapsed);
+  }
 
-    for (i = 0; i < Game.actors.length; ++i) {
-      Game.actors[i].update(elapsed);
-    }
-
-    for (i = Game.actors.length-1; i >= 0;--i) {
-      if (Game.actors[i].isDestroyed) {
-        Game.actors.splice(i,1);
-      }
+  for (i = Game.actors.length-1; i >= 0;--i) {
+    if (Game.actors[i].isDestroyed) {
+      Game.actors.splice(i,1);
     }
   }
 };
