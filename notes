@@ -4,3 +4,4 @@ Game sounds can still be heard while on the death screen.
 The green shirt looks stupid. It should look better. (Currently it's stupid because my image editor, mspaint, does not support transparency.)
 The click to skip death/victory animations is still implemented using onUpdate instead of onClick. Might be better if changed over.
 Bat aiming could be improved by giving each bat its own PRNG, and using that to decide which player acts as "Host" for aiming each shot.
+I want to make it so that the game can start before both players have connected. (Tricky to synchronize state, especially bug enemies.)
