@@ -272,6 +272,11 @@ spawn(async function() {
         if(spike.currentDir === -1) {
           spike.currentDir = msg.dir;
           spike.currentSpeed = spike.ATTACK_SPEED;
+        } else if(!Game.hosting) {
+          spike.x = spike.homeX;
+          spike.y = spike.homeY;
+          spike.currentDir = msg.dir;
+          spike.currentSpeed = spike.ATTACK_SPEED;
         }
       }
     } else if(msg.type === 'cast') {
