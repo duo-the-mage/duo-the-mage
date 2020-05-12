@@ -2,6 +2,5 @@ Known issues:
 
 Game sounds can still be heard while on the death screen.
 The green shirt looks stupid. It should look better. (Currently it's stupid because my image editor, mspaint, does not support transparency.)
-Desync when one player is on the death screen and the other is not, namely the bug enemies and the player movement get desynced.
 The click to skip death/victory animations is still implemented using onUpdate instead of onClick. Might be better if changed over.
 Bat aiming could be improved by giving each bat its own PRNG, and using that to decide which player acts as "Host" for aiming each shot.
