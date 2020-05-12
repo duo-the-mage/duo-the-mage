@@ -45,8 +45,23 @@ Game.Input = (function() {
     // Mouse down event
     canvas.addEventListener("mousedown",function(e) {
       Input.mouse.button = true;
+
       if(Game.currentMode === 1 && !Game.is_paused())
         Game.player.onClick();
+
+      if(Game.currentMode !== 1) {  // Menu mode
+        if(Game.currentMode === 2) {
+          Game.player.respawn();
+          Game.currentMode = 1;
+          Game.restartMusicLoop();
+        } else if(Game.hosting) {
+          const random = Game.make_random(null);
+          Game.multiplayer_send({type: 'initWorld', random: random.state});
+          Game.initWorld(random);
+          Game.currentMode = 1;
+        }
+      }
+
       e.preventDefault();
     },false);
     // Mouse up event

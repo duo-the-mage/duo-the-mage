@@ -139,23 +139,6 @@ function onUpdate(elapsed) {
       }
     }
   }
-  
-  if(Game.currentMode !== 1) {  // Menu mode
-    if (Game.Input.mouse.button) {
-      if (Game.currentMode === 2) {
-        Game.player.respawn();
-        Game.Input.mouse.button = false;
-        Game.currentMode = 1;
-        Game.restartMusicLoop();
-      } else if(Game.hosting) {
-        const random = Game.make_random(null);
-        Game.multiplayer_send({type: 'initWorld', random: random.state});
-        Game.initWorld(random);
-        Game.Input.mouse.button = false;
-        Game.currentMode = 1;
-      }
-    }
-  }
 };
 
 function draw() {
