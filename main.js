@@ -118,7 +118,7 @@ function gameLoop(_timestamp) {
 function onUpdate(elapsed) {
   var i;
 
-  if(Game.currentMode === 1  &&  !Game.is_paused()) {
+  if(!Game.is_paused()) {
     // Main game play mode
 
     Game.other_player.update(elapsed);
