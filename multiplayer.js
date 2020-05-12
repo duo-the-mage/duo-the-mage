@@ -157,7 +157,7 @@ b2.onclick = async function() {
 
   const div = document.createElement('div');
   root_div.appendChild(div);
-  div.innerText = id;
+  div.innerText = 'Give this code to your friend: ' + id;
 
   peer = make_real_peer(new Peer());
   Game.hosting = true;
