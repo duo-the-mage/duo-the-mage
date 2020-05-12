@@ -4,6 +4,9 @@ window.Game.start_multiplayer = async function() {
 
 
 const root_div = document.getElementById('multiplayer_root_div');
+root_div.innerText = 'Connecting to matching server, please wait ... or specify one:';
+const server_input = document.createElement('input');
+root_div.appendChild(server_input);
 const Peer = window.SimplePeer;
 const str = function(data) {
   if(data === undefined) {
@@ -99,8 +102,29 @@ const make_channel = () => {
 
 const finished = make_channel();
 
-const socket = make_real_socket(window.io('https://webrtc-multiplayer-hello.glitch.me', {reconnection: false}));
-await socket.on_connect();
+const ch1 = make_channel();
+let socket;
+const socket1 = make_real_socket(window.io('http://webrtc-multiplayer-hello.glitch.me', {reconnection: false}));
+socket1.on_connect().then(() => {
+  if(!socket)
+    socket = socket1;
+  ch1.send();
+});
+const server_button = document.createElement('button');
+server_button.innerText = 'Submit';
+server_button.onclick = async() => {
+  let url = server_input.value;
+  if(!url.startsWith('http'))
+    url = 'http://' + url;
+  const socket2 = make_real_socket(window.io(url, {reconnection: false}));
+  await socket2.on_connect();
+  if(!socket)
+    socket = socket2;
+  ch1.send();
+};
+root_div.appendChild(server_button);
+
+await ch1.receive();
 
 root_div.innerText = '';
 
