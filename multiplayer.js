@@ -3,6 +3,8 @@ window.Game = window.Game || {};
 window.Game.start_multiplayer = async function() {
 
 
+console.log('updated 2023-06-08');
+
 const root_div = document.getElementById('multiplayer_root_div');
 root_div.innerText = 'Connecting to matching server, please wait ... or specify one:';
 const server_input = document.createElement('input');
