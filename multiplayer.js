@@ -104,7 +104,7 @@ const finished = make_channel();
 
 const ch1 = make_channel();
 let socket;
-const socket1 = make_real_socket(window.io('https://webrtc-multiplayer-hello.glitch.me', {reconnection: false}));
+const socket1 = make_real_socket(window.io('https://matching-server.onrender.com', {reconnection: false}));
 socket1.on_connect().then(() => {
   if(!socket)
     socket = socket1;
